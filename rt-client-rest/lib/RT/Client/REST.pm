@@ -272,6 +272,10 @@ sub edit {
             vpush(\%set, lc($k), $v);
         }
     }
+    if (defined(my $text = delete($opts{text}))) {
+        $text =~ s/(\n\r?)/$1 /g;
+        vpush(\%set, 'text', $text);
+    }
     $set{id} = "$type/$id";
 
     my $r = $self->_submit('edit', {
@@ -812,9 +816,11 @@ of type C<$type>.
 Set fields specified in parameter B<set> in object C<$id> of type
 C<$type>.
 
-=item create (type => $type, set => \%params)
+=item create (type => $type, set => \%params, text => $text)
 
 Create a new object of type B<$type> and set initial parameters to B<%params>.
+For a ticket object, 'text' parameter can be supplied to set the initial
+text of the ticket.
 Returns numeric ID of the new object.  If numeric ID cannot be parsed from
 the response, B<RT::Client::REST::MalformedRTResponseException> is thrown.
 

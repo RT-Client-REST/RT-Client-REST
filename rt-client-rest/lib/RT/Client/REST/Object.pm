@@ -138,7 +138,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.07;
+$VERSION = '0.08';
 
 use Error qw(:try);
 use Params::Validate;
@@ -471,6 +471,7 @@ sub store {
         my $id = $rt->create(
             type    => $self->rt_type,
             set     => $self->to_form,
+            @_,
         );
         $self->id($id);
     }

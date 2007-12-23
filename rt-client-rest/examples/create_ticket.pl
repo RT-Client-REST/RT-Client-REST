@@ -20,11 +20,14 @@ $rt->login(
     password=> shift(@ARGV),
 );
 
+print "Please enter the text of the ticket:\n";
+my $text = join('', <STDIN>);
+
 my $ticket = RT::Client::REST::Ticket->new(
     rt  => $rt,
     queue   => shift(@ARGV),
     subject => shift(@ARGV),
-)->store;
+)->store(text => $text);
 
 use Data::Dumper;
 print Dumper($ticket);

@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.08';
+$VERSION = '0.09';
 
 use Error qw(:try);
 use Params::Validate qw(:types);
@@ -27,6 +27,14 @@ RT::Client::REST::Ticket -- this object represents a ticket.
 =head1 SYNOPSIS
 
   my $rt = RT::Client::REST->new(server => $ENV{RTSERVER});
+
+  # Create a new ticket:
+  my $ticket = RT::Client::REST::Ticket->new(
+    rt => $rt,
+    queue => "General",
+    subject => $subject,
+  )->store(text => "This is the initial text of the ticket");
+  print "Created a new ticket, ID ", $ticket->id, "\n";
 
   # Update
   my $ticket = RT::Client::REST::Ticket->new(
@@ -297,9 +305,10 @@ L<RT::Client::REST::Object> documentation.
 
 Retrieve RT ticket from database.
 
-=item B<store>
+=item B<store ([text =E<gt> $text])>
 
-Create or update the ticket.
+Create or update the ticket.  When creating a new ticket, optional 'text'
+parameter can be supplied to set the initial text of the ticket.
 
 =item B<search>
 
