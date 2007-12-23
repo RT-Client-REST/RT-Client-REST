@@ -1,5 +1,10 @@
-# $Id: Changes,v 1.9 2007/05/25 17:45:34 dtikhonov Exp $
+# $Id$
 Revision history for Perl module RT::Client::REST
+
+0.32    Sun Dec 23 2007 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+  - fixed bug 31828: allow to specify ticket content at creation time.
+    Methods RT::Client::REST->create and RT::Client::REST::Ticket->store
+    now take optional 'text' parameter.
 
 0.31    Fri May 25 2007 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   ! lib/RT/Client/REST.pm
