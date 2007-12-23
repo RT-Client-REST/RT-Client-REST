@@ -2,7 +2,11 @@
 Revision history for Perl module RT::Client::REST
 
 0.32    Sun Dec 23 2007 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
-  - fixed bug 31828: allow to specify ticket content at creation time.
+  - Fixed bug 31827 -- allow to specify custom fields at creation time.
+    Method 'cf' can now take a hash reference that has a list of custom
+    fields and their values.
+
+  - Fixed bug 31828: allow to specify ticket content at creation time.
     Methods RT::Client::REST->create and RT::Client::REST::Ticket->store
     now take optional 'text' parameter.
 
