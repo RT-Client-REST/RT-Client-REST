@@ -23,7 +23,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.31';
+$VERSION = '0.32';
 
 use Error qw(:try);
 use HTTP::Cookies;
