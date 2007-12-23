@@ -491,6 +491,32 @@ for my $method (qw(take untake steal)) {
 
 =back
 
+=head1 CUSTOM FIELDS
+
+This class inherits 'cf' method from L<RT::Client::REST::Object>.  To create
+a ticket with a bunch of custom fields, use the following approach:
+
+  RT::Client::REST::Ticket->new(
+    rt => $rt,
+    # blah blah
+    cf => {
+      'field one' => $value1,
+      'field two' => $another_value,
+    },
+  )->store;
+
+Some more examples:
+
+  # Update a custom field value:
+  $ticket->cf('field one' => $value1);
+  $ticket->store;
+
+  # Get a custom field value:
+  my $another value = $ticket->cf('field two');
+
+  # Get a list of ticket's custom field names:
+  my @custom_fields = $ticket->cf;
+
 =head1 INTERNAL METHODS
 
 =over 2
