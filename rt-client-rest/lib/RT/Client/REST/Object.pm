@@ -138,7 +138,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.08';
+$VERSION = '0.09';
 
 use Error qw(:try);
 use Params::Validate;
@@ -621,7 +621,9 @@ sub param {
 
 Given no arguments, returns the list of custom field names.  With
 one argument, returns the value of custom field C<$name>.  With two
-arguments, sets custom field C<$name> to C<$value>.
+arguments, sets custom field C<$name> to C<$value>.  Given a reference
+to a hash, uses it as a list of custom fields and their values, returning
+the new list of all custom field names.
 
 =cut
 
@@ -633,13 +635,19 @@ sub cf {
         return keys %{$self->{__cf}};
     }
 
-    my $name = lc shift;
-
-    if (@_) {
-        $self->{__cf}{$name} = shift;
+    my $name = shift;
+    if ('HASH' eq ref($name)) {
+        while (my ($k, $v) = each(%$name)) {
+            $self->{__cf}{lc($k)} = $v;
+        }
+        return keys %{$self->{__cf}};
+    } else {
+        $name = lc $name;
+        if (@_) {
+            $self->{__cf}{$name} = shift;
+        }
+        return $self->{__cf}{$name};
     }
-
-    return $self->{__cf}{$name};
 }
 
 =item rt
