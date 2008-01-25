@@ -334,12 +334,39 @@ sub _dirty {
     return;
 }
 
+=item _mark_dirty_cf($attrname)
+
+Mark an custom flag as dirty.
+
+=cut
+
+sub _mark_dirty_cf {
+    my ($self, $cf) = @_;
+    $self->{__dirty_cf}{$cf} = 1;
+}
+
+=item _dirty_cf
+
+Return the list of dirty custom flags.
+
+=cut
+
+sub _dirty_cf {
+    my $self = shift;
+
+    if (exists($self->{__dirty_cf})) {
+        return keys %{$self->{__dirty_cf}};
+    }
+
+    return;
+}
+
 =item to_form($all)
 
-Convert the object to 'form' (used by REST protocol).  This is done based
-on B<_attributes> method.  If C<$all> is true, create a form from all of
-the object's attributes, otherwise use only dirty (see B<_dirty> method)
-attributes.  Defaults to the latter.
+Convert the object to 'form' (used by REST protocol). This is done based on
+B<_attributes> method. If C<$all> is true, create a form from all of the
+object's attributes and custom flags, otherwise use only dirty (see B<_dirty>
+method) attributes and custom flags. Defaults to the latter.
 
 =cut
 
@@ -366,8 +393,8 @@ sub to_form {
 
         $hash{$rest_name} = $value;
     }
-
-    for my $cf ($self->cf) {
+    my @cfs = ($all ? $self->cf : $self->_dirty_cf);
+    for my $cf (@cfs) {
         $hash{'CF-' . $cf} = $self->cf($cf);
     }
 
@@ -450,6 +477,7 @@ sub retrieve {
     $self->from_form($hash);
 
     $self->{__dirty} = {};
+    $self->{__dirty_cf} = {};
 
     return $self;
 }
@@ -639,12 +667,14 @@ sub cf {
     if ('HASH' eq ref($name)) {
         while (my ($k, $v) = each(%$name)) {
             $self->{__cf}{lc($k)} = $v;
+            $self->_mark_dirty_cf($k);
         }
         return keys %{$self->{__cf}};
     } else {
         $name = lc $name;
         if (@_) {
             $self->{__cf}{$name} = shift;
+            $self->_mark_dirty_cf($name);
         }
         return $self->{__cf}{$name};
     }
