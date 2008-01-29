@@ -25,6 +25,7 @@ use warnings;
 use vars qw/$VERSION/;
 $VERSION = '0.32';
 
+use Encode;
 use Error qw(:try);
 use HTTP::Cookies;
 use HTTP::Request::Common;
@@ -472,6 +473,11 @@ sub _submit {
     #DEBUG(3, $req->as_string);
     my $res = $self->_ua->request($req);
     #DEBUG(3, $res->as_string);
+
+    # decode content from the proper encoding
+    my $encoding
+        = $res->content_encoding || (split(/=/, $res->header("Content-Type")))[1] || 'iso-8859-1';
+    $res->content( decode($encoding, $res->content) );
 
     if ($res->is_success) {
         # The content of the response we get from the RT server consists
