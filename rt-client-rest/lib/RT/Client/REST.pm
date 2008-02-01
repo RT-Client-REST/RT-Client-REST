@@ -752,11 +752,6 @@ to implement some RT interactions from my application, but did not feel that
 invoking a shell command is appropriate.  Thus, I took B<rt> tool, written
 by Abhijit Menon-Sen, and converted it to an object-oriented Perl module.
 
-B<RT::Client::REST> does not (at the moment, see TODO file) retrieve forms from
-RT server, which is either good or bad, depending how you look at it.  More
-work on this module will be performed in the future as I get a better grip
-of this whole REST business.
-
 =head1 USAGE NOTES
 
 This API mimics that of 'rt'.  For a more OO-style APIs, please use
@@ -1080,14 +1075,21 @@ L<RT::Client::REST::Exception>
 
 Most likely.  Please report.
 
+=head1 VARIOUS NOTES
+
+B<RT::Client::REST> does not (at the moment, see TODO file) retrieve forms from
+RT server, which is either good or bad, depending how you look at it.
+
 =head1 VERSION
 
-This is version 0.31 of B<RT::Client::REST>.
+This is version 0.32 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 
 Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
-was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>
+was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
+In January of 2008, Damian "dams" Krotkine <dams@gentoo.org> joined as the
+project's co-maintainer.
 
 =head1 LICENSE
 
