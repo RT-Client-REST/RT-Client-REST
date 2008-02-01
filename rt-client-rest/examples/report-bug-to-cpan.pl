@@ -38,7 +38,7 @@ try {
 print "\nShort description of the problem (one line):\n";
 chomp(my $subject = <>);
 
-print "Long description (lone period on Ctrl-D to end):\n";
+print "Long description (lone period or Ctrl-D to end):\n";
 my $description = '';
 while (<>) {
     chomp;
