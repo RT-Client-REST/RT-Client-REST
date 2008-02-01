@@ -1,7 +1,7 @@
 # $Id$
 # RT::Client::REST
 #
-# Dmitri Tikhonov <dtikhonov@vonage.com>
+# Dmitri Tikhonov <dtikhonov@yahoo.com>
 # April 18, 2006
 #
 # This code is adapted (stolen) from /usr/bin/rt that came with RT.  I just
@@ -1087,7 +1087,7 @@ This is version 0.31 of B<RT::Client::REST>.
 =head1 AUTHORS
 
 Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
-was later converted to this module by Dmitri Tikhonov <dtikhonov@vonage.com>
+was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =head1 LICENSE
 

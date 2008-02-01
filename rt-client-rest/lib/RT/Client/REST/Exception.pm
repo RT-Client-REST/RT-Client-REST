@@ -340,6 +340,6 @@ L<RT::Client::REST>.
 
 =head1 AUTHOR
 
-Dmitri Tikhonov <dtikhonov@vonage.com>
+Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =cut
