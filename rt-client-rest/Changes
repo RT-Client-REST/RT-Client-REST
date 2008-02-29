@@ -1,6 +1,22 @@
 # $Id$
 Revision history for Perl module RT::Client::REST
 
+0.33    Fri Feb 29 2008 "Damien Krotkine" <dams@cpan.org>
+  - Fri, 01 Feb 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+    Fixed a typo.
+    Updated POD; no code changes.
+    s/dtikhonov@vonage.com/dtikhonov@yahoo.com/
+
+  - Tue, 29 Jan 2008 "Damien Krotkine" <dams@cpan.org>
+    Decode data from REST from the proper encoding to Perl internal.
+    Thanks to "Sébastien Aperghis-Tramoni" <sebastien@aperghis.net> 
+
+  - Fri, 25 Jan 2008 "Damien Krotkine" <dams@cpan.org>
+    Add dirty custom fields handling. Without it, cf are always submitted,
+    included void ones, which may (and does on rt.cpan.org) conflict with
+    custom fields rules on the server (e.g. a custom field value cannot be
+    empty)
+
 0.32    Sun Dec 23 2007 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fixed bug 31827 -- allow to specify custom fields at creation time.
     Method 'cf' can now take a hash reference that has a list of custom

@@ -4,6 +4,8 @@
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
 # April 18, 2006
 #
+# Part of the source is Copyright (c) 2007-2008 Damien Krotkine <dams@cpan.org>
+#
 # This code is adapted (stolen) from /usr/bin/rt that came with RT.  I just
 # wanted to make an actual module out of it.  Therefore, this code is GPLed.
 #
@@ -23,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.32';
+$VERSION = '0.33';
 
 use Encode;
 use Error qw(:try);
@@ -1088,7 +1090,7 @@ This is version 0.32 of B<RT::Client::REST>.
 
 Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
 was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
-In January of 2008, Damian "dams" Krotkine <dams@gentoo.org> joined as the
+In January of 2008, Damien "dams" Krotkine <dams@cpan.org> joined as the
 project's co-maintainer.
 
 =head1 LICENSE
