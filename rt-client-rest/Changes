@@ -1,6 +1,11 @@
 # $Id$
 Revision history for Perl module RT::Client::REST
 
+0.35    Tue Apr 15 2008 "Damien Krotkine" <dams@cpan.org>
+  - Tue Mar 04 2008 "Damien Krotkine" <dams@cpan.org>
+    Bug 34917 : applying patch from Andreas J. Koenig.
+    remove unneeded Encode
+
 0.34    Tue Mar 04 2008 "Damien Krotkine" <dams@cpan.org>
   - Mon, 03 Mar 2008 "Damien Krotkine" <dams@cpan.org>
     added Encode prerequist
