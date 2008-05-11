@@ -43,6 +43,7 @@ t/25-queue.t
 t/35-db.t
 t/40-search.t
 t/80-timeout.t
+t/81-submit.t
 t/90-pod.t
 t/91-pod-coverage.t
 t/99-kwalitee.t

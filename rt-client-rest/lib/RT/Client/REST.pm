@@ -480,7 +480,7 @@ sub _submit {
         # of an HTTP-like status line followed by optional header lines,
         # a blank line, and arbitrary text.
 
-        my ($head, $text) = split /\n\n/, $res->decoded_content, 2;
+        my ($head, $text) = split /\n\n/, $res->decoded_content(charset => 'none'), 2;
         my ($status, @headers) = split /\n/, $head;
         $text =~ s/\n*$/\n/ if ($text);
 
@@ -496,7 +496,7 @@ sub _submit {
         # not sufficiently portable and uncomplicated.)
         $res->code($1);
         $res->message($2);
-        $res->decoded_content($text);
+        $res->content($text);
         #$session->update($res) if ($res->is_success || $res->code != 401);
         if ($res->header('set-cookie')) {
             my $jar = HTTP::Cookies->new;
