@@ -1,6 +1,7 @@
 # $Id$
 Revision history for Perl module RT::Client::REST
 
+0.37	Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
     Improvement: reorganized exceptions, made
     RT::Client::REST::Object::Exception a subclass of
