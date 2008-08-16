@@ -2,16 +2,15 @@
 # RT::Client::REST::Object::Exception
 
 package RT::Client::REST::Object::Exception;
+use base qw(RT::Client::REST::Exception);
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.04;
+$VERSION = '0.05';
 
-use Error;
-
-use Exception::Class (
+use RT::Client::REST::Exception (
     'RT::Client::REST::Object::OddNumberOfArgumentsException'   => {
         isa         => __PACKAGE__,
         description => "This means that we wanted name/value pairs",
@@ -53,13 +52,5 @@ use Exception::Class (
             "was not set in the object",
     },
 );
-
-# Some mildly weird magic to fix up inheritance (see Exception::Class POD).
-{
-    no strict 'refs';
-    push @{__PACKAGE__ . '::ISA'}, 'Exception::Class::Base';
-    push @Exception::Class::Base::ISA, 'Error'
-        unless Exception::Class::Base->isa('Error');
-}
 
 1;

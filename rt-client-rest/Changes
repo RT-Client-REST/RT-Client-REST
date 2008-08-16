@@ -2,6 +2,14 @@
 Revision history for Perl module RT::Client::REST
 
   - Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+    Improvement: reorganized exceptions, made
+    RT::Client::REST::Object::Exception a subclass of
+    RT::Client::REST::Exception.  What this means is that now any native
+    exception thrown by RT::Client::REST code can be caught by catching a
+    generic RT::Client::REST::Exception class.  Added tests to ticket and
+    attachment tests scripts to verify the behavior.  I have been meaning
+    to do this for a while now.
+
     Fixed an error in RT::Client::REST::Ticket POD.  Bug 36814.
 
 0.36    Sat May 10 2008 "Damien Krotkine" <dams@cpan.org>

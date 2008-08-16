@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 95;
+use Test::More tests => 97;
 use Test::Exception;
 
 use constant METHODS => (
@@ -32,6 +32,10 @@ for my $method (METHODS) {
 for my $method (qw(comment correspond)) {
     # Need local copy.
     my $ticket = RT::Client::REST::Ticket->new;
+
+    throws_ok {
+        $ticket->$method(1);
+    } 'RT::Client::REST::Exception'; # Make sure exception inheritance works
 
     throws_ok {
         $ticket->$method(1);

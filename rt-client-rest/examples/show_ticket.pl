@@ -26,12 +26,18 @@ RT::Client::REST::Object->use_autoget(1);
 RT::Client::REST::Object->use_autosync(1);
 
 my $ticket;
+my $id = shift(@ARGV);
 try {
     $ticket = RT::Client::REST::Ticket->new(
-        id  => shift(@ARGV),
+        id  => $id,
     );
-} catch Exception::Class::Base with {
+} catch RT::Client::REST::UnauthorizedActionException with {
+    die "You are not authorized to view ticket #$id\n";
+} catch RT::Client::REST::Exception with {
     my $e = shift;
+    my $class = ref($e);
+    no strict 'refs';
+    print "ISA: ", @{$class . "::ISA"}, "\n";
     die ref($e), ": ", $e->message || $e->description, "\n";
 };
 

@@ -2,12 +2,13 @@
 #
 # We are going to throw exceptions, because we're cool like that.
 package RT::Client::REST::Exception;
+use base qw(Exception::Class);
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.18;
+$VERSION = '0.19';
 
 use Error;
 

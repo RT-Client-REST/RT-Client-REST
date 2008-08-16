@@ -737,6 +737,8 @@ RT::Client::REST -- talk to RT installation using REST protocol.
   try {
     # Get ticket #10
     $ticket = $rt->show(type => 'ticket', id => 10);
+  } catch RT::Client::REST::UnauthorizedActionException with {
+    print "You are not authorized to view ticket #10\n";
   } catch RT::Client::REST::Exception with {
     # something went wrong.
   };

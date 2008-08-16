@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 23;
+use Test::More tests => 26;
 use Test::Exception;
 
 use constant METHODS => (
@@ -28,6 +28,10 @@ lives_ok {
 } 'Ticket can get successfully created';
 
 for my $method (qw(store search count)) {
+    throws_ok {
+        $ticket->$method;
+    } 'RT::Client::REST::Exception'; # make sure exception inheritance works
+
     throws_ok {
         $ticket->$method;
     } 'RT::Client::REST::Object::IllegalMethodException',
