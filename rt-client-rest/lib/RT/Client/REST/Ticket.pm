@@ -47,7 +47,7 @@ RT::Client::REST::Ticket -- this object represents a ticket.
   my $ticket => RT::Client::REST::Ticket->new(
     rt => $rt,
     id => $id,
-  )->new->retrieve;
+  )->retrieve;
 
   unless ($ticket->owner eq $me) {
     $ticket->steal;     # Give me more work!
