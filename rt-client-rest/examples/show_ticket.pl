@@ -35,9 +35,6 @@ try {
     die "You are not authorized to view ticket #$id\n";
 } catch RT::Client::REST::Exception with {
     my $e = shift;
-    my $class = ref($e);
-    no strict 'refs';
-    print "ISA: ", @{$class . "::ISA"}, "\n";
     die ref($e), ": ", $e->message || $e->description, "\n";
 };
 
