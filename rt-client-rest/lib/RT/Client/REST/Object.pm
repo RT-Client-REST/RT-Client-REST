@@ -434,10 +434,14 @@ sub from_form {
         $rest2attr{$rest_name} = $attr;
     }
 
-    # Now set attbibutes:
+    # Now set attributes:
     while (my ($key, $value) = each(%$hash)) {
-        if ($key =~ s/^cf-//) { # Handle custom fields.
-            if ($value =~ /,/) {    # OK, this is questionable.
+        # Handle custom fields, ideally /(?(1)})/ would be appened to RE
+	if( $key =~ m%^(?:cf|customfield)(?:-|\.{)([\s\w_:()/-]+)% ){
+	    $key = $1;
+
+            # XXX very sketchy. Will fail on long form data e.g; wiki CF
+            if ($value =~ /,/) {
                 $value = [ split(/\s*,\s*/, $value) ];
             }
 

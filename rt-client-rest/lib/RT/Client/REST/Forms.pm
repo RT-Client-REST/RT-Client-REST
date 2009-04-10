@@ -1,8 +1,7 @@
 # $Id$
 #
-# This package provides functions from RT::Interface::REST, because we do
-# not want to depend on rt being installed.  The source code is copied from
-# rt 3.4.5.
+# This package provides functions from RT::Interface::REST, because we don't
+# want to depend on rt being installed.  Derived from rt 3.4.5.
 
 package RT::Client::REST::Forms;
 
@@ -10,12 +9,14 @@ use strict;
 use warnings;
 use Exporter;
 
-use vars qw(@EXPORT @ISA);
+use vars qw(@EXPORT @ISA $VERSION);
 
 @ISA = qw(Exporter);
 @EXPORT = qw(expand_list form_parse form_compose vpush vsplit);
+$VERSION = .02;
 
-my $field = '(?:[a-zA-Z][a-zA-Z0-9_-]*|CF-[a-zA-Z0-9_ -]*)';
+my $CF_name = qr%[\s\w:()/-]+%;
+my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.{$CF_name}/i;
 
 sub expand_list {
     my ($list) = @_;

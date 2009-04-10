@@ -1,15 +1,18 @@
 use strict;
 use warnings;
 
-use Test::More tests => 14;
+use Test::More tests => 26;
 use Test::Exception;
 
 use constant METHODS => (
-    'new', 'to_form', 'from_form', 'rt_type',
+    'new', 'to_form', 'from_form',
+    'rt_type', 'id',
     
-    # attrubutes:
-    'id', 'name', 'password', 'real_name', 'email_address', 'gecos',
-    'comments',
+    # attributes:
+    'name', 'password', 'real_name', 'gecos',
+    'priveleged', 'email_address',  'comments', 'organization',
+    'address_one', 'address_two', 'city', 'state', 'zip', 'country',
+    'home_phone', 'work_phone', 'cell_phone', 'pager'
 );
 
 BEGIN {
