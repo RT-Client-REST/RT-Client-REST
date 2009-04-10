@@ -5,6 +5,8 @@ Revision history for Perl module RT::Client::REST
   - #38710, more user attributes
   - #39868 & #42391, Alter CF parsing to accomodate 3.8 as well as 3.6
 	This required tweaks to Forms as well as Object.
+  - #38591 & #43844, Add requestor attribute to Ticket so that autoreplies
+	are sent to users under RT3.8
 
 0.37	Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
