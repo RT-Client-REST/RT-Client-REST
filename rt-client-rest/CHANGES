@@ -1,5 +1,10 @@
-# $Id$
 Revision history for Perl module RT::Client::REST
+
+0.40 
+  Jerrad Pierce <jpierce@cpan.org>
+  - #38710, more user attributes
+  - #39868 & #42391, Alter CF parsing to accomodate 3.8 as well as 3.6
+	This required tweaks to Forms as well as Object.
 
 0.37	Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fri Aug 15 2008 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
