@@ -1087,7 +1087,7 @@ This is version 0.37 of B<RT::Client::REST>.
 Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
 was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
 In January of 2008, Damien "dams" Krotkine <dams@cpan.org> joined as the
-project's co-maintainer.
+project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
 
 =head1 LICENSE
 
