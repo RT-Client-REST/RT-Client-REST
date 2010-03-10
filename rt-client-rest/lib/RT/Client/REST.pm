@@ -1080,7 +1080,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.37 of B<RT::Client::REST>.
+This is version 0.40 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 
