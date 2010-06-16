@@ -290,7 +290,8 @@ on a ticket.
 
 =item B<created>
 
-Time at which ticket was created.
+Time at which ticket was created. Note that this is an immutable field
+and therefore the value cannot be changed..
 
 =item B<starts>
 
