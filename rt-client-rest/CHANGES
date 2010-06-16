@@ -1,5 +1,14 @@
 Revision history for Perl module RT::Client::REST
 
+ - Update META.yml to the 0.4 META spec.
+ - Include repository metadata to make it easier for people to contribute
+   to the module.
+ - Change from ExtUtils::MakeMaker to Module::Install (I'm sure you can
+   generate the correct information with EU::MM, I just don't know how
+   offhand).
+ - Add Test::More as a test_requires to help distros which split it out
+   of their core perl package (RT#45150)
+
 0.40 
   Jerrad Pierce <jpierce@cpan.org>
   - #38710, more user attributes
