@@ -1,5 +1,7 @@
 Revision history for Perl module RT::Client::REST
 
+ - Make version number a string to avoid length of version number changing
+   at 0.X0 releases (as this breaks distro packages)
  - Update META.yml to the 0.4 META spec.
  - Include repository metadata to make it easier for people to contribute
    to the module.
