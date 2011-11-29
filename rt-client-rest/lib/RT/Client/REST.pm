@@ -371,7 +371,7 @@ sub merge_tickets {
     my %opts = @_;
     my ($src, $dst) = map { $self->_valid_numeric_object_id($_) }
         @opts{qw(src dst)};
-    $self->_submit("ticket/merge/$src", { into => $dst});
+    $self->_submit("ticket/$src/merge/$dst");
     return;
 }
 
