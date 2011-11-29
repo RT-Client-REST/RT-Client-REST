@@ -5,9 +5,11 @@ Revision history for Perl module RT::Client::REST
   - Added support for groups via new class RT::Client::REST::Group
     Tests and examples also added.
   Roman Plesll <RPLESSL@cpan.org>
-  - Fix for ticket merges
+  - Fix for ticket merges (RT #62405)
   Stuart Browne <stuart.browne@ausregistry.com.au>
-  - Accept question mark in custom field names
+  - Accept question mark in custom field names (RT #70631)
+  Jose Luis Martinez <jlmartinez@capside.com>
+  - Skip timeout tests on Windows (RT #70225, RT #35770)
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>
