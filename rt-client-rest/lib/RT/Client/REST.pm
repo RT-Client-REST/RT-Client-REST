@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.41';
+$VERSION = '0.42';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -105,7 +105,7 @@ sub show {
     my $type = $self->_valid_type(delete($opts{type}));
     my $id;
 
-    if (grep { $type eq $_ } (qw(user queue))) {
+    if (grep { $type eq $_ } (qw(user queue group))) {
         # User or queue ID does not have to be numeric
         $id = delete($opts{id});
     } else {

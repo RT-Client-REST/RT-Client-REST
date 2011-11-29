@@ -1,5 +1,12 @@
 Revision history for Perl module RT::Client::REST
 
+0.42
+  Miquel Ruiz <mruiz@cpan.org>
+  - Added support for groups via new class RT::Client::REST::Group
+    Tests and examples also added.
+
+0.41
+  Tomas Doran <bobtfish@bobtfish.net>
  - Make version number a string to avoid length of version number changing
    at 0.X0 releases (as this breaks distro packages)
  - Update META.yml to the 0.4 META spec.
