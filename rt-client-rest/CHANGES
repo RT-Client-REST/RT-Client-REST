@@ -6,6 +6,8 @@ Revision history for Perl module RT::Client::REST
     Tests and examples also added.
   Roman Plesll <RPLESSL@cpan.org>
   - Fix for ticket merges
+  Stuart Browne <stuart.browne@ausregistry.com.au>
+  - Accept question mark in custom field names
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>
