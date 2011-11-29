@@ -167,6 +167,51 @@ sub get_attachment {
     return $k;
 }
 
+sub get_links {
+    my $self = shift;
+
+    $self->_assert_even(@_);
+
+    my %opts = @_;
+
+    my $type = $self->_valid_type(delete($opts{type}) || 'ticket');
+    my $id = $self->_valid_numeric_object_id(delete($opts{id}));
+
+    my $form = form_parse(
+        $self->_submit("$type/$id/links/$id")->decoded_content
+    );
+    my ($c, $o, $k, $e) = @{$$form[0]};
+
+    if (!@$o && $c) {
+        RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
+    }
+
+    # Turn the links into id lists
+    foreach my $key (keys(%$k)) {
+        try {
+            $self->_valid_link_type($key);
+            my @list = split(/\s*,\s*/,$k->{$key});
+            my @newlist = ();
+            foreach my $val (@list) {
+               if ($val =~ /\/(\d+)$/) {
+                   # We just want the ids, not the URI
+                   push(@newlist,$1);
+               } else {
+                   # Something we don't recognise
+                   push(@newlist,$val);
+               }
+            }
+            # Copy the newly created list
+            $k->{$key} = ();
+            $k->{$key} = \@newlist;
+        } catch RT::Client::REST::InvalidParameterValueException with {
+            # Skip it because the keys are not always valid e.g., 'id'
+        }
+    }
+
+    return $k;
+}
+
 sub get_transaction_ids {
     my $self = shift;
 
@@ -375,7 +420,7 @@ sub merge_tickets {
     return;
 }
 
-sub link_tickets {
+sub link {
     my $self = shift;
     $self->_assert_even(@_);
     my %opts = @_;
@@ -383,8 +428,9 @@ sub link_tickets {
         @opts{qw(src dst)};
     my $ltype = $self->_valid_link_type(delete($opts{link_type}));
     my $del = (exists($opts{'unlink'}) ? 1 : '');
+    my $type = $self->_valid_type(delete($opts{type}) || 'ticket');
 
-    $self->_submit("ticket/link", {
+    $self->_submit("$type/link", {
         id  => $src,
         rel => $ltype,
         to  => $dst,
@@ -394,7 +440,10 @@ sub link_tickets {
     return;
 }
 
-sub unlink_tickets { shift->link_tickets(@_, unlink => 1) }
+sub link_tickets { shift->link(@_, type => 'ticket') }
+
+sub unlink { shift->link(@_, unlink => 1) }
+sub unlink_tickets { shift->link(@_, type => 'ticket', unlink => 1) }
 
 sub _ticket_action {
     my $self = shift;
@@ -421,6 +470,8 @@ sub _ticket_action {
 sub take { shift->_ticket_action(@_, action => 'take') }
 sub untake { shift->_ticket_action(@_, action => 'untake') }
 sub steal { shift->_ticket_action(@_, action => 'steal') }
+
+sub DEBUG { shift; print STDERR @_ }
 
 sub _submit {
     my ($self, $uri, $content, $auth) = @_;
@@ -657,7 +708,7 @@ sub _valid_comment_message {
 sub _valid_link_type {
     my ($self, $type) = @_;
     my @types = qw(DependsOn DependedOnBy RefersTo ReferredToBy HasMember
-                   MemberOf);
+                   MemberOf RunsOn IsRunning ComponentOf HasComponent);
 
     unless (grep { lc($type) eq lc($_) } @types) {
         RT::Client::REST::InvalidParameterValueException->throw(

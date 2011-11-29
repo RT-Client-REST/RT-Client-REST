@@ -8,6 +8,8 @@ Revision history for Perl module RT::Client::REST
   - Fix for ticket merges (RT #62405)
   Stuart Browne <stuart.browne@ausregistry.com.au>
   - Accept question mark in custom field names (RT #70631)
+  T Pascal <t_pascal@zennet.com>
+  - Patch for different link types (RT #68673)
   Jose Luis Martinez <jlmartinez@capside.com>
   - Skip timeout tests on Windows (RT #70225, RT #35770)
 
