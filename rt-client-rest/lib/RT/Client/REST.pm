@@ -66,21 +66,21 @@ sub login {
     $self->_assert_even(@_);
 
     my %opts = @_;
-    unless (defined($opts{username}) and defined($opts{password})) {
+    unless (scalar(keys %opts) > 0) {
         RT::Client::REST::InvalidParameterValueException->throw(
-            "You must provide username and password to log in",
+            "You must provide credentials (user and pass) to log in",
         );
     }
+    # back-compat hack
+    if (defined $opts{username}){ $opts{user} = $opts{username}; delete $opts{username} }
+    if (defined $opts{password}){ $opts{pass} = $opts{password}; delete $opts{password} }
 
     # OK, here's how login works.  We request to see ticket 1.  We don't
     # even care if it exists.  We watch exceptions: auth. failures and
     # server-side errors we bubble up and ignore all others.
     try {
         $self->_cookie(undef);  # Start a new session.
-        $self->_submit("ticket/1", undef, {
-            user => $opts{username},
-            pass => $opts{password},
-        });
+        $self->_submit("ticket/1", undef, \%opts);
     } catch RT::Client::REST::AuthenticationFailureException with {
         shift->rethrow;
     } catch RT::Client::REST::MalformedRTResponseException with {
@@ -93,7 +93,6 @@ sub login {
         # ignore others.
     };
 }
-
 
 sub show {
     my $self = shift;
@@ -856,6 +855,7 @@ returns username and password:
 =back
 
 =item login (username => 'root', password => 'password')
+=item login (my_userfield => 'root', my_passfield => 'password')
 
 Log in to RT.  Throws an exception on error.
 

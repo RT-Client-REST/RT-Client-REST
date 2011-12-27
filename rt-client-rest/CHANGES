@@ -18,6 +18,8 @@ Revision history for Perl module RT::Client::REST
     - Clean up the API for retrieving links. Patch from T.Pascal is missing some
       cases like links that are URLs. This feature is not documented as it's
       considered experimental.
+    - Refactor login method to accept any type of field name (not just username
+      and password)
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>
