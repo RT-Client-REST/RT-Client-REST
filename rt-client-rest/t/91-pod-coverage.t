@@ -5,7 +5,9 @@ plan skip_all => "Test::Pod::Coverage 1.00 required for testing POD coverage" if
 
 plan tests => 9; # heh, plan9!
 
-pod_coverage_ok("RT::Client::REST");
+pod_coverage_ok("RT::Client::REST", {
+    also_private => [qw(DEBUG get_links link unlink)]
+});
 pod_coverage_ok("RT::Client::REST::Exception");
 pod_coverage_ok("RT::Client::REST::Object", {
     trustme => [qw(autoget autosync autostore)],

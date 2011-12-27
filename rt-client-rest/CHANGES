@@ -2,19 +2,22 @@ Revision history for Perl module RT::Client::REST
 
 0.42
   Miquel Ruiz <mruiz@cpan.org>
-  - Added support for groups via new class RT::Client::REST::Group
-    Tests and examples also added.
+    - Added support for groups via new class RT::Client::REST::Group
+      Tests and examples also added.
   Roman Plesll <RPLESSL@cpan.org>
-  - Fix for ticket merges (RT #62405)
+    - Fix for ticket merges (RT #62405)
   Stuart Browne <stuart.browne@ausregistry.com.au>
-  - Accept question mark in custom field names (RT #70631)
+    - Accept question mark in custom field names (RT #70631)
   T Pascal <t_pascal@zennet.com>
-  - Patch for different link types (RT #68673)
+    - Patch for different link types (RT #68673)
   Jose Luis Martinez <jlmartinez@capside.com>
-  - Skip timeout tests on Windows (RT #70225, RT #35770)
-  - Fix 'priveleged' (renamed to 'privileged') method on RT::Client::REST::User
-  - Add missing disabled, nickname, lang, contactinfo and signature methods to
-    RT::Client::REST::User
+    - Skip timeout tests on Windows (RT #70225, RT #35770)
+    - Fix 'priveleged' (renamed to 'privileged') method on RT::Client::REST::User
+    - Add missing disabled, nickname, lang, contactinfo and signature methods to
+      RT::Client::REST::User
+    - Clean up the API for retrieving links. Patch from T.Pascal is missing some
+      cases like links that are URLs. This feature is not documented as it's
+      considered experimental.
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>

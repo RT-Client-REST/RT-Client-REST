@@ -191,14 +191,16 @@ sub get_links {
         try {
             $self->_valid_link_type($key);
             my @list = split(/\s*,\s*/,$k->{$key});
+            #use Data::Dumper;
+            #print STDERR Dumper(\@list);
             my @newlist = ();
             foreach my $val (@list) {
-               if ($val =~ /\/(\d+)$/) {
+               if ($val =~ /^fsck\.com-\w+\:\/\/(.*?)\/(.*?)\/(\d+)$/) {
                    # We just want the ids, not the URI
-                   push(@newlist,$1);
+                   push(@newlist, {'type' => $2, 'instance' => $1, 'id' => $3 });
                } else {
                    # Something we don't recognise
-                   push(@newlist,$val);
+                   push(@newlist, { 'url' => $val });
                }
             }
             # Copy the newly created list
@@ -429,6 +431,10 @@ sub link {
     my $ltype = $self->_valid_link_type(delete($opts{link_type}));
     my $del = (exists($opts{'unlink'}) ? 1 : '');
     my $type = $self->_valid_type(delete($opts{type}) || 'ticket');
+
+    #$self->_submit("$type/$src/link", {
+    #id => $from, rel => $rel, to => $to, del => $del
+    #}
 
     $self->_submit("$type/link", {
         id  => $src,
@@ -707,7 +713,7 @@ sub _valid_comment_message {
 
 sub _valid_link_type {
     my ($self, $type) = @_;
-    my @types = qw(DependsOn DependedOnBy RefersTo ReferredToBy HasMember
+    my @types = qw(DependsOn DependedOnBy RefersTo ReferredToBy HasMember Members
                    MemberOf RunsOn IsRunning ComponentOf HasComponent);
 
     unless (grep { lc($type) eq lc($_) } @types) {
