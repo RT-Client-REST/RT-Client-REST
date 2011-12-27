@@ -55,8 +55,12 @@ sub _attributes {{
     },
 
 
-
-    priveleged => {
+    privileged => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
+    disabled => {
         validation  => {
             type    => SCALAR,
         },
@@ -93,7 +97,26 @@ sub _attributes {{
             type    => SCALAR,
         },
     },
-
+    nickname => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
+    lang => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
+    contactinfo => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
+    signature => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
 
 
     organization => {
@@ -180,9 +203,13 @@ This is the username of the user.
 User's password.  Reading it will only give you a bunch of stars (what
 else would you expect?).
 
-=item B<priveleged>
+=item B<privileged>
 
 Can the user have special rights?
+
+=item B<disabled>
+
+Can this user access RT?
 
 =item B<email_address>
 
@@ -199,6 +226,14 @@ Gecos.
 =item B<comments>
 
 Comments about this user.
+
+=item B<nickname>
+
+Nickname of this user.
+
+=item B<lang>
+
+Language for this user.
 
 =item B<organization>
 
@@ -237,6 +272,14 @@ User's cell phone number, MobilePhone.
 =item B<pager>
 
 User's pager number, PagerPhone.
+
+=item B<contactinfo>
+
+Contact info (Extra Info field).
+
+=item B<signature>
+
+Signature for the user.
 
 =back
 

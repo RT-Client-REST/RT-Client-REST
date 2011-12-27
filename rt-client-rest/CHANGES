@@ -12,6 +12,9 @@ Revision history for Perl module RT::Client::REST
   - Patch for different link types (RT #68673)
   Jose Luis Martinez <jlmartinez@capside.com>
   - Skip timeout tests on Windows (RT #70225, RT #35770)
+  - Fix 'priveleged' (renamed to 'privileged') method on RT::Client::REST::User
+  - Add missing disabled, nickname, lang, contactinfo and signature methods to
+    RT::Client::REST::User
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>
