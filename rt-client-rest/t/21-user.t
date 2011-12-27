@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More;
 use Test::Exception;
 
 use constant METHODS => (
@@ -10,9 +10,10 @@ use constant METHODS => (
     
     # attributes:
     'name', 'password', 'real_name', 'gecos',
-    'priveleged', 'email_address',  'comments', 'organization',
+    'privileged', 'email_address',  'comments', 'organization',
     'address_one', 'address_two', 'city', 'state', 'zip', 'country',
-    'home_phone', 'work_phone', 'cell_phone', 'pager'
+    'home_phone', 'work_phone', 'cell_phone', 'pager', 'disabled',
+    'nickname', 'lang', 'contactinfo', 'signature'
 );
 
 BEGIN {
@@ -30,5 +31,7 @@ for my $method (METHODS) {
 }
 
 ok('user' eq $user->rt_type);
+
+done_testing;
 
 # vim:ft=perl:
