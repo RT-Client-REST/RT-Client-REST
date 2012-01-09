@@ -1,6 +1,6 @@
 Revision history for Perl module RT::Client::REST
 
-0.42
+0.43
   Miquel Ruiz <mruiz@cpan.org>
     - Added support for groups via new class RT::Client::REST::Group
       Tests and examples also added.
@@ -20,6 +20,12 @@ Revision history for Perl module RT::Client::REST
       considered experimental.
     - Refactor login method to accept any type of field name (not just username
       and password)
+
+0.42
+  False release. See 0.43
+  - support for groups via new class RT::Client::REST::Group
+  - Fix for ticket merges
+  - Accept question mark in custom field names
 
 0.41
   Tomas Doran <bobtfish@bobtfish.net>

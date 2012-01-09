@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.42';
+$VERSION = '0.43';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
