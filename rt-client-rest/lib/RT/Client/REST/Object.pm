@@ -274,7 +274,7 @@ sub _generate_methods {
                     unless ($_[0]->isa('DateTime')) {
                             RT::Client::REST::Object::InvalidValueException
                                 ->throw(
-                                "'@_[0]' is not a valid value for attribute '${method}_datetime'"
+                                "'$_[0]' is not a valid value for attribute '${method}_datetime'"
                             );
 
                     }
