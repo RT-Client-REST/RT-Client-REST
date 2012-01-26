@@ -144,6 +144,8 @@ use Error qw(:try);
 use Params::Validate;
 use RT::Client::REST::Object::Exception 0.04;
 use RT::Client::REST::SearchResult 0.02;
+use DateTime;
+use DateTime::Format::DateParse;
 
 =item new
 
@@ -260,6 +262,32 @@ sub _generate_methods {
                 return $self->{'_' . $method};
             }
         };
+
+        if ($settings->{is_datetime}) {
+            *{$class. '::' . $method . "_datetime"} = sub {
+                # All dates are in UTC
+                # http://requesttracker.wikia.com/wiki/REST#Data_format
+
+                my ($self) = shift;
+                my $real_method = $class.'::'.$method;
+                if (@_) {
+                    unless ($_[0]->isa('DateTime')) {
+                            RT::Client::REST::Object::InvalidValueException
+                                ->throw(
+                                "'@_[0]' is not a valid value for attribute '${method}_datetime'"
+                            );
+
+                    }
+                    my $z = $_[0]->clone;
+                    $z->set_time_zone("UTC");
+                    $self->$method($_[0]->strftime("%a %b %d %T %Y"));
+                    return $z;
+                }
+
+                return DateTime::Format::DateParse->parse_datetime($self->$method, 'UTC');
+
+            };
+        }
 
         if ($settings->{list}) {
             # Generate convenience methods for list manipulation.

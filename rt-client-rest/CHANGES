@@ -1,5 +1,9 @@
 Revision history for Perl module RT::Client::REST
 
+  Dave Lambley
+   - Add support for parsing RT dates and returning a datetime object.
+     (RT#73920)
+
 0.43
   Miquel Ruiz <mruiz@cpan.org>
     - Added support for groups via new class RT::Client::REST::Group

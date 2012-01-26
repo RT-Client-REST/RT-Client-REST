@@ -1,4 +1,5 @@
 ^RT-Client-REST
+\.svn
 \.git
 blib/
 \.DS_Store$

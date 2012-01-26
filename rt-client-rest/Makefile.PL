@@ -12,6 +12,8 @@ requires 'HTTP::Cookies'         => 0;
 requires 'HTTP::Request::Common' => 0;
 requires 'LWP'                   => 0;
 requires 'Params::Validate'      => 0;
+requires 'DateTime'              => 0,
+requires 'DateTime::Format::DateParse' => 0,
 
 test_requires 'Test::More';
 test_requires 'Test::Exception'       => 0;

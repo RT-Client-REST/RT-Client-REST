@@ -162,36 +162,42 @@ sub _attributes {{
         validation  => {
             type    => SCALAR,
         },
+        is_datetime     => 1,
     },
 
     starts          => {
         validation  => {
             type    => SCALAR|UNDEF,
         },
+        is_datetime     => 1,
     },
 
     started         => {
         validation  => {
             type    => SCALAR|UNDEF,
         },
+        is_datetime     => 1,
     },
 
     due             => {
         validation  => {
             type    => SCALAR|UNDEF,
         },
+        is_datetime     => 1,
     },
 
     resolved        => {
         validation  => {
             type    => SCALAR|UNDEF,
         },
+        is_datetime     => 1,
     },
 
     told            => {
         validation  => {
             type    => SCALAR|UNDEF,
         },
+        is_datetime     => 1,
     },
 
     time_estimated  => {
@@ -220,6 +226,7 @@ sub _attributes {{
             type    => SCALAR,
         },
         rest_name   => 'LastUpdated',
+        is_datetime     => 1,
     },
 }}
 
@@ -312,6 +319,13 @@ and therefore the value cannot be changed..
 =item B<last_updated>
 
 =back
+
+=head2 Attributes storing a time
+
+The attributes which store a time stamp have an additional accessor with the
+suffix C<_datetime> (eg., C<resolved_datetime>).  This allows you can get and
+set the stored value as a DateTime object.  Internally, it is converted into
+the date-time string which RT uses, which is assumed to be in UTC.
 
 =head1 DB METHODS
 
