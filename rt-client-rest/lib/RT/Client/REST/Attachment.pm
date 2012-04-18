@@ -77,6 +77,7 @@ sub _attributes {{
         validation  => {
             type    => SCALAR,
         },
+        is_datetime => 1,
     },
 
     content => {
