@@ -867,7 +867,8 @@ See B<basic_auth_cb> above.
 =item show (type => $type, id => $id)
 
 Return a reference to a hash with key-value pair specifying object C<$id>
-of type C<$type>.
+of type C<$type>. The keys are the names of RT's fields. Keys for custom
+fields are in the form of "CF.{CUST_FIELD_NAME}".
 
 =item edit (type => $type, id => $id, set => { status => 1 })
 

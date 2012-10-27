@@ -7,6 +7,8 @@ Revision history for Perl module RT::Client::REST
      (RT#74191)
   Darren Duncan
      Doc improvement for timeout (RT #78133)
+  richardgmcmahon@gmail.com
+     Doc improvement for show method (RT #78439)
 
 0.43
   Miquel Ruiz <mruiz@cpan.org>
