@@ -5,6 +5,8 @@ Revision history for Perl module RT::Client::REST
      (RT#73920 + RT#76658)
   Gregor Hermann (Debian Perl Group)
      (RT#74191)
+  Darren Duncan
+     Doc improvement for timeout (RT #78133)
 
 0.43
   Miquel Ruiz <mruiz@cpan.org>

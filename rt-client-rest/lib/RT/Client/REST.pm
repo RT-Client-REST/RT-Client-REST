@@ -837,7 +837,8 @@ of type B<HTTP::Cookies> to use for credentials information.
 
 B<timeout> is the number of seconds HTTP client will wait for the
 server to respond.  Defaults to LWP::UserAgent's default timeout, which
-is 300 seconds.
+is 180 seconds (please check LWP::UserAgent's documentation for accurate
+timeout information).
 
 =item B<basic_auth_cb>
 
