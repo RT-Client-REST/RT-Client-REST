@@ -56,7 +56,7 @@ RT::Client::REST::Ticket -- this object represents a ticket.
 =head1 DESCRIPTION
 
 B<RT::Client::REST::Ticket> is based on L<RT::Client::REST::Object>.
-The representation allows to retrieve, edit, comment on, and create
+The representation allows one to retrieve, edit, comment on, and create
 tickets in RT.
 
 =cut

@@ -3,6 +3,8 @@ Revision history for Perl module RT::Client::REST
   Dave Lambley
    - Add support for parsing RT dates and returning a datetime object.
      (RT#73920 + RT#76658)
+  Gregor Hermann (Debian Perl Group)
+     (RT#74191)
 
 0.43
   Miquel Ruiz <mruiz@cpan.org>

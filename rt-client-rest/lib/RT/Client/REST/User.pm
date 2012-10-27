@@ -33,7 +33,7 @@ RT::Client::REST::User -- user object representation.
 =head1 DESCRIPTION
 
 B<RT::Client::REST::User> is based on L<RT::Client::REST::Object>.
-The representation allows to retrieve, edit, comment on, and create
+The representation allows one to retrieve, edit, comment on, and create
 users in RT.
 
 Note: RT currently does not allow REST client to search users.

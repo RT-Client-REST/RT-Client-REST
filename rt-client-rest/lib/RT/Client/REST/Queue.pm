@@ -34,7 +34,7 @@ RT::Client::REST::Queue -- queue object representation.
 =head1 DESCRIPTION
 
 B<RT::Client::REST::Queue> is based on L<RT::Client::REST::Object>.
-The representation allows to retrieve, edit, comment on, and create
+The representation allows one to retrieve, edit, comment on, and create
 queue in RT.
 
 Note: RT currently does not allow REST client to search queues.

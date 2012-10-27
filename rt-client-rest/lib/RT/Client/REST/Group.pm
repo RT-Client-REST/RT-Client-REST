@@ -31,7 +31,7 @@ RT::Client::REST::Group -- group object representation.
 =head1 DESCRIPTION
 
 B<RT::Client::REST::Group> is based on L<RT::Client::REST::Object>.
-The representation allows to retrieve, edit, and create groups in RT.
+The representation allows one to retrieve, edit, and create groups in RT.
 
 Note: RT currently does not allow REST client to search groups.
 
