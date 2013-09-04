@@ -1,6 +1,8 @@
 Revision history for Perl module RT::Client::REST
 
 0.44
+  Damien Krotkine
+   - Add URI in the prereqs
   Dave Lambley
    - Add support for parsing RT dates and returning a datetime object.
      (RT#73920 + RT#76658)
