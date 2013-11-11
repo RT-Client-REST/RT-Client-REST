@@ -518,7 +518,7 @@ sub _submit {
     # Now, we construct the request.
     if (@$data) {
         # The request object expects "bytes", not strings
-        map { utf8::encode($_) } @$data;
+        map { utf8::encode($_) unless ref($_)} @$data;
 
         $req = POST($self->_uri($uri), $data, Content_Type => 'form-data');
     }
