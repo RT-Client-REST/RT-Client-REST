@@ -1,5 +1,9 @@
 Revision history for Perl module RT::Client::REST
 
+0.45
+  Marco Pessotto
+   - Fixed uploading preventing objects to be stringified (RT#88919)
+
 0.44
   Damien Krotkine
    - Add URI in the prereqs
