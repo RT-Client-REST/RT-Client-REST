@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.44';
+$VERSION = '0.45';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -154,9 +154,16 @@ sub get_attachment {
     my $parent_id = $self->_valid_numeric_object_id(delete($opts{parent_id}));
     my $id = $self->_valid_numeric_object_id(delete($opts{id}));
 
-    my $form = form_parse(
-        $self->_submit("$type/$parent_id/attachments/$id")->decoded_content
-    );
+    my $res = $self->_submit("$type/$parent_id/attachments/$id");
+    my $content;
+    if ($opts{undecoded}) {
+        $content = $res->content;
+    }
+    else {
+        $content = $res->decoded_content;
+    }
+    my $form = form_parse($content);
+
     my ($c, $o, $k, $e) = @{$$form[0]};
 
     if (!@$o && $c) {
@@ -951,11 +958,15 @@ B<bcc>, and B<attachments> parameters (see C<comment> above).
 
 Get a list of numeric attachment IDs associated with ticket C<$id>.
 
-=item get_attachment (parent_id => $parent_id, id => $id)
+=item get_attachment (parent_id => $parent_id, id => $id, undecoded => $bool)
 
 Returns reference to a hash with key-value pair describing attachment
 C<$id> of ticket C<$parent_id>.  (parent_id because -- who knows? --
 maybe attachments won't be just for tickets anymore in the future).
+
+If the option undecoded is set to a true value, the attachment will be
+returned verbatim and undecoded (this is probably what you want with
+images and binary data).
 
 =item get_transaction_ids (parent_id => $id, %opts)
 
