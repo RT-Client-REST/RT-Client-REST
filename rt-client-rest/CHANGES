@@ -4,6 +4,7 @@ Revision history for Perl module RT::Client::REST
   Marco Pessotto
    - Fixed uploading preventing objects to be stringified (RT#88919)
    - Added option to get undecoded attachments (RT#90112)
+   - Added test 82-stringify.t (fails with 0.44 before the RT#88919 fix)
 
 0.44
   Damien Krotkine
