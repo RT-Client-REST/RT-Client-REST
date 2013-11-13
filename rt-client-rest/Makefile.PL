@@ -19,7 +19,7 @@ requires 'URI'                   => 0;
 test_requires 'Test::More';
 test_requires 'Test::Exception'       => 0;
 
-resources repository => 'http://rt-client-rest.googlecode.com/svn/trunk/';
+resources repository => 'https://github.com/RT-Client-REST/RT-Client-REST.git';
 
 WriteAll;
 
