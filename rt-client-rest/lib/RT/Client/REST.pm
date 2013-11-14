@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.45';
+$VERSION = '0.46';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -1154,7 +1154,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.40 of B<RT::Client::REST>.
+This is version 0.46 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 

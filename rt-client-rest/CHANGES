@@ -1,5 +1,9 @@
 Revision history for Perl module RT::Client::REST
 
+0.46
+  Marco Pessotto
+   - Bumped version for next release (+ fixed version number in POD)
+
 0.45
   Marco Pessotto
    - Fixed uploading preventing objects to be stringified (RT#88919)
