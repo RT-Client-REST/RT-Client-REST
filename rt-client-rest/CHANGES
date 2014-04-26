@@ -1,6 +1,9 @@
 Revision history for Perl module RT::Client::REST
 
-0.46
+0.46    Sat Apr 26 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+  This release only fixes several tests, there are no functional changes.
+  Dmitri Tikhonov <dtikhonov@yahoo.com>
+   - Skip some tests on Windows and with buggy LWP::UserAgent.
   Marco Pessotto
    - Bumped version for next release (+ fixed version number in POD)
 
