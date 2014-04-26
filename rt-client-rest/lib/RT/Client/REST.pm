@@ -607,6 +607,16 @@ sub _submit {
         RT::Client::REST::RequestTimedOutException->throw(
             "Your request to " . $self->server . " timed out",
         );
+    } elsif (302 == $res->code && !$self->{'_redirected'}) {
+        $self->{'_redirected'} = 1;     # We only allow one redirection
+        # Figure out the new value of 'server'.  We assume that the /REST/..
+        # part of the URI stays the same.
+        my $orig_server = $self->server;
+        (my $suffix = $self->_uri($uri)) =~ s/^\Q$orig_server//;
+        (my $new_server = $res->header('Location')) =~ s/\Q$suffix\E$//;
+        $self->server($new_server);
+        #warn "redirected, new server value is $new_server";
+        return $self->_submit($uri, $content, $auth);
     } else {
         RT::Client::REST::HTTPException->throw(
             code    => $res->code,
