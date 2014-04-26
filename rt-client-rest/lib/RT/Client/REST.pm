@@ -1,4 +1,3 @@
-# $Id$
 # RT::Client::REST
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>

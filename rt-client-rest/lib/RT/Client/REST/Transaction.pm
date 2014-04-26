@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::Transaction -- transaction object representation.
 
 package RT::Client::REST::Transaction;

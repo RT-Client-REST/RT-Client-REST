@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::Queue -- queue object representation.
 
 package RT::Client::REST::Queue;
