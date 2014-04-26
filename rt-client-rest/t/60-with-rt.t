@@ -34,6 +34,7 @@ plan 'no_plan';
 
 use Error qw(:try);
 use RT::Client::REST;
+use RT::Client::REST::Queue;
 use RT::Client::REST::User;
 
 my $rt = RT::Client::REST->new(
@@ -101,3 +102,36 @@ my %user_props = (
         is($user->$prop, $val, "user property `$prop' matches");
     }
 }
+
+# Create a queue
+my $queue_name = random_string;
+my $queue_id;
+{
+    my ($queue, $e);
+    try {
+        $queue = RT::Client::REST::Queue->new(
+            rt => $rt, name => $queue_name,
+        )->store;
+        $queue_id = $queue->id;
+    } catch Exception::Class::Base with {
+        $e = shift;
+        diag("queue store: $e");
+    };
+    ok($queue, "Create queue $queue_name");
+    ok(!defined($e), "created queue without exception being thrown");
+    try {
+        $queue = RT::Client::REST::Queue->new(
+            rt => $rt, id => $queue_id,
+        )->retrieve;
+    } catch Exception::Class::Base with {
+        $e = shift;
+        diag("queue retrieve $e");
+    };
+    is($queue->name, $queue_name, "queue name matches");
+    # TODO: with 4.2.3, warning "Unknown key: disabled" is printed
+}
+
+# TODO: ticket creation
+
+# RT 90112: Attachment retrieval returns wrongly decoded files
+
