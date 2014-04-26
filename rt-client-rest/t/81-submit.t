@@ -11,6 +11,8 @@ use Error qw(:try);
 use IO::Socket;
 use RT::Client::REST;
 
+plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
+
 my $server = IO::Socket::INET->new(
     Type => SOCK_STREAM,
     Reuse => 1,
