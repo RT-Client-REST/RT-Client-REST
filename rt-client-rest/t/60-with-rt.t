@@ -33,6 +33,7 @@ BEGIN {
 plan 'no_plan';
 
 use Error qw(:try);
+use File::Temp qw(tempfile);
 use RT::Client::REST;
 use RT::Client::REST::Queue;
 use RT::Client::REST::User;
@@ -131,7 +132,60 @@ my $queue_id;
     # TODO: with 4.2.3, warning "Unknown key: disabled" is printed
 }
 
-# TODO: ticket creation
+# Create a ticket
+my $ticket_id;
+{
+    my ($ticket, $e);
+    try {
+        $ticket = RT::Client::REST::Ticket->new(
+            rt => $rt, queue => $queue_id, subject => random_string,
+        )->store(text => random_string);
+    } catch Exception::Class::Base with {
+        $e = shift;
+        diag("ticket store: $e");
+    };
+    ok(defined($ticket), "Created ticket " . $ticket->id);
+    ok(!defined($e), "No exception thrown when ticket created");
+    $ticket_id = $ticket->id;
+}
 
-# RT 90112: Attachment retrieval returns wrongly decoded files
+# Attach something to the ticket and verify its count and contents
+{
+    my $att_contents = "dude this is a text attachment\n";
+    my ($fh, $filename) = tempfile;
+    $fh->print($att_contents);
+    $fh->close;
+    my $e;
+    try {
+        RT::Client::REST::Ticket->new(
+            rt => $rt, id => $ticket_id,
+        )->comment(
+            message     => random_string,
+            attachments => [ $filename ],
+        );
+    } catch Exception::Class::Base with {
+        diag("attach to ticket: $e");
+        $e = shift;
+    };
+    ok(!defined($e), "create attachment and no exception thrown");
+    unlink $filename;
+    try {
+        my $ticket = RT::Client::REST::Ticket->new(
+            rt => $rt, id => $ticket_id,
+        );
+        my $atts = $ticket->attachments;
+        # XXX With RT 4.2.3, the count is 4.  Is it the same with previous
+        # versions or is this a change in behavior?
+        is($atts->count, 1, "There is one attachment to ticket $ticket_id");
+        my $att_iter = $atts->get_iterator;
+        while (my $att = &$att_iter) {
+            is($att->content, $att_contents, "Attachment content matches");
+        }
+    } catch Exception::Class::Base with {
+        diag("attach to ticket: $e");
+        $e = shift;
+    };
+    ok(!defined($e), "listed attachments and no exception thrown");
+}
 
+# TODO: RT 90112: Attachment retrieval returns wrongly decoded files
