@@ -31,9 +31,13 @@ if ($pid > 0) {
         $data .= $_;
     }
     unlike($data, qr/ARRAY\(/, "Avoid stringify objects when sending a request");
-    my $kid = waitpid $pid, 0;
-    is($kid, $pid, "self-test: we reaped process correctly");
-    is($?, 0, "self-test: child process ran successfully");
+    SKIP: {
+        skip "Self-tests only for release testing", 2
+            unless $ENV{RELEASE_TESTING};
+        my $kid = waitpid $pid, 0;
+        is($kid, $pid, "self-test: we reaped process correctly");
+        is($?, 0, "self-test: child process ran successfully");
+    };
 } elsif (defined($pid)) {
     my $rt = RT::Client::REST->new(
             server => "http://localhost:$port",
