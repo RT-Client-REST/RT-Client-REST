@@ -31,17 +31,17 @@ my $server = IO::Socket::INET->new(
 
 my $port = $server->sockport;
 
-my $binary_string;
+my $testfile_content;
 {
     open (my $fh, "<", $testfile_path) or die "Couldn't open $testfile_path $!";
-    $binary_string = do { local $/; <$fh>; };
+    $testfile_content = do { local $/; <$fh>; };
     close $fh;
 }
 
 my ($reply_header, $reply_body) = do {
+    my $binary_string = $testfile_content;
     my $length = length($binary_string);
     $binary_string =~ s/\n/\n         /sg;
-    $binary_string .= "\n\n";
     my $body = <<"EOF";
 id: 873
 Subject: 
@@ -93,12 +93,12 @@ if ($pid > 0) {
     }
 
     $res = $rt->get_attachment(parent_id => 130, id => 873, undecoded => 1);
-    ok($res->{Content} eq $binary_string, "binary files match with undecoded option");
+    ok($res->{Content} eq $testfile_content, "binary files match with undecoded option");
 
     $res = $rt->get_attachment(parent_id => 130, id => 873, undecoded => 0);
 
-    ok($res->{Content} ne encode("latin1", $binary_string), "binary files don't match when decoded to latin1");
-    ok($res->{Content} ne encode("utf-8", $binary_string), "binary files don't match when decoded to utf8");
+    ok($res->{Content} ne encode("latin1", $testfile_content), "binary files don't match when decoded to latin1");
+    ok($res->{Content} ne encode("utf-8", $testfile_content), "binary files don't match when decoded to utf8");
     
 }
 elsif (defined($pid)) {
@@ -106,7 +106,14 @@ elsif (defined($pid)) {
     for (1..3) {
         my $client = $server->accept;
         # emulate the header
-        $client->write("HTTP/1.1 200 OK\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n" . $reply_header . "\n\n" . $reply_body);
+        $client->write(
+            "HTTP/1.1 200 OK\r\n"                               .
+            "Content-Type: text/plain; charset=utf-8\r\n\r\n"   .
+            $reply_header                                       .
+            "\n\n"                                              .
+            $reply_body                                         .
+            "\n\n"
+        );
         $client->close;
     }
 }
