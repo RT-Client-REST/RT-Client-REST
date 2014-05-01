@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::User -- user object representation.
 
 package RT::Client::REST::User;

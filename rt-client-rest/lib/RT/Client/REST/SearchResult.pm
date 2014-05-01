@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::SearchResult -- search results object.
 
 package RT::Client::REST::SearchResult;

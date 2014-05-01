@@ -1,4 +1,3 @@
-# $Id$
 # RT::Client::REST
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
@@ -25,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.46';
+$VERSION = '0.48';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -40,7 +39,14 @@ for my $method (qw(server _cookie timeout)) {
     no strict 'refs';
     *{__PACKAGE__ . '::' . $method} = sub {
         my $self = shift;
-        $self->{'_' . $method} = shift if @_;
+        if (@_) {
+            my $val = shift;
+            {
+                no warnings 'uninitialized';
+                $self->logger->debug("set `$method' to $val");
+            }
+            $self->{'_' . $method} = $val;
+        }
         return $self->{'_' . $method};
     };
 }
@@ -50,7 +56,9 @@ sub new {
 
     $class->_assert_even(@_);
 
-    my $self = bless {}, ref($class) || $class;
+    my $self = bless {
+        _logger => RT::Client::REST::NoopLogger->new,
+    }, ref($class) || $class;
     my %opts = @_;
 
     while (my ($k, $v) = each(%opts)) {
@@ -483,8 +491,6 @@ sub take { shift->_ticket_action(@_, action => 'take') }
 sub untake { shift->_ticket_action(@_, action => 'untake') }
 sub steal { shift->_ticket_action(@_, action => 'steal') }
 
-sub DEBUG { shift; print STDERR @_ }
-
 sub _submit {
     my ($self, $uri, $content, $auth) = @_;
     my ($req, $data);
@@ -538,9 +544,9 @@ sub _submit {
     }
 
     # Then we send the request and parse the response.
-    #DEBUG(3, $req->as_string);
+    $self->logger->debug("request: ", $req->as_string);
     my $res = $self->_ua->request($req);
-    #DEBUG(3, $res->as_string);
+    $self->logger->debug("response: ", $res->as_string);
 
     if ($res->is_success) {
         # The content of the response we get from the RT server consists
@@ -607,6 +613,17 @@ sub _submit {
         RT::Client::REST::RequestTimedOutException->throw(
             "Your request to " . $self->server . " timed out",
         );
+    } elsif (302 == $res->code && !$self->{'_redirected'}) {
+        $self->{'_redirected'} = 1;     # We only allow one redirection
+        # Figure out the new value of 'server'.  We assume that the /REST/..
+        # part of the URI stays the same.
+        my $new_location = $res->header('Location');
+        $self->logger->info("We're being redirected to $new_location");
+        my $orig_server = $self->server;
+        (my $suffix = $self->_uri($uri)) =~ s/^\Q$orig_server//;
+        (my $new_server = $new_location) =~ s/\Q$suffix\E$//;
+        $self->server($new_server);
+        return $self->_submit($uri, $content, $auth);
     } else {
         RT::Client::REST::HTTPException->throw(
             code    => $res->code,
@@ -651,6 +668,25 @@ sub basic_auth_cb {
 
     return $self->{_basic_auth_cb};
 }
+
+use constant LOGGER_METHODS => (qw(debug warn info error));
+
+sub logger {
+    my $self = shift;
+    if (@_) {
+        my $new_logger = shift;
+        for my $method (LOGGER_METHODS) {
+            unless ($new_logger->can($method)) {
+                RT::Client::REST::InvalidParameterValueException->throw(
+                    "logger does not know how to `$method'",
+                );
+            }
+        }
+        $self->{'_logger'} = $new_logger;
+    }
+    return $self->{'_logger'};
+}
+
 
 # Not a constant so that it can be overridden.
 sub _list_of_valid_transaction_types {
@@ -775,6 +811,39 @@ sub _ua_string {
 
 sub _version { $VERSION }
 
+{
+    # This is a noop logger: it discards all log messages.  It is the default
+    # logger.  I think this approach is better than doing either checks all
+    # over the place like this:
+    #
+    #   if ($self->logger) {
+    #       $self->logger->warn("message");
+    #   }
+    #
+    # or create our own logging methods which will hide the checks:
+    #
+    #   sub warn {
+    #       my $self = shift;
+    #       if ($self->logger) {
+    #           $self->logger->warn(@_);
+    #       }
+    #   }
+    #   # and later:
+    #   sub xyz {
+    #       ...
+    #       $self->warn("message");
+    #   }
+    #
+    # The problem with the second approach is that it creates unrelated
+    # methods in RT::Client::REST namespace.
+    package RT::Client::REST::NoopLogger;
+    sub new { bless \(my $logger) }
+    for my $method (RT::Client::REST::LOGGER_METHODS) {
+        no strict 'refs';
+        *{$method} = sub {};
+    }
+}
+
 1;
 
 __END__
@@ -862,6 +931,12 @@ returns username and password:
     # do some evil things
     return ($username, $password);
   }
+
+=item B<logger>
+
+A logger object.  It should be able to debug(), info(), warn() and
+error().  It is not widely used in the code (yet), and so it is
+mostly useful for development.
 
 =back
 
@@ -1154,7 +1229,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.46 of B<RT::Client::REST>.
+This is version 0.48 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 

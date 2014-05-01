@@ -1,5 +1,3 @@
-# $Id$
-
 package RT::Client::REST::Object;
 
 =head1 NAME

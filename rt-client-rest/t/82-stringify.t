@@ -23,7 +23,7 @@ my $port = $server->sockport;
 
 my $pid = fork;
 if ($pid > 0) {
-    plan tests => 1;
+    plan tests => 3;
     my $buf;
     my $client = $server->accept;
     my $data;
@@ -31,22 +31,29 @@ if ($pid > 0) {
         $data .= $_;
     }
     unlike($data, qr/ARRAY\(/, "Avoid stringify objects when sending a request");
-
-    $client->write(
-"RT/42foo 200 this is a fake successful response header
-header line 1
-header line 2
-
-response text");
+    SKIP: {
+        skip "Self-tests only for release testing", 2
+            unless $ENV{RELEASE_TESTING};
+        my $kid = waitpid $pid, 0;
+        is($kid, $pid, "self-test: we reaped process correctly");
+        is($?, 0, "self-test: child process ran successfully");
+    };
 } elsif (defined($pid)) {
     my $rt = RT::Client::REST->new(
             server => "http://localhost:$port",
+            # This ensures that we die soon.  When the client dies, the
+            # while (<$client>) above stops looping.
             timeout => 2,
     );
-    my $res = $rt->_submit("ticket/1", "aaaa", {
-            user => 'a',
-            pass => 'b',
+    try {
+        $rt->_submit("ticket/1", "aaaa", {
+                user => 'a',
+                pass => 'b',
         });
+    } catch RT::Client::REST::RequestTimedOutException with {
+        # This is what we expect, so we ignore this exception
+    };
+    exit 0;
 } else {
     die "Could not fork: $!";
 }
