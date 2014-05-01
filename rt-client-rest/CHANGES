@@ -1,5 +1,10 @@
 Revision history for Perl module RT::Client::REST
 
+0.47    Wed Apr 30 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+  - Support redirects on login, RT#92371.
+  - Skip failing test 83-attachments.t on OpenBSD while we investigage
+    why it fails.  Track this issue in RT#95223.
+
 0.46    Sat Apr 26 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   This release only fixes several tests, there are no functional changes.
   Dmitri Tikhonov <dtikhonov@yahoo.com>
