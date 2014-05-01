@@ -18,6 +18,9 @@ use Encode;
 
 plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
 
+plan( skip_all => 'This test fails on OpenBSD, see RT #95223')  
+    if $^O eq 'openbsd';
+
 use constant SAVE_BODIES => $ENV{'RELEASE_TESTING'};
 
 my $testfile = "test.png";
