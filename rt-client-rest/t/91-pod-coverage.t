@@ -1,4 +1,11 @@
 use Test::More;
+
+BEGIN {
+    unless ($ENV{RELEASE_TESTING}) {
+        plan(skip_all => 'these tests are for release candidate testing');
+    }
+}
+
 eval "use Test::Pod::Coverage 1.00";
 
 plan skip_all => "Test::Pod::Coverage 1.00 required for testing POD coverage" if $@;

@@ -1,5 +1,12 @@
 Revision history for Perl module RT::Client::REST
 
+0.48    Wed Apr 30 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+  - Fixed POD bug in 0.47 -- `logger' attribute and method of
+    RT::Client::REST was not documented and this caused POD
+    coverage test to fail.  While at it, made it a developer-only
+    test.  This way, these types of issues do not cause all
+    cpantesters to fail.
+
 0.47    Wed Apr 30 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Support redirects on login, RT#92371.
   - Skip failing test 83-attachments.t on OpenBSD while we investigage

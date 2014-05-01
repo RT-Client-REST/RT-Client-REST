@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.47';
+$VERSION = '0.48';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -932,6 +932,12 @@ returns username and password:
     return ($username, $password);
   }
 
+=item B<logger>
+
+A logger object.  It should be able to debug(), info(), warn() and
+error().  It is not widely used in the code (yet), and so it is
+mostly useful for development.
+
 =back
 
 =item login (username => 'root', password => 'password')
@@ -1223,7 +1229,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.47 of B<RT::Client::REST>.
+This is version 0.48 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 
