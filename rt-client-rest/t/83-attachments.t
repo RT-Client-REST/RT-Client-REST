@@ -15,6 +15,7 @@ use File::Spec::Functions;
 use File::Temp qw(tempfile);
 use Data::Dumper;
 use Encode;
+use Net::HTTP;
 
 plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
 
@@ -67,6 +68,17 @@ EOF
     ("RT/4.0.7 200 Ok", $body);
 };
 
+my $http_payload = 
+    $reply_header                                       .
+    "\n\n"                                              .
+    $reply_body                                         .
+    "\n\n"						;
+
+my $http_reply =
+    "HTTP/1.1 200 OK\r\n"                               .
+    "Content-Type: text/plain; charset=utf-8\r\n\r\n"	.
+    $http_payload					;
+
 if (SAVE_BODIES) {
     my ($fh, $filename) = tempfile;
     $fh->print($reply_body);
@@ -77,7 +89,31 @@ if (SAVE_BODIES) {
 my $pid = fork;
 
 if ($pid > 0) {
-    plan tests => 4;
+    plan tests => 6;
+
+    {
+	my $res = HTTP::Response->parse( $http_reply );
+	ok($res->content eq $http_payload,
+	    "self-test: HTTP::Response gives back correct payload");
+    }
+
+    if (1) {	# This is to test low-level code used by LWP::UserAgent
+	my $s = Net::HTTP->new(Host => "localhost:$port")
+	    or die "cannot create Net::HTTP: $@";
+	$s->write_request(GET => "/", 'User-Agent' => "Mozilla/5.0");
+	my($code, $mess, %h) = $s->read_response_headers;
+	my $reply;
+	while (1) {
+	    my $buf;
+	    my $n = $s->read_entity_body($buf, 1024);
+	    die "read failed: $!" unless defined $n;
+	    last unless $n;
+	    $reply .= $buf;
+	}
+	ok($reply eq $http_payload,
+	    "self-test: Net::HTTP reads and parses payload correctly");
+    }
+
     my $rt = RT::Client::REST->new(
             server => "http://localhost:$port",
             timeout => 2,
@@ -86,7 +122,7 @@ if ($pid > 0) {
     # avoid need ot login
     $rt->basic_auth_cb(sub { return });
     my $res = $rt->_submit("ticket/130/attachments/873");
-    ok($res->content eq $reply_body, "unparsed form came back ok");
+    ok($res->content eq $http_payload, "unparsed form came back ok");
 
     if (SAVE_BODIES) {
 	my ($fh, $filename) = tempfile;
@@ -105,18 +141,9 @@ if ($pid > 0) {
     
 }
 elsif (defined($pid)) {
-    # serve two requests:
-    for (1..3) {
+    for (1..4) {
         my $client = $server->accept;
-        # emulate the header
-        $client->write(
-            "HTTP/1.1 200 OK\r\n"                               .
-            "Content-Type: text/plain; charset=utf-8\r\n\r\n"   .
-            $reply_header                                       .
-            "\n\n"                                              .
-            $reply_body                                         .
-            "\n\n"
-        );
+        $client->write($http_reply);
         $client->close;
     }
 }
