@@ -1,5 +1,3 @@
-# $Id$
-#
 # Subclass LWP::UserAgent in order to support basic authentication.
 
 package RT::Client::REST::HTTPClient;

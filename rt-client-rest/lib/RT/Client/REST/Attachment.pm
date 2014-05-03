@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::Attachment -- attachment object representation.
 
 package RT::Client::REST::Attachment;

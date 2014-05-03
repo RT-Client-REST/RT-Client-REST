@@ -1,4 +1,3 @@
-# $Id$
 # RT::Client::REST::Object::Exception
 
 package RT::Client::REST::Object::Exception;

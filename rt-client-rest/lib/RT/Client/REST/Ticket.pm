@@ -1,5 +1,3 @@
-# $Id$
-#
 # RT::Client::REST::Ticket -- ticket object representation.
 
 package RT::Client::REST::Ticket;

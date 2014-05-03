@@ -1,5 +1,3 @@
-# $Id$
-#
 # This package provides functions from RT::Interface::REST, because we don't
 # want to depend on rt being installed.  Derived from rt 3.4.5.
 

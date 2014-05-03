@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 28;
 use Test::Exception;
 
 use constant METHODS => (
@@ -40,5 +40,40 @@ throws_ok {
 lives_ok {
     $rt->basic_auth_cb(sub {});
 };
+
+{
+    package BadLogger;
+    sub new { bless \my $logger }
+    for my $method (qw(debug me elmo)) {
+        no strict 'refs';
+        *$method = sub {
+            my $self = shift;
+            Test::More::diag("$method: @_\n");
+        };
+    }
+}
+
+throws_ok {
+    RT::Client::REST->new(logger => BadLogger->new);
+} 'RT::Client::REST::InvalidParameterValueException',
+    'bad logger results in exception being thrown';
+
+{
+    package GoodLogger;
+    sub new { bless \my $logger }
+    for my $method (qw(debug info warn error)) {
+        no strict 'refs';
+        *$method = sub {
+            my $self = shift;
+            Test::More::diag("$method: @_\n");
+        };
+    }
+}
+
+lives_ok {
+    RT::Client::REST->new(logger => GoodLogger->new);
+} 'good logger, no exception thrown';
+
+1;
 
 # vim:ft=perl:

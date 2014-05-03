@@ -1,5 +1,3 @@
-# $Id$
-#
 # We are going to throw exceptions, because we're cool like that.
 package RT::Client::REST::Exception;
 use base qw(Exception::Class);
