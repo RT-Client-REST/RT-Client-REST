@@ -16,8 +16,10 @@ use HTTP::Response;
 
 plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
 
-eval { require HTTP::Server::Simple };
-plan( skip_all => 'HTTP::Server::Simple not installed; skipping' ) if $@;
+BEGIN {
+    eval { require HTTP::Server::Simple };
+    plan( skip_all => 'HTTP::Server::Simple not installed; skipping' ) if $@;
+}
 
 my $testfile = "test.png";
 my $testfile_path = catfile(t => $testfile);
