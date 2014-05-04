@@ -13,13 +13,9 @@ use RT::Client::REST;
 use File::Spec::Functions;
 use Encode;
 use HTTP::Response;
+use HTTP::Server::Simple;
 
 plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
-
-BEGIN {
-    eval { require HTTP::Server::Simple };
-    plan( skip_all => 'HTTP::Server::Simple not installed; skipping' ) if $@;
-}
 
 my $testfile = "test.png";
 my $testfile_path = catfile(t => $testfile);
