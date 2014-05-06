@@ -25,8 +25,4 @@ Author:
         donated to RT project.
 
 License:
-    Original 'rt' utility is GPL, therefore so is RT::Client::REST.
-    The rest of the modules are licensed under the usual artistic
-    license.  (I am not sure it makes sense to do this.  Does GPL
-    override artistic license?  Someone let me know if you have a
-    definite answer.)
+    This module is licensed under the same terms as perl itself.

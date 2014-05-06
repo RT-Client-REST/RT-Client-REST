@@ -5,8 +5,9 @@
 #
 # Part of the source is Copyright (c) 2007-2008 Damien Krotkine <dams@cpan.org>
 #
-# This code is adapted (stolen) from /usr/bin/rt that came with RT.  I just
-# wanted to make an actual module out of it.  Therefore, this code is GPLed.
+# This code is adapted from /usr/bin/rt that came with RT.  As of version 0.49,
+# this module is licensed using Perl Artistic License, with permission from the
+# original author of rt utility, Abhijit Menon-Sen.
 #
 # Original notice:
 #------------------------
@@ -1240,6 +1241,6 @@ project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
 
 =head1 LICENSE
 
-Since original rt is licensed under GPL, so is this module.
+Perl license.
 
 =cut
