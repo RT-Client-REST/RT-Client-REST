@@ -1,7 +1,6 @@
 # RT::Client::REST
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
-# April 18, 2006
 #
 # Part of the source is Copyright (c) 2007-2008 Damien Krotkine <dams@cpan.org>
 #
@@ -821,7 +820,7 @@ sub _version { $VERSION }
     #       $self->logger->warn("message");
     #   }
     #
-    # or create our own logging methods which will hide the checks:
+    # or creating our own logging methods which will hide the checks:
     #
     #   sub warn {
     #       my $self = shift;
