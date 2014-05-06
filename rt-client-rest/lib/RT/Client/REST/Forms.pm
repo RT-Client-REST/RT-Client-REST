@@ -13,7 +13,7 @@ use vars qw(@EXPORT @ISA $VERSION);
 @EXPORT = qw(expand_list form_parse form_compose vpush vsplit);
 $VERSION = .02;
 
-my $CF_name = qr%[\s\w:()?/-]+%;
+my $CF_name = q%[#\s\w:()?/-]+%;
 my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.{$CF_name}/i;
 
 sub expand_list {

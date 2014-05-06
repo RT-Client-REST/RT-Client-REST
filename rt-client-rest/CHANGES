@@ -1,5 +1,9 @@
 Revision history for Perl module RT::Client::REST
 
+0.49	?
+  - Support custom fields that contain '#' in their name.  Patch
+    contributed by Ryan Niebur in RT#83856 -- thanks!
+
 0.48    Wed Apr 30 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fixed POD bug in 0.47 -- `logger' attribute and method of
     RT::Client::REST was not documented and this caused POD
