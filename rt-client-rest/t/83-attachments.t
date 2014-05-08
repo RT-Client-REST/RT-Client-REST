@@ -92,7 +92,7 @@ if (0 == $pid) {                                    # Child
 
 $pipe->reader;
 chomp(my $port = <$pipe>);
-diag("set up web server on port $port");
+#diag("set up web server on port $port");
 $pipe->close;
 
 unless ($port && $port =~ /^\d+$/) {
