@@ -139,7 +139,7 @@ Miquel Ruiz <mruiz@cpan.org>
 
 =head1 LICENSE
 
-Perl license with the exception of L<RT::Client::REST>, which is GPLed.
+Perl license.
 
 =cut
 

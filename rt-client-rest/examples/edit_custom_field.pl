@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# edit_ticket.pl -- edit an RT ticket.
+# edit_custom_field.pl -- set one or more custom fields
 
 use strict;
 use warnings;

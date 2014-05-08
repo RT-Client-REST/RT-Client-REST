@@ -254,6 +254,6 @@ Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =head1 LICENSE
 
-Perl license with the exception of L<RT::Client::REST>, which is GPLed.
+Perl license.
 
 =cut
