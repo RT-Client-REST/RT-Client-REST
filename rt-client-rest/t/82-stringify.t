@@ -11,8 +11,6 @@ use Error qw(:try);
 use IO::Socket;
 use RT::Client::REST;
 
-plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
-
 my $server = IO::Socket::INET->new(
     Type => SOCK_STREAM,
     Reuse => 1,
@@ -22,23 +20,9 @@ my $server = IO::Socket::INET->new(
 my $port = $server->sockport;
 
 my $pid = fork;
-if ($pid > 0) {
-    plan tests => 3;
-    my $buf;
-    my $client = $server->accept;
-    my $data;
-    while (<$client>) {
-        $data .= $_;
-    }
-    unlike($data, qr/ARRAY\(/, "Avoid stringify objects when sending a request");
-    SKIP: {
-        skip "Self-tests only for release testing", 2
-            unless $ENV{RELEASE_TESTING};
-        my $kid = waitpid $pid, 0;
-        is($kid, $pid, "self-test: we reaped process correctly");
-        is($?, 0, "self-test: child process ran successfully");
-    };
-} elsif (defined($pid)) {
+die "cannot fork: $!" unless defined $pid;
+
+if (0 == $pid) {                                            # Child
     my $rt = RT::Client::REST->new(
             server => "http://localhost:$port",
             # This ensures that we die soon.  When the client dies, the
@@ -54,8 +38,22 @@ if ($pid > 0) {
         # This is what we expect, so we ignore this exception
     };
     exit 0;
-} else {
-    die "Could not fork: $!";
 }
+
+plan tests => 3;
+my $buf;
+my $client = $server->accept;
+my $data;
+while (<$client>) {
+    $data .= $_;
+}
+unlike($data, qr/ARRAY\(/, "Avoid stringify objects when sending a request");
+SKIP: {
+    skip "Self-tests only for release testing", 2
+        unless $ENV{RELEASE_TESTING};
+    my $kid = waitpid $pid, 0;
+    is($kid, $pid, "self-test: we reaped process correctly");
+    is($?, 0, "self-test: child process ran successfully");
+};
 
 # vim:ft=perl:
