@@ -11,8 +11,6 @@ use Error qw(:try);
 use IO::Socket;
 use RT::Client::REST;
 
-plan( skip_all => 'This test fails on Windows -- skipping' ) if $^O eq 'MSWin32';
-
 my $server = IO::Socket::INET->new(
     Type => SOCK_STREAM,
     Reuse => 1,
@@ -22,19 +20,9 @@ my $server = IO::Socket::INET->new(
 my $port = $server->sockport;
 
 my $pid = fork;
-if ($pid > 0) {
-    plan tests => 1;
-    my $rt = RT::Client::REST->new(
-            server => "http://localhost:$port",
-            timeout => 2,
-    );
-    my $res = $rt->_submit("ticket/1", undef, {
-            user => 'a',
-            pass => 'b',
-        });
-unlike($res->{_content}, qr/this is a fake successful response header/, "Make sure response content doesn't contain headers");
+die "cannot fork: $!" unless defined $pid;
 
-} elsif (defined($pid)) {
+if (0 == $pid) {                                    # Child
     my $buf;
     my $client = $server->accept;
     $client->write(
@@ -43,8 +31,18 @@ header line 1
 header line 2
 
 response text");
-} else {
-    die "Could not fork: $!";
+    exit;
 }
+
+plan tests => 1;
+my $rt = RT::Client::REST->new(
+        server => "http://localhost:$port",
+        timeout => 2,
+);
+my $res = $rt->_submit("ticket/1", undef, {
+        user => 'a',
+        pass => 'b',
+    });
+unlike($res->{_content}, qr/this is a fake successful response header/, "Make sure response content doesn't contain headers");
 
 # vim:ft=perl:

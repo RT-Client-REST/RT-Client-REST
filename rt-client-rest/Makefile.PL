@@ -19,6 +19,13 @@ requires 'URI'                   => 0;
 test_requires 'Test::More';
 test_requires 'Test::Exception'       => 0;
 
+# HTTP::Server::Simple is required for t/83-attachment.t.  We include it
+# into the distribution.
+test_requires  'HTTP::Server::Simple' => '0.44';
+include        'HTTP::Server::Simple';
+include        'HTTP::Server::Simple::CGI';
+include        'HTTP::Server::Simple::CGI::Environment';
+
 resources repository => 'https://github.com/RT-Client-REST/RT-Client-REST.git';
 
 WriteAll;

@@ -1,5 +1,15 @@
 Revision history for Perl module RT::Client::REST
 
+0.49	Sat May 10 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
+  - This module is now all covered by the Perl Artistic License:
+    GPL is gone.  This was done with permission from the original
+    author of the command-line `rt' utility, Abhijit Menon-Sen.
+  - Support custom fields that contain '#' in their name.  Patch
+    contributed by Ryan Niebur in RT#83856 -- thanks!
+  - Documented get_links() -- RT#68673.
+  - All tests now correctly run on Windows -- RT#81872.
+  - All tests now correctly run on OpenBSD -- RT#95223.
+
 0.48    Wed Apr 30 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - Fixed POD bug in 0.47 -- `logger' attribute and method of
     RT::Client::REST was not documented and this caused POD

@@ -1,12 +1,12 @@
 # RT::Client::REST
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
-# April 18, 2006
 #
 # Part of the source is Copyright (c) 2007-2008 Damien Krotkine <dams@cpan.org>
 #
-# This code is adapted (stolen) from /usr/bin/rt that came with RT.  I just
-# wanted to make an actual module out of it.  Therefore, this code is GPLed.
+# This code is adapted from /usr/bin/rt that came with RT.  As of version 0.49,
+# this module is licensed using Perl Artistic License, with permission from the
+# original author of rt utility, Abhijit Menon-Sen.
 #
 # Original notice:
 #------------------------
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.48';
+$VERSION = '0.49';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -820,7 +820,7 @@ sub _version { $VERSION }
     #       $self->logger->warn("message");
     #   }
     #
-    # or create our own logging methods which will hide the checks:
+    # or creating our own logging methods which will hide the checks:
     #
     #   sub warn {
     #       my $self = shift;
@@ -1043,6 +1043,11 @@ If the option undecoded is set to a true value, the attachment will be
 returned verbatim and undecoded (this is probably what you want with
 images and binary data).
 
+=item get_links (type =E<gt> $type, id =E<gt> $id)
+
+Get link information for object of type $type whose id is $id.
+If type is not specified, 'ticket' is used.
+
 =item get_transaction_ids (parent_id => $id, %opts)
 
 Get a list of numeric IDs associated with parent ID C<$id>.  C<%opts>
@@ -1229,7 +1234,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.48 of B<RT::Client::REST>.
+This is version 0.49 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 
@@ -1240,6 +1245,6 @@ project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
 
 =head1 LICENSE
 
-Since original rt is licensed under GPL, so is this module.
+Perl license.
 
 =cut
