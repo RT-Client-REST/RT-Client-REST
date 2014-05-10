@@ -1043,6 +1043,11 @@ If the option undecoded is set to a true value, the attachment will be
 returned verbatim and undecoded (this is probably what you want with
 images and binary data).
 
+=item get_links (type =E<gt> $type, id =E<gt> $id)
+
+Get link information for object of type $type whose id is $id.
+If type is not specified, 'ticket' is used.
+
 =item get_transaction_ids (parent_id => $id, %opts)
 
 Get a list of numeric IDs associated with parent ID C<$id>.  C<%opts>
