@@ -99,6 +99,12 @@ sub _attributes {{
         },
         rest_name => 'DefaultDueIn',
     },
+
+    disabled => {
+        validation => {
+            type   => SCALAR,
+        },
+    },
 }}
 
 =head1 ATTRIBUTES

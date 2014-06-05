@@ -66,7 +66,12 @@ sub _attributes {{
             type   => ARRAYREF,
         },
         list       => 1,
-    }
+    },
+    disabled => {
+        validation => {
+            type   => SCALAR,
+        },
+    },
 }}
 
 =head1 ATTRIBUTES
