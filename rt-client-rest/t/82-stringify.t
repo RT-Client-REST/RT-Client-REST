@@ -11,6 +11,11 @@ use Error qw(:try);
 use IO::Socket;
 use RT::Client::REST;
 
+# apply the same rule as for 80-timeout.t
+plan( skip_all => "LWP::UserAgent 6.04 does not know how to time out, ".
+                  "see RT #81799" ) if $LWP::UserAgent::VERSION eq '6.04';
+
+
 my $server = IO::Socket::INET->new(
     Type => SOCK_STREAM,
     Reuse => 1,
