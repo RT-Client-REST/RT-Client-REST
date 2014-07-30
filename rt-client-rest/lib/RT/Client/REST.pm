@@ -62,6 +62,10 @@ sub new {
     my %opts = @_;
 
     while (my ($k, $v) = each(%opts)) {
+        # in _rest we concatenate server with '/REST/1.0';
+        if ($k eq 'server') {
+            $v =~ s!/$!!;
+        }
         $self->$k($v);
     }
 
