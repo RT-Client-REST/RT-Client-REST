@@ -1011,8 +1011,8 @@ using C<show()> method:
     query => "Status = 'stalled'",
   );
   for my $id (@ids) {
-    my ($ticket) = $rt->show(type => 'ticket', ids => [$id]);
-    print "Subject: ", $t->{Subject}, "\n";
+    my ($ticket) = $rt->show(type => 'ticket', id => $id);
+    print "Subject: ", $ticket->{Subject}, "\n";
   }
 
 =item comment (ticket_id => $id, message => $message, %opts)
