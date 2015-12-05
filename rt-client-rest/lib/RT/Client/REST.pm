@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = '0.49';
+$VERSION = '0.50';
 $VERSION = eval $VERSION;
 
 use Error qw(:try);
@@ -1238,7 +1238,7 @@ RT server, which is either good or bad, depending how you look at it.
 
 =head1 VERSION
 
-This is version 0.49 of B<RT::Client::REST>.
+This is version 0.50 of B<RT::Client::REST>.
 
 =head1 AUTHORS
 
@@ -1246,6 +1246,7 @@ Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
 was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
 In January of 2008, Damien "dams" Krotkine <dams@cpan.org> joined as the
 project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
+SRVSH became a co-maintainer in November 2015.
 
 =head1 LICENSE
 

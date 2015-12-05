@@ -1,5 +1,20 @@
 Revision history for Perl module RT::Client::REST
 
+0.50	Fri Dec 11 2015 "Sarvesh Das" <sarveshd@opmbx.org>
+  - Added the 'disabled' attribute to RT::Client::REST::Group and
+    RT::Client::REST::Queue to match the addition in RT 4.2.2 --
+    commit 7557633. Thanks Tom.
+  - Allow a trailing forward slash in the server URI --
+    RT#97621. Thanks Marco Pessotto.
+  - Tests in 82-stringify.t are skipped with LWP::UserAgent 6.04
+    which has buggy read timeout -- commit da577af. Thanks Marco
+    Pessotto.
+  - Fixed warning `Unescaped left brace in regex is deprecated'
+    in perl 5.22 -- RT#106795. Thanks Mike Andrews.
+  - Fixed documentation for RT::Client:REST::search() in POD --
+    RT#98160.
+  - Removed MYMETA* files from distribution -- RT#108083
+
 0.49	Sat May 10 2014 "Dmitri Tikhonov" <dtikhonov@yahoo.com>
   - This module is now all covered by the Perl Artistic License:
     GPL is gone.  This was done with permission from the original
