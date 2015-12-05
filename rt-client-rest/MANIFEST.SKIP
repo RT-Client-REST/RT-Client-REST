@@ -9,4 +9,5 @@ MANIFEST\.SKIP$
 MANIFEST\.bak$
 Makefile\.old$
 \.shipit
+^MYMETA\.
 
