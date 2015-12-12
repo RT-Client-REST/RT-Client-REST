@@ -14,7 +14,7 @@ use vars qw(@EXPORT @ISA $VERSION);
 $VERSION = .02;
 
 my $CF_name = q%[#\s\w:()?/-]+%;
-my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.{$CF_name}/i;
+my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.\{$CF_name}/i;
 
 sub expand_list {
     my ($list) = @_;
