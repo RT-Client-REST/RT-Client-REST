@@ -1062,6 +1062,18 @@ B<bcc>, and B<attachments> parameters (see C<comment> above).
 
 Get a list of numeric attachment IDs associated with ticket C<$id>.
 
+=item get_attachments_metadata (id => $id)
+
+Get a list of the metadata related to every attachment of the ticket <$id>
+Every member of the list is a hashref with the shape:
+
+  {
+    id       => $attachment_id,
+    Filename => $attachment_filename,
+    Type     => $attachment_type,
+    Size     => $attachment_size,
+  }
+
 =item get_attachment (parent_id => $parent_id, id => $id, undecoded => $bool)
 
 Returns reference to a hash with key-value pair describing attachment
