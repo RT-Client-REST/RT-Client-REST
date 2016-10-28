@@ -155,6 +155,31 @@ sub get_attachment_ids {
     return $k->{Attachments} =~ m/(\d+):/mg;
 }
 
+sub get_attachments_metadata {
+    my $self = shift;
+
+    $self->_assert_even(@_);
+
+    my %opts = @_;
+
+    my $type = $self->_valid_type(delete($opts{type}) || 'ticket');
+    my $id = $self->_valid_numeric_object_id(delete($opts{id}));
+
+    my $form = form_parse(
+        $self->_submit("$type/$id/attachments/")->decoded_content
+    );
+    my ($c, $o, $k, $e) = @{$$form[0]};
+
+    if (!@$o && $c) {
+        RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
+    }
+    return map {
+      # Matches: '50008989: (Unnamed) (text/plain / 1.9k),'
+      my @c = $_ =~ m/^\s*(\d+):\s+(.+)\s+\(([^\s]+)\s+\/\s+([^\s]+)\)\s*,\s*$/;
+      { id => $c[0], Filename => $c[1] eq '(Unnamed)' ? undef : $c[1], Type => $c[2], Size => $c[3] };
+    } split(/\n/, $k->{Attachments});
+}
+
 sub get_attachment {
     my $self = shift;
 
@@ -1036,6 +1061,18 @@ B<bcc>, and B<attachments> parameters (see C<comment> above).
 =item get_attachment_ids (id => $id)
 
 Get a list of numeric attachment IDs associated with ticket C<$id>.
+
+=item get_attachments_metadata (id => $id)
+
+Get a list of the metadata related to every attachment of the ticket <$id>
+Every member of the list is a hashref with the shape:
+
+  {
+    id       => $attachment_id,
+    Filename => $attachment_filename,
+    Type     => $attachment_type,
+    Size     => $attachment_size,
+  }
 
 =item get_attachment (parent_id => $parent_id, id => $id, undecoded => $bool)
 
