@@ -16,7 +16,7 @@ use HTTP::Response;
 use HTTP::Server::Simple;
 
 my $testfile = 'test.png';
-my $testfile_path = catfile(t => $testfile);
+my $testfile_path = catfile('t' => 'data' => $testfile);
 
 my $testfile_content = do {
     my $fh = IO::File->new($testfile_path)
