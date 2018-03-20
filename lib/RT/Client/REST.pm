@@ -34,7 +34,7 @@ use RT::Client::REST::HTTPClient;
 
 # Generate accessors/mutators
 for my $method (qw(server _cookie timeout)) {
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     *{__PACKAGE__ . '::' . $method} = sub {
         my $self = shift;
         if (@_) {
@@ -843,7 +843,7 @@ sub _version { $RT::Client::REST::VERSION }
 
     sub new { bless \(my $logger), __PACKAGE__ }
     for my $method (RT::Client::REST::LOGGER_METHODS) {
-        no strict 'refs';
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         *{$method} = sub {};
     }
 }

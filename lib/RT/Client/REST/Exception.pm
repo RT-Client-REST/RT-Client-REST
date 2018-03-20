@@ -182,7 +182,7 @@ sub _rt_content_to_exception {
 
 # Some mildly weird magic to fix up inheritance (see Exception::Class POD).
 {
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     push @{__PACKAGE__ . '::ISA'}, 'Exception::Class::Base';
     push @Exception::Class::Base::ISA, 'Error'
         unless Exception::Class::Base->isa('Error');

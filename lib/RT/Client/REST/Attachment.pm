@@ -123,7 +123,7 @@ sub retrieve {
 my @unsupported = qw(store search count);
 # Override unsupported methods.
 for my $method (@unsupported) {
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     *$method = sub {
         my $self = shift;
         RT::Client::REST::Object::IllegalMethodException->throw(

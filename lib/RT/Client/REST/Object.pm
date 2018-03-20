@@ -206,7 +206,7 @@ sub _generate_methods {
     my $attributes = $class->_attributes;
 
     while (my ($method, $settings) = each(%$attributes)) {
-        no strict 'refs';
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
 
         *{$class . '::' . $method} = sub {
             my $self = shift;
@@ -460,8 +460,8 @@ sub from_form {
     # Now set attributes:
     while (my ($key, $value) = each(%$hash)) {
         # Handle custom fields, ideally /(?(1)})/ would be appened to RE
-	if( $key =~ m%^(?:cf|customfield)(?:-|\.\{)([#\s\w_:()?/-]+)% ){
-	    $key = $1;
+        if ( $key =~ m%^(?:cf|customfield)(?:-|\.\{)([#\s\w_:()?/-]+)% ){
+             $key = $1;
 
             # XXX very sketchy. Will fail on long form data e.g; wiki CF
             if ($value =~ /,/) {
@@ -808,7 +808,7 @@ sub use_single_rt {
         RT::Client::REST::Object::InvalidValueException->throw;
     }
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     no warnings 'redefine';
     *{(ref($class) || $class) . '::rt'} = sub { $rt };
 }
@@ -832,7 +832,7 @@ sub autostore {}
 sub use_autostore {
     my ($class, $autostore) = @_;
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     no warnings 'redefine';
     *{(ref($class) || $class) . '::autostore'} = sub { $autostore };
 }
@@ -862,7 +862,7 @@ sub autoget {}
 sub use_autoget {
     my ($class, $autoget) = @_;
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     no warnings 'redefine';
     *{(ref($class) || $class) . '::autoget'} = sub { $autoget };
 }
@@ -880,7 +880,7 @@ sub autosync {}
 sub use_autosync {
     my ($class, $autosync) = @_;
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     no warnings 'redefine';
     *{(ref($class) || $class) . '::autosync'} = sub { $autosync };
 }

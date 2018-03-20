@@ -379,7 +379,7 @@ as the B<comment> method above.
 # comment and correspond are really the same method, so we save ourselves
 # some duplication here.
 for my $method (qw(comment correspond)) {
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     *$method = sub {
         my $self = shift;
 
@@ -497,7 +497,7 @@ C<RT::Client::REST::Object::NoopOperationException> will be thrown.
 =cut
 
 for my $method (qw(take untake steal)) {
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     *$method = sub {
         my $self = shift;
 
