@@ -1,5 +1,5 @@
 #!perl
-# RT::Client::REST::Object::Exception
+# PODNAME: RT::Client::REST::Object::Exception
 
 use strict;
 use warnings;
