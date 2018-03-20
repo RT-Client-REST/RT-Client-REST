@@ -173,7 +173,7 @@ Numeric ID of the object the transaction is associated with.
 
 =item B<type>
 
-Type of the transactions.  Please referer to L<RT::Client::REST>
+Type of the transactions.  Please refer to L<RT::Client::REST>
 documentation for the list of transaction types you can expect this
 field to contain.  Note that there may be some transaction types not
 (dis)covered yet.
