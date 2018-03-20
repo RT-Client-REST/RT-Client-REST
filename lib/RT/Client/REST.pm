@@ -1,4 +1,5 @@
-# RT::Client::REST
+#!perl
+# PODNAME: RT::Client::REST
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
 #
@@ -18,14 +19,10 @@
 #------------------------
 
 
-package RT::Client::REST;
-
 use strict;
 use warnings;
 
-use vars qw/$VERSION/;
-$VERSION = '0.50';
-$VERSION = eval $VERSION;
+package RT::Client::REST;
 
 use Error qw(:try);
 use HTTP::Cookies;
@@ -841,6 +838,7 @@ sub _version { $VERSION }
     # The problem with the second approach is that it creates unrelated
     # methods in RT::Client::REST namespace.
     package RT::Client::REST::NoopLogger;
+
     sub new { bless \(my $logger) }
     for my $method (RT::Client::REST::LOGGER_METHODS) {
         no strict 'refs';
