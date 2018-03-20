@@ -1057,7 +1057,7 @@ have the following options:
 
 =item B<type>
 
-Type of the object transactions are associated wtih.  Defaults to "ticket"
+Type of the object transactions are associated with.  Defaults to "ticket"
 (I do not think server-side supports anything else).  This is designed with
 the eye on the future, as transactions are not just for tickets, but for
 other objects as well.
