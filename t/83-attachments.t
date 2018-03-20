@@ -20,7 +20,7 @@ my $testfile_path = catfile(t => $testfile);
 
 my $testfile_content = do {
     my $fh = IO::File->new($testfile_path)
-	or die "Couldn't open $testfile_path $!";
+        or die "Couldn't open $testfile_path $!";
     local $/;
     <$fh>;
 };
@@ -31,12 +31,12 @@ my ($reply_header, $reply_body) = do {
     $binary_string =~ s/\n/\n         /sg;
     my $body = <<"EOF";
 id: 873
-Subject: 
+Subject:
 Creator: 12
 Created: 2013-11-06 07:15:36
 Transaction: 1457
 Parent: 871
-MessageId: 
+MessageId:
 Filename: prova2.png
 ContentType: image/png
 ContentEncoding: base64
@@ -51,7 +51,7 @@ EOF
     ("RT/4.0.7 200 Ok", $body);
 };
 
-my $http_payload = 
+my $http_payload =
     $reply_header                                       .
     "\n\n"                                              .
     $reply_body                                         .

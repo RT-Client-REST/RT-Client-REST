@@ -23,12 +23,12 @@ sub create_http_body {
     $binary_string .= "\n\n";
     my $body = <<"EOF";
 id: 873
-Subject: 
+Subject:
 Creator: 12
 Created: 2013-11-06 07:15:36
 Transaction: 1457
 Parent: 871
-MessageId: 
+MessageId:
 Filename: prova2.png
 ContentType: image/png
 ContentEncoding: base64
