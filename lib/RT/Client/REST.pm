@@ -248,7 +248,7 @@ sub get_transaction_ids {
     } elsif ('ARRAY' eq ref($tr_type)) {
         # OK, more than one type.  Call ourselves for each.
         # NOTE: this may be very expensive.
-        return sort map {
+        my @return = sort map {
             $self->get_transaction_ids(
                 parent_id => $parent_id,
                 transaction_type => $_,
@@ -258,6 +258,7 @@ sub get_transaction_ids {
             # error this way.
             $self->_valid_transaction_type($_)
         } @$tr_type;
+        return @return
     } else {
         $tr_type = $self->_valid_transaction_type($tr_type);
         $path = "$type/$parent_id/history/type/$tr_type"
@@ -840,7 +841,7 @@ sub _version { $RT::Client::REST::VERSION }
     # methods in RT::Client::REST namespace.
     package RT::Client::REST::NoopLogger;
 
-    sub new { bless \(my $logger) }
+    sub new { bless \(my $logger), __PACKAGE__ }
     for my $method (RT::Client::REST::LOGGER_METHODS) {
         no strict 'refs';
         *{$method} = sub {};

@@ -19,15 +19,16 @@ my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.\{$CF_name}/i;
 
 sub expand_list {
     my ($list) = @_;
-    my ($elt, @elts, %elts);
+    my (@elts, %elts);
 
-    foreach $elt (split /,/, $list) {
+    for my $elt (split /,/, $list) {
         if ($elt =~ /^(\d+)-(\d+)$/) { push @elts, ($1..$2) }
         else                         { push @elts, $elt }
     }
 
     @elts{@elts}=();
-    return sort {$a<=>$b} keys %elts;
+    my @return = sort {$a<=>$b} keys %elts;
+    return @return
 }
 
 # Returns a reference to an array of parsed forms.
@@ -75,8 +76,8 @@ sub form_parse {
                 pop @v while (@v && $v[-1] eq '');
 
                 # Strip longest common leading indent from text.
-                my ($ws, $ls) = ("");
-                foreach $ls (map {/^(\s+)/} @v[1..$#v]) {
+                my $ws = '';
+                for my $ls (map {/^(\s+)/} @v[1..$#v]) {
                     $ws = $ls if (!$ws || length($ls) < length($ws));
                 }
                 s/^$ws// foreach @v;
@@ -102,8 +103,7 @@ sub form_parse {
     }
     push(@forms, [ $c, $o, $k, $e ]) if ($e || $c || @$o);
 
-    my $l;
-    foreach $l (keys %$k) {
+    for my $l (keys %$k) {
         $k->{$l} = vsplit($k->{$l}) if (ref $k->{$l} eq 'ARRAY');
     }
 
@@ -113,9 +113,9 @@ sub form_parse {
 # Returns text representing a set of forms.
 sub form_compose {
     my ($forms) = @_;
-    my (@text, $form);
+    my @text;
 
-    foreach $form (@$forms) {
+    for my $form (@$forms) {
         my ($c, $o, $k, $e) = @$form;
         my $text = "";
 
@@ -127,10 +127,10 @@ sub form_compose {
             $text .= $e;
         }
         elsif ($o) {
-            my (@lines, $key);
+            my @lines;
 
-            foreach $key (@$o) {
-                my ($line, $sp, $v);
+            for my $key (@$o) {
+                my ($line, $sp);
                 my @values = (ref $k->{$key} eq 'ARRAY') ?
                                @{ $k->{$key} } :
                                   $k->{$key};
@@ -138,7 +138,7 @@ sub form_compose {
                 $sp = " "x(length("$key: "));
                 $sp = " "x4 if length($sp) > 16;
 
-                foreach $v (@values) {
+                for my $v (@values) {
                     if ($v =~ /\n/) {
                         $v =~ s/^/$sp/gm;
                         $v =~ s/^$sp//;
@@ -174,7 +174,7 @@ sub form_compose {
                 }
             }
 
-            $text .= join "", @lines;
+            $text .= join '', @lines;
         }
         else {
             chomp $text;
@@ -205,9 +205,9 @@ sub vpush {
 # "Normalise" a hash key that's known to be multi-valued.
 sub vsplit {
     my ($val) = @_;
-    my ($line, $word, @words);
+    my ($word, @words);
 
-    foreach $line (map {split /\n/} (ref $val eq 'ARRAY') ? @$val : $val)
+    for my $line (map {split /\n/} (ref $val eq 'ARRAY') ? @$val : $val)
     {
         # XXX: This should become a real parser, à la Text::ParseWords.
         $line =~ s/^\s+//;
