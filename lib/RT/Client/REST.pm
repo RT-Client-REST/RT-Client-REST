@@ -561,7 +561,7 @@ sub _submit {
         $text =~ s/\n*$/\n/ if ($text);
 
         # "RT/3.0.1 401 Credentials required"
-	if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
+        if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
             RT::Client::REST::MalformedRTResponseException->throw(
                 "Malformed RT response received from " . $self->server,
             );
