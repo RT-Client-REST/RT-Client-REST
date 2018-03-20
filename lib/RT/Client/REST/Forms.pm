@@ -19,6 +19,8 @@ my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.\{$CF_name}/i;
 
 =head2 METHODS
 
+=over 4
+
 =item expand_list
 
 Expands a list, splitting on commas and stuff.
@@ -245,5 +247,9 @@ sub vsplit {
 
     return \@words;
 }
+
+=pod
+
+=back
 
 1;
