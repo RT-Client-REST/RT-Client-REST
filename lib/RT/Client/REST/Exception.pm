@@ -1,9 +1,13 @@
-# We are going to throw exceptions, because we're cool like that.
-package RT::Client::REST::Exception;
-use base qw(Exception::Class);
+#!perl
+# PODNAME: RT::Client::REST::Exception
+# ABSTRACT: We are going to throw exceptions, because we're cool like that.
 
 use strict;
 use warnings;
+
+package RT::Client::REST::Exception;
+
+use base qw(Exception::Class);
 
 use vars qw($VERSION);
 $VERSION = '0.19';
