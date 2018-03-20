@@ -126,8 +126,17 @@ example:
 =head1 SPECIAL ATTRIBUTES
 
 B<id> and B<parent_id> are special attributes.  They are used by
-various DB-related methods and are especially relied upon by
-B<autostore>, B<autosync>, and B<autoget> features.
+various DB-related methods and are especially relied upon by:
+
+=over 2
+
+=item autostore
+
+=item autosync
+
+=item autoget
+
+=back
 
 =head1 METHODS
 

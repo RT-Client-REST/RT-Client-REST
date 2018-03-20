@@ -439,7 +439,7 @@ sub merge_tickets {
     return;
 }
 
-sub link {
+sub _link {
     my $self = shift;
     $self->_assert_even(@_);
     my %opts = @_;
@@ -463,10 +463,10 @@ sub link {
     return;
 }
 
-sub link_tickets { shift->link(@_, type => 'ticket') }
+sub link_tickets { shift->_link(@_, type => 'ticket') }
 
-sub unlink { shift->link(@_, unlink => 1) }
-sub unlink_tickets { shift->link(@_, type => 'ticket', unlink => 1) }
+# sub unlink { shift->_link(@_, unlink => 1) } ## nothing calls this & undocumented, so commenting out for now
+sub unlink_tickets { shift->_link(@_, type => 'ticket', unlink => 1) }
 
 sub _ticket_action {
     my $self = shift;

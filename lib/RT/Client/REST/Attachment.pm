@@ -132,6 +132,7 @@ for my $method (@unsupported) {
     };
 }
 
+# FIXME this is kind of horrible, probably functions should be provided via mixin?
 sub can {
     my ($self, $method) = @_;
     if (grep { $_ eq $method } @unsupported) {
@@ -249,6 +250,10 @@ be set.
 =head1 INTERNAL METHODS
 
 =over 2
+
+=item B<can>
+
+Wraps the normal I<can()> call, to exclude unsupported methods from parent.
 
 =item B<rt_type>
 

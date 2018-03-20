@@ -17,13 +17,21 @@ use vars qw(@EXPORT @ISA);
 my $CF_name = q%[#\s\w:()?/-]+%;
 my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.\{$CF_name}/i;
 
+=head2 METHODS
+
+=item expand_list
+
+Expands a list, splitting on commas and stuff.
+
+=cut
+
 sub expand_list {
     my ($list) = @_;
     my (@elts, %elts);
 
     for my $elt (split /,/, $list) {
-        if ($elt =~ /^(\d+)-(\d+)$/) { push @elts, ($1..$2) }
-        else                         { push @elts, $elt }
+        if ($elt =~ m/^(\d+)-(\d+)$/) { push @elts, ($1..$2) }
+        else                          { push @elts, $elt }
     }
 
     @elts{@elts}=();
@@ -31,7 +39,12 @@ sub expand_list {
     return @return
 }
 
-# Returns a reference to an array of parsed forms.
+=item form_parse
+
+Returns a reference to an array of parsed forms.
+
+=cut
+
 sub form_parse {
     my $state = 0;
     my @forms = ();
@@ -49,22 +62,22 @@ sub form_parse {
             # empty, and store it otherwise, errors and all.
             if ($e || $c || @$o) {
                 push @forms, [ $c, $o, $k, $e ];
-                $c = ""; $o = []; $k = {}; $e = "";
+                $c = ''; $o = []; $k = {}; $e = '';
             }
             $state = 0;
         }
         elsif ($state != -1) {
-            if ($state == 0 && $line =~ /^#/) {
+            if ($state == 0 && $line =~ m/^#/) {
                 # Read an optional block of comments (only) at the start
                 # of the form.
                 $state = 1;
                 $c = $line;
-                while (@lines && $lines[0] =~ /^#/) {
-                    $c .= "\n".shift @lines;
+                while (@lines && $lines[0] =~ m/^#/) {
+                    $c .= "\n" . shift @lines;
                 }
                 $c .= "\n";
             }
-            elsif ($state <= 1 && $line =~ /^($field):(?:\s+(.*))?$/) {
+            elsif ($state <= 1 && $line =~ m/^($field):(?:\s+(.*))?$/) {
                 # Read a field: value specification.
                 my $f  = $1;
                 my @v  = ($2 || ());
@@ -87,11 +100,11 @@ sub form_parse {
 
                 $state = 1;
             }
-            elsif ($line !~ /^#/) {
+            elsif ($line !~ m/^#/) {
                 # We've found a syntax error, so we'll reconstruct the
                 # form parsed thus far, and add an error marker. (>>)
                 $state = -1;
-                $e = form_compose([[ "", $o, $k, "" ]]);
+                $e = form_compose([[ '', $o, $k, '' ]]);
                 $e.= $line =~ /^>>/ ? "$line\n" : ">> $line\n";
             }
         }
@@ -110,14 +123,19 @@ sub form_parse {
     return \@forms;
 }
 
-# Returns text representing a set of forms.
+=item form_compose
+
+Returns text representing a set of forms.
+
+=cut
+
 sub form_compose {
     my ($forms) = @_;
     my @text;
 
     for my $form (@$forms) {
         my ($c, $o, $k, $e) = @$form;
-        my $text = "";
+        my $text = '';
 
         if ($c) {
             $c =~ s/\n*$/\n/;
@@ -145,9 +163,9 @@ sub form_compose {
 
                         if ($line) {
                             push @lines, "$line\n\n";
-                            $line = "";
+                            $line = '';
                         }
-                        elsif (@lines && $lines[-1] !~ /\n\n$/) {
+                        elsif (@lines && $lines[-1] !~ m/\n\n$/) {
                             $lines[-1] .= "\n";
                         }
                         push @lines, "$key: $v\n\n";
@@ -164,8 +182,8 @@ sub form_compose {
 
                 $line = "$key:" unless @values;
                 if ($line) {
-                    if ($line =~ /\n/) {
-                        if (@lines && $lines[-1] !~ /\n\n$/) {
+                    if ($line =~ m/\n/) {
+                        if (@lines && $lines[-1] !~ m/\n\n$/) {
                             $lines[-1] .= "\n";
                         }
                         $line .= "\n";
@@ -185,7 +203,12 @@ sub form_compose {
     return join "\n--\n\n", @text;
 }
 
-# Add a value to a (possibly multi-valued) hash key.
+=item vpush
+
+Add a value to a (possibly multi-valued) hash key.
+
+=cut
+
 sub vpush {
     my ($hash, $key, $val) = @_;
     my @val = ref $val eq 'ARRAY' ? @$val : $val;
@@ -202,7 +225,12 @@ sub vpush {
     }
 }
 
-# "Normalise" a hash key that's known to be multi-valued.
+=item vsplit
+
+"Normalise" a hash key that's known to be multi-valued.
+
+=cut
+
 sub vsplit {
     my ($val) = @_;
     my ($word, @words);
