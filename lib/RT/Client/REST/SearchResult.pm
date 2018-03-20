@@ -1,12 +1,11 @@
-# RT::Client::REST::SearchResult -- search results object.
-
-package RT::Client::REST::SearchResult;
+#!perl
+# PODNAME: RT::Client::REST::SearchResult
+# ABSTRACT: search results object.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.03;
+package RT::Client::REST::SearchResult;
 
 sub new {
     my $class = shift;
@@ -56,10 +55,6 @@ sub get_iterator {
 1;
 
 __END__
-
-=head1 NAME
-
-RT::Client::REST::SearchResult -- Search results representation.
 
 =head1 SYNOPSIS
 
@@ -135,9 +130,5 @@ completeness, here are the arguments:
 =head1 SEE ALSO
 
 L<RT::Client::REST::Object>, L<RT::Client::REST>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =cut

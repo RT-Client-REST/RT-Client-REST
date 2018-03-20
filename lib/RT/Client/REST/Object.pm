@@ -1,8 +1,11 @@
+#!perl
+# PODNAME: RT::Client::REST::Object
+# ABSTRACT: base class for RT objects
+
+use strict;
+use warnings;
+
 package RT::Client::REST::Object;
-
-=head1 NAME
-
-RT::Client::REST::Object -- base class for RT objects.
 
 =head1 SYNOPSIS
 
@@ -131,12 +134,6 @@ B<autostore>, B<autosync>, and B<autoget> features.
 =over 2
 
 =cut
-
-use strict;
-use warnings;
-
-use vars qw($VERSION);
-$VERSION = '0.09';
 
 use Error qw(:try);
 use Params::Validate;
@@ -435,7 +432,7 @@ Set object's attributes from form received from RT server.
 
 sub from_form {
     my $self = shift;
-    
+
     unless (@_) {
         RT::Client::REST::Object::NoValuesProvidedException->throw;
     }
@@ -834,7 +831,7 @@ sub autostore {}
 
 sub use_autostore {
     my ($class, $autostore) = @_;
-    
+
     no strict 'refs';
     no warnings 'redefine';
     *{(ref($class) || $class) . '::autostore'} = sub { $autostore };
@@ -864,7 +861,7 @@ sub autoget {}
 
 sub use_autoget {
     my ($class, $autoget) = @_;
-    
+
     no strict 'refs';
     no warnings 'redefine';
     *{(ref($class) || $class) . '::autoget'} = sub { $autoget };
@@ -900,7 +897,7 @@ C<retrieve()> and C<store()> calls invisible:
   my $ticket = RT::Client::REST::Ticket->new(id => $id); # retrieved
   $ticket->add_cc('you@localhost.localdomain'); # stored
   $ticket->status('stalled'); # stored
-  
+
   # etc.
 
 Do not forget to pass RT::Client::REST object to this method.
@@ -920,10 +917,6 @@ sub be_transparent {
 
 L<RT::Client::REST::Ticket>,
 L<RT::Client::REST::SearchResult>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =cut
 

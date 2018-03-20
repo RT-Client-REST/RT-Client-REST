@@ -1,6 +1,6 @@
 #!perl
 # PODNAME: RT::Client::REST::Exception
-# ABSTRACT: We are going to throw exceptions, because we're cool like that.
+# ABSTRACT: Exceptions thrown by RT::Client::REST
 
 use strict;
 use warnings;
@@ -192,7 +192,6 @@ sub _rt_content_to_exception {
 
 __END__
 
-=head1 NAME
 
 RT::Client::REST::Exception -- exceptions thrown by RT::Client::REST
 methods.
@@ -340,9 +339,5 @@ ready to be thrown.
 
 L<Exception::Class>,
 L<RT::Client::REST>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
 
 =cut

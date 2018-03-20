@@ -1,12 +1,11 @@
-# RT::Client::REST::Queue -- queue object representation.
-
-package RT::Client::REST::Queue;
+#!perl
+# PODNAME: RT::Client::REST::Queue
+# ABSTRACT: queue object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = '0.02';
+package RT::Client::REST::Queue;
 
 use Params::Validate qw(:types);
 use RT::Client::REST 0.20;
@@ -15,10 +14,6 @@ use RT::Client::REST::Object::Exception 0.01;
 use RT::Client::REST::SearchResult 0.02;
 use RT::Client::REST::Ticket;
 use base 'RT::Client::REST::Object';
-
-=head1 NAME
-
-RT::Client::REST::Queue -- queue object representation.
 
 =head1 SYNOPSIS
 
@@ -214,14 +209,6 @@ sub rt_type { 'queue' }
 L<RT::Client::REST>, L<RT::Client::REST::Object>,
 L<RT::Client::REST::SearchResult>,
 L<RT::Client::REST::Ticket>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut
 

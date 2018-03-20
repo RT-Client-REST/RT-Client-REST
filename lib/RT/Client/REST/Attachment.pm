@@ -1,12 +1,11 @@
-# RT::Client::REST::Attachment -- attachment object representation.
-
-package RT::Client::REST::Attachment;
+#!perl
+# PODNAME: RT::Client::REST::Attachment
+# ABSTRACT: attachment object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.03;
+package RT::Client::REST::Attachment;
 
 use Params::Validate qw(:types);
 use RT::Client::REST::Object 0.01;
@@ -147,10 +146,6 @@ __PACKAGE__->_generate_methods;
 
 __END__
 
-=head1 NAME
-
-RT::Client::REST::Attachment -- this object represents an attachment.
-
 =head1 SYNOPSIS
 
   my $attachments = $ticket->attachments;
@@ -265,13 +260,5 @@ Returns 'attachment'.
 
 L<RT::Client::REST::Ticket>,
 L<RT::Client::REST::SearchResult>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut

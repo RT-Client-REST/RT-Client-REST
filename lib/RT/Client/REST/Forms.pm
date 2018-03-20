@@ -1,17 +1,18 @@
-# This package provides functions from RT::Interface::REST, because we don't
-# want to depend on rt being installed.  Derived from rt 3.4.5.
-
-package RT::Client::REST::Forms;
+#!perl
+# PODNAME: RT::Client::REST::Forms
+# ABSTRACT: This package provides functions from RT::Interface::REST, because we don't want to depend on rt being installed.  Derived from rt 3.4.5.
 
 use strict;
 use warnings;
+
+package RT::Client::REST::Forms;
+
 use Exporter;
 
-use vars qw(@EXPORT @ISA $VERSION);
+use vars qw(@EXPORT @ISA);
 
 @ISA = qw(Exporter);
 @EXPORT = qw(expand_list form_parse form_compose vpush vsplit);
-$VERSION = .02;
 
 my $CF_name = q%[#\s\w:()?/-]+%;
 my $field   = qr/[a-z][\w-]*|C(?:ustom)?F(?:ield)?-$CF_name|CF\.\{$CF_name}/i;

@@ -1,12 +1,11 @@
-# RT::Client::REST::Transaction -- transaction object representation.
-
-package RT::Client::REST::Transaction;
+#!perl
+# PODNAME: RT::Client::REST::Transaction
+# ABSTRACT: transaction object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.01;
+package RT::Client::REST::Transaction;
 
 use Params::Validate qw(:types);
 use RT::Client::REST::Object 0.01;
@@ -134,10 +133,6 @@ __PACKAGE__->_generate_methods;
 
 __END__
 
-=head1 NAME
-
-RT::Client::REST::Transaction -- this object represents a transaction.
-
 =head1 SYNOPSIS
 
   my $transactions = $ticket->transactions;
@@ -247,13 +242,5 @@ Returns 'transaction'.
 L<RT::Client::REST>,
 L<RT::Client::REST::Ticket>,
 L<RT::Client::REST::SearchResult>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut

@@ -1,12 +1,11 @@
-# RT::Client::REST::Ticket -- ticket object representation.
-
-package RT::Client::REST::Ticket;
+#!perl
+# PODNAME: RT::Client::REST::Ticket
+# ABSTRACT: ticket object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.10;
+package RT::Client::REST::Ticket;
 
 use Error qw(:try);
 use Params::Validate qw(:types);
@@ -17,10 +16,6 @@ use RT::Client::REST::Object::Exception 0.04;
 use RT::Client::REST::SearchResult 0.02;
 use RT::Client::REST::Transaction;
 use base 'RT::Client::REST::Object';
-
-=head1 NAME
-
-RT::Client::REST::Ticket -- this object represents a ticket.
 
 =head1 SYNOPSIS
 
@@ -274,14 +269,14 @@ an autoreply from RT because the ticket is initially created as the user
 your REST session is connected as.
 
 It is a list attribute (for explanation of list attributes, see
-B<LIST ATTRIBUTE PROPERTIES> in L<RT::Client::REST::Object>). 
+B<LIST ATTRIBUTE PROPERTIES> in L<RT::Client::REST::Object>).
 
 =item B<requestors>
 
 This contains e-mail addresses of the requestors.
 
 It is a list attribute (for explanation of list attributes, see
-B<LIST ATTRIBUTE PROPERTIES> in L<RT::Client::REST::Object>). 
+B<LIST ATTRIBUTE PROPERTIES> in L<RT::Client::REST::Object>).
 
 =item B<cc>
 
@@ -421,7 +416,7 @@ to get at objects of type L<RT::Client::REST::Attachment>.
 
 sub attachments {
     my $self = shift;
-    
+
     $self->_assert_rt_and_id;
 
     RT::Client::REST::SearchResult->new(
@@ -468,7 +463,7 @@ sub transactions {
     if (defined(my $type = delete($opts{type}))) {
         $params{transaction_type} = $type;
     }
-    
+
     RT::Client::REST::SearchResult->new(
         ids => [ $self->rt->get_transaction_ids(%params) ],
         object => sub {
@@ -568,14 +563,6 @@ L<RT::Client::REST>, L<RT::Client::REST::Object>,
 L<RT::Client::REST::Attachment>,
 L<RT::Client::REST::SearchResult>,
 L<RT::Client::REST::Transaction>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut
 

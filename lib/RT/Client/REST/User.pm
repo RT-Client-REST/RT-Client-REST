@@ -1,12 +1,11 @@
-# RT::Client::REST::User -- user object representation.
-
-package RT::Client::REST::User;
+#!perl
+# PODNAME: RT::Client::REST::User
+# ABSTRACT: user object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.03;
+package RT::Client::REST::User;
 
 use Params::Validate qw(:types);
 use RT::Client::REST 0.14;
@@ -14,10 +13,6 @@ use RT::Client::REST::Object 0.01;
 use RT::Client::REST::Object::Exception 0.01;
 use RT::Client::REST::SearchResult 0.02;
 use base 'RT::Client::REST::Object';
-
-=head1 NAME
-
-RT::Client::REST::User -- user object representation.
 
 =head1 SYNOPSIS
 
@@ -320,14 +315,6 @@ sub rt_type { 'user' }
 
 L<RT::Client::REST>, L<RT::Client::REST::Object>,
 L<RT::Client::REST::SearchResult>.
-
-=head1 AUTHOR
-
-Dmitri Tikhonov <dtikhonov@yahoo.com>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut
 

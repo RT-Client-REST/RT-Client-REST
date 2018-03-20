@@ -1,12 +1,11 @@
-# RT::Client::REST::Group -- group object representation.
-
-package RT::Client::REST::Group;
+#!perl
+# PODNAME: RT::Client::REST::Group
+# ABSTRACT: group object representation.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = 0.03;
+package RT::Client::REST::Group;
 
 use Params::Validate qw(:types);
 use RT::Client::REST 0.14;
@@ -14,10 +13,6 @@ use RT::Client::REST::Object 0.01;
 use RT::Client::REST::Object::Exception 0.01;
 use RT::Client::REST::SearchResult 0.02;
 use base 'RT::Client::REST::Object';
-
-=head1 NAME
-
-RT::Client::REST::Group -- group object representation.
 
 =head1 SYNOPSIS
 
@@ -137,14 +132,6 @@ sub rt_type { 'group' }
 
 L<RT::Client::REST>, L<RT::Client::REST::Object>,
 L<RT::Client::REST::SearchResult>.
-
-=head1 AUTHOR
-
-Miquel Ruiz <mruiz@cpan.org>
-
-=head1 LICENSE
-
-Perl license.
 
 =cut
 

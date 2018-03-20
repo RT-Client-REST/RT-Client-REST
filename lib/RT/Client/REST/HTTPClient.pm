@@ -1,12 +1,11 @@
-# Subclass LWP::UserAgent in order to support basic authentication.
-
-package RT::Client::REST::HTTPClient;
+#!perl
+# PODNAME: RT::Client::REST::HTTPClient
+# ABSTRACT: Subclass LWP::UserAgent in order to support basic authentication.
 
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = '0.01';
+package RT::Client::REST::HTTPClient;
 
 use base 'LWP::UserAgent';
 

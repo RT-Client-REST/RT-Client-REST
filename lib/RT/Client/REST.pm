@@ -1,5 +1,6 @@
 #!perl
 # PODNAME: RT::Client::REST
+# ABSTRACT: Client for RT using REST API
 #
 # Dmitri Tikhonov <dtikhonov@yahoo.com>
 #
@@ -810,7 +811,7 @@ sub _ua_string {
     return ref($self) . '/' . $self->_version;
 }
 
-sub _version { $VERSION }
+sub _version { $RT::Client::REST::VERSION }
 
 {
     # This is a noop logger: it discards all log messages.  It is the default
@@ -851,10 +852,6 @@ sub _version { $VERSION }
 __END__
 
 =pod
-
-=head1 NAME
-
-RT::Client::REST -- talk to RT installation using REST protocol.
 
 =head1 SYNOPSIS
 
@@ -1234,10 +1231,6 @@ Most likely.  Please report.
 B<RT::Client::REST> does not (at the moment, see TODO file) retrieve forms from
 RT server, which is either good or bad, depending how you look at it.
 
-=head1 VERSION
-
-This is version 0.50 of B<RT::Client::REST>.
-
 =head1 AUTHORS
 
 Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
@@ -1245,9 +1238,5 @@ was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
 In January of 2008, Damien "dams" Krotkine <dams@cpan.org> joined as the
 project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
 SRVSH became a co-maintainer in November 2015.
-
-=head1 LICENSE
-
-Perl license.
 
 =cut
