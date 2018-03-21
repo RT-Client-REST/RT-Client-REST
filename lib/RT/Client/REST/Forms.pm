@@ -205,6 +205,8 @@ sub form_compose {
     return join "\n--\n\n", @text;
 }
 
+=for stopwords vpush vsplit
+
 =item vpush
 
 Add a value to a (possibly multi-valued) hash key.

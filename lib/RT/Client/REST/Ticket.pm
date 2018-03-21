@@ -261,11 +261,13 @@ Ticket priority.  Usually a numeric value.
 
 =item B<final_priority>
 
+=for stopwords requestor requestors
+
 =item B<requestor>
 
 This is the attribute for setting the requestor on ticket creation.
 If you use requestors to do this in 3.8, the recipient may not receive
-an autoreply from RT because the ticket is initially created as the user
+an auto-reply from RT because the ticket is initially created as the user
 your REST session is connected as.
 
 It is a list attribute (for explanation of list attributes, see
@@ -361,6 +363,8 @@ ticket along with the comment.
 =item B<cc>
 
 List of e-mail addresses to send carbon copies to (an array reference).
+
+=for stopwords bcc
 
 =item B<bcc>
 
@@ -481,6 +485,8 @@ sub transactions {
 Take this ticket.
 If you already the owner of this ticket,
 C<RT::Client::REST::Object::NoopOperationException> will be thrown.
+
+=for stopwords Untake untake
 
 =item B<untake>
 

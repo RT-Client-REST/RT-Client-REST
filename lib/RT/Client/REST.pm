@@ -379,7 +379,7 @@ sub comment {
     my $ticket_id = $self->_valid_numeric_object_id(delete($opts{ticket_id}));
     my $msg = $self->_valid_comment_message(delete($opts{message}));
 
-    my @objects = ("Ticket", "Action", "Text");
+    my @objects = ('Ticket', 'Action', 'Text');
     my %values  = (
         Ticket      => $ticket_id,
         Action      => $action,
@@ -387,12 +387,12 @@ sub comment {
     );
 
     if (exists($opts{cc})) {
-        push @objects, "Cc";
+        push @objects, 'Cc';
         $values{Cc} = delete($opts{cc});
     }
 
     if (exists($opts{bcc})) {
-        push @objects, "Bcc";
+        push @objects, 'Bcc';
         $values{Bcc} = delete($opts{bcc});
     }
 
@@ -404,7 +404,7 @@ sub comment {
                 "'attachments' must be an array reference",
             );
         }
-        push @objects, "Attachment";
+        push @objects, 'Attachment';
         $values{Attachment} = $files;
 
         for (my $i = 0; $i < @$files; ++$i) {
@@ -415,7 +415,7 @@ sub comment {
             }
 
             my $index = $i + 1;
-            $data{"attachment_$index"} = bless([ $files->[$i] ], "Attachment");
+            $data{"attachment_$index"} = bless([ $files->[$i] ], 'Attachment');
         }
     }
 
@@ -946,7 +946,7 @@ mostly useful for development.
 Log in to RT.  Throws an exception on error.
 
 Usually, if the other side uses basic HTTP authentication, you do not
-have to log in, but rather prodive HTTP username and password instead.
+have to log in, but rather provide HTTP username and password instead.
 See B<basic_auth_cb> above.
 
 =item show (type => $type, id => $id)
@@ -981,6 +981,8 @@ example:
 
 C<%opts> is a list of key-value pairs:
 
+=for stopwords orderby
+
 =over 4
 
 =item B<orderby>
@@ -1013,6 +1015,8 @@ using C<show()> method:
 
 =item comment (ticket_id => $id, message => $message, %opts)
 
+=for stopwords bcc
+
 Comment on a ticket with ID B<$id>.
 Optionally takes arguments B<cc> and B<bcc> which are references to lists
 of e-mail addresses and B<attachments> which is a list of filenames to
@@ -1032,6 +1036,8 @@ B<bcc>, and B<attachments> parameters (see C<comment> above).
 =item get_attachment_ids (id => $id)
 
 Get a list of numeric attachment IDs associated with ticket C<$id>.
+
+=for stopwords undecoded
 
 =item get_attachment (parent_id => $parent_id, id => $id, undecoded => $bool)
 
@@ -1069,6 +1075,8 @@ scalar, only transactions of that type are returned.  If you want to specify
 more than one type, pass an array reference.
 
 Transactions may be of the following types (case-sensitive):
+
+=for stopwords AddLink AddWatcher CustomField DelWatcher DeleteLink DependedOnBy DependsOn EmailRecord HasMember MemberOf ReferredToBy RefersTo
 
 =over 2
 
@@ -1111,6 +1119,8 @@ Transactions may be of the following types (case-sensitive):
 Get a hashref representation of transaction C<$id> associated with
 parent object C<$id>.  You can optionally specify parent object type in
 C<%opts> (defaults to 'ticket').
+
+=for stopwords dst src
 
 =item merge_tickets (src => $id1, dst => $id2)
 
@@ -1157,6 +1167,8 @@ Remove a link between two tickets (see B<link_tickets()>)
 Take ticket C<$id>.
 This will throw C<RT::Client::REST::AlreadyTicketOwnerException> if you are
 already the ticket owner.
+
+=for stopwords Untake untake
 
 =item untake (id => $id)
 
@@ -1228,6 +1240,8 @@ L<RT::Client::REST::Exception>
 Most likely.  Please report.
 
 =head1 VARIOUS NOTES
+
+=for stopwords TODO
 
 B<RT::Client::REST> does not (at the moment, see TODO file) retrieve forms from
 RT server, which is either good or bad, depending how you look at it.

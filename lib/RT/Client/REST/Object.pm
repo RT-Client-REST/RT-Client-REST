@@ -53,6 +53,8 @@ mutator is called.  See L<Params::Validate> for reference.
 
 =item rest_name
 
+=for stopwords FinalPriority
+
 This specifies this attribute's REST name.  For example, attribute
 "final_priority" corresponds to RT REST's "FinalPriority".  This option
 may be omitted if the two only differ in first letter capitalization.
@@ -122,6 +124,8 @@ example:
   $ticket->add_requestors('randomguy@localhost', 'evil@local');
 
 =back
+
+=for stopwords autoget autostore autosync
 
 =head1 SPECIAL ATTRIBUTES
 
@@ -768,6 +772,8 @@ results.  C<%opts> is a list of key-value pairs, which are as follows:
 This is a reference to array containing hash references with limits to
 apply to the search (think SQL limits).
 
+=for stopwords orderby reverseorder
+
 =item orderby
 
 Specifies attribute to sort the result by (in ascending order).
@@ -797,6 +803,8 @@ object is created and the 'id' attribute is set.  Note that only changed
 
 =item use_single_rt
 
+=for stopwords instantiations
+
 This method takes a single argument -- L<RT::Client::REST> object
 and makes this class use it for all instantiations.  For example:
 
@@ -822,9 +830,11 @@ sub use_single_rt {
     *{(ref($class) || $class) . '::rt'} = sub { $rt };
 }
 
+=for stopwords autostoring autostore
+
 =item use_autostore
 
-Turn autostoring on and off.  Autostoring means that you do not have
+Turn I<autostoring> on and off.  I<Autostoring> means that you do not have
 to explicitly call C<store()> on an object - it will be called when
 the object goes out of scope.
 
@@ -854,7 +864,7 @@ sub DESTROY {
 
 =item use_autoget
 
-Turn autoget feature on or off (off by default).  When set to on,
+Turn I<autoget> feature on or off (off by default). When set to on,
 C<retrieve()> will be automatically called from the constructor if
 it is called with that object's special attributes (see
 L</SPECIAL ATTRIBUTES> above).
@@ -876,9 +886,11 @@ sub use_autoget {
     *{(ref($class) || $class) . '::autoget'} = sub { $autoget };
 }
 
+=for stopwords autosync
+
 =item use_autosync
 
-Turn autosync feature on or off (off by default).  When set, every time
+Turn I<autosync> feature on or off (off by default).  When set, every time
 an attribute is changed, C<store()> method is invoked.  This may be pretty
 expensive.
 

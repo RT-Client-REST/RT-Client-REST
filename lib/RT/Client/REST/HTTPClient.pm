@@ -15,7 +15,7 @@ use base 'LWP::UserAgent';
 
 =item get_basic_credentials
 
-Returns basic auth credentials
+Returns basic authentication credentials
 
 =cut
 
@@ -32,7 +32,7 @@ sub get_basic_credentials {
 
 =item basic_auth_cb
 
-Gets/sets basic auth callback
+Gets/sets basic authentication callback
 
 =cut
 

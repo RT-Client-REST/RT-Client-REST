@@ -177,6 +177,8 @@ sub _attributes {{
     },
 }}
 
+=for stopwords EmailAddress gecos Gecos HomePhone MobilePhone PagerPhone RealName WorkPhone
+
 =head1 ATTRIBUTES
 
 =over 2
@@ -224,6 +226,8 @@ Comments about this user.
 
 Nickname of this user.
 
+=for stopwords lang
+
 =item B<lang>
 
 Language for this user.
@@ -265,6 +269,8 @@ User's cell phone number, MobilePhone.
 =item B<pager>
 
 User's pager number, PagerPhone.
+
+=for stopwords contactinfo
 
 =item B<contactinfo>
 
