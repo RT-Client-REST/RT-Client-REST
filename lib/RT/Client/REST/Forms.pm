@@ -51,7 +51,7 @@ sub form_parse {
     my $state = 0;
     my @forms = ();
     my @lines = split /\n/, $_[0];
-    my ($c, $o, $k, $e) = ("", [], {}, "");
+    my ($c, $o, $k, $e) = ('', [], {}, '');
 
     LINE:
     while (@lines) {

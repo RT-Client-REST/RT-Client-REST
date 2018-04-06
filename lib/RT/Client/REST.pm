@@ -122,7 +122,7 @@ sub show {
     }
 
     my $form = form_parse($self->_submit("$type/$id")->decoded_content);
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -144,7 +144,7 @@ sub get_attachment_ids {
     my $form = form_parse(
         $self->_submit("$type/$id/attachments/")->decoded_content
     );
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -166,7 +166,7 @@ sub get_attachments_metadata {
     my $form = form_parse(
         $self->_submit("$type/$id/attachments/")->decoded_content
     );
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -199,7 +199,7 @@ sub get_attachment {
     }
     my $form = form_parse($content);
 
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -221,7 +221,7 @@ sub get_links {
     my $form = form_parse(
         $self->_submit("$type/$id/links/$id")->decoded_content
     );
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -318,7 +318,7 @@ sub get_transaction {
     my $form = form_parse(
         $self->_submit("$type/$parent_id/history/id/$id")->decoded_content
     );
-    my ($c, $o, $k, $e) = @{$$form[0]};
+    my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
     if (!@$o && $c) {
         RT::Client::REST::Exception->_rt_content_to_exception($c)->throw;
@@ -572,9 +572,9 @@ sub _submit {
     }
 
     # Then we send the request and parse the response.
-    $self->logger->debug("request: ", $req->as_string);
+    $self->logger->debug('request: ', $req->as_string);
     my $res = $self->_ua->request($req);
-    $self->logger->debug("response: ", $res->as_string);
+    $self->logger->debug('response: ', $res->as_string);
 
     if ($res->is_success) {
         # The content of the response we get from the RT server consists
@@ -582,13 +582,13 @@ sub _submit {
         # a blank line, and arbitrary text.
 
         my ($head, $text) = split /\n\n/, $res->decoded_content(charset => 'none'), 2;
-        my ($status, @headers) = split /\n/, $head;
+        my ($status) = split /\n/, $head; # my ($status, @headers) = split /\n/, $head;
         $text =~ s/\n*$/\n/ if ($text);
 
         # "RT/3.0.1 401 Credentials required"
         if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
             RT::Client::REST::MalformedRTResponseException->throw(
-                "Malformed RT response received from " . $self->server,
+                'Malformed RT response received from ' . $self->server,
             );
         }
 
