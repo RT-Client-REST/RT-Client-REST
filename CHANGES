@@ -1,6 +1,6 @@
 ﻿Revision history for Perl module RT::Client::REST
 
-0.52 Fri Apr 06 2017 "Dean Hamstead" <dean@bytefoundry.com.au>
+0.52 Fri Apr 06 2018 "Dean Hamstead" <dean@bytefoundry.com.au>
   - Fix up lots of Pod Critic complaints
   - Fix up lots of Perl Critic complaints
   - Use Dist-Zilla for releases
