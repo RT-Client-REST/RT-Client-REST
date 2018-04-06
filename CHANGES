@@ -1,5 +1,13 @@
 ﻿Revision history for Perl module RT::Client::REST
 
+0.52 Fri Apr 06 2017 "Dean Hamstead" <dean@bytefoundry.com.au>
+  - Fix up lots of Pod Critic complaints
+  - Fix up lots of Perl Critic complaints
+  - Use Dist-Zilla for releases
+  - Remove Pod, tests and other files that Dist-Zilla provides
+  - Adjust git repo slightly
+  - Note: no functional changes
+
 0.51 Tue Feb 27 2017 "Dmitri Tikhonov" <dmitri@cpan.org>
   - Add method to retrieve attachment metadata. Thanks Oriol Soriano.
   - Fix filename parsing bug in get_attachment_ids(). Thanks djstauffer.
