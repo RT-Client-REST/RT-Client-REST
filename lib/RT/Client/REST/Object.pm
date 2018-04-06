@@ -272,12 +272,11 @@ sub _generate_methods {
         };
 
         if ($settings->{is_datetime}) {
-            *{$class. '::' . $method . "_datetime"} = sub {
+            *{$class. '::' . $method . '_datetime'} = sub {
                 # All dates are in UTC
                 # http://requesttracker.wikia.com/wiki/REST#Data_format
 
                 my ($self) = shift;
-                my $real_method = $class.'::'.$method;
                 if (@_) {
                     unless ($_[0]->isa('DateTime')) {
                             RT::Client::REST::Object::InvalidValueException
@@ -287,8 +286,8 @@ sub _generate_methods {
 
                     }
                     my $z = $_[0]->clone;
-                    $z->set_time_zone("UTC");
-                    $self->$method($_[0]->strftime("%a %b %d %T %Y"));
+                    $z->set_time_zone('UTC');
+                    $self->$method($_[0]->strftime('%a %b %d %T %Y'));
                     return $z;
                 }
 
