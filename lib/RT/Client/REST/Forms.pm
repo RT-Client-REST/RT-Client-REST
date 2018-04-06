@@ -237,7 +237,7 @@ sub vpush {
 
 sub vsplit {
     my ($val) = @_;
-    my ($word, @words);
+    my (@words);
 
     for my $line (map {split /\n/} (ref $val eq 'ARRAY') ? @$val : $val)
     {
