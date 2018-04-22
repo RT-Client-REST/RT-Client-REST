@@ -100,6 +100,21 @@ sub _attributes {{
             type   => SCALAR,
         },
     },
+
+    admin_cc_addresses => {
+        validation => {
+            type => SCALAR,
+        },
+        rest_name => 'AdminCcAddresses',
+    },
+
+    cc_addresses => {
+        validation => {
+            type => SCALAR,
+        },
+        rest_name => 'CcAddresses',
+    },
+
 }}
 
 =head1 ATTRIBUTES
@@ -139,6 +154,14 @@ Final priority.
 =item B<default_due_in>
 
 Default due in.
+
+=item B<cc_addresses>
+
+CC Addresses (comma delimited).
+
+=item B<admin_cc_addresses>
+
+Admin CC Addresses (comma delimited).
 
 =back
 
