@@ -17,40 +17,40 @@ use Error;
 use Exception::Class (
     'RT::Client::REST::OddNumberOfArgumentsException'   => {
         isa         => __PACKAGE__,
-        description => "This means that we wanted name/value pairs",
+        description => 'This means that we wanted name/value pairs',
     },
 
     'RT::Client::REST::InvaildObjectTypeException'   => {
         isa         => __PACKAGE__,
-        description => "Invalid object type was specified",
+        description => 'Invalid object type was specified',
     },
 
     'RT::Client::REST::MalformedRTResponseException'    => {
         isa         => __PACKAGE__,
-        description => "Malformed RT response received from server",
+        description => 'Malformed RT response received from server',
     },
 
     'RT::Client::REST::InvalidParameterValueException'  => {
         isa         => __PACKAGE__,
-        description => "This happens when you feed me bad values",
+        description => 'This happens when you feed me bad values',
     },
 
     'RT::Client::REST::CannotReadAttachmentException'  => {
         isa         => __PACKAGE__,
-        description => "Cannot read attachment",
+        description => 'Cannot read attachment',
     },
 
     'RT::Client::REST::RequiredAttributeUnsetException' => {
         isa         => __PACKAGE__,
-        description => "An operation failed because a required attribute " .
-                       "was not set in the object",
+        description => 'An operation failed because a required attribute ' .
+                       'was not set in the object',
     },
 
 
     'RT::Client::REST::RTException' => {
         isa         => __PACKAGE__,
         fields      => ['code'],
-        description => "RT server returned an error code",
+        description => 'RT server returned an error code',
     },
 
     'RT::Client::REST::ObjectNotFoundException' => {
@@ -65,7 +65,7 @@ use Exception::Class (
 
     'RT::Client::REST::AuthenticationFailureException'  => {
         isa         => 'RT::Client::REST::RTException',
-        description => "Incorrect username or password",
+        description => 'Incorrect username or password',
     },
 
     'RT::Client::REST::UpdateException' => {
@@ -133,7 +133,7 @@ use Exception::Class (
     'RT::Client::REST::HTTPException'   => {
         isa         => __PACKAGE__,
         fields      => ['code'],
-        description => "Error in the underlying protocol (HTTP)",
+        description => 'Error in the underlying protocol (HTTP)',
     },
 );
 
