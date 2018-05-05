@@ -419,11 +419,11 @@ sub to_form {
 
         my $value;
         if (exists($attributes->{$attr}{value2form})) {
-            $value = $attributes->{$attr}{value2form}($self->$attr);
+            $value = $attributes->{$attr}{value2form}($self->$attr)
         } elsif ($attributes->{$attr}{list}) {
-            $value = join(',', $self->$attr);
+            $value = join(',', $self->$attr)
         } else {
-            $value = (defined($self->$attr) ? $self->$attr : 'Not set');
+            $value = (defined($self->$attr) ? $self->$attr : '');
         }
 
         $hash{$rest_name} = $value;
@@ -453,7 +453,7 @@ sub from_form {
 
     unless ('HASH' eq ref($hash)) {
         RT::Client::REST::Object::InvalidValueException->throw(
-            "Expecting a hash reference as argument to 'from_form'",
+            q|Expecting a hash reference as argument to 'from_form'|,
         );
     }
 
@@ -463,10 +463,10 @@ sub from_form {
 
     my $attributes = $self->_attributes;
     my %rest2attr;  # Mapping of REST names to our attributes;
-    while (my ($attr, $value) = each(%$attributes)) {
+    while (my ($attr, $settings) = each(%$attributes)) {
         my $rest_name = (exists($attributes->{$attr}{rest_name}) ?
                          lc($attributes->{$attr}{rest_name}) : $attr);
-        $rest2attr{$rest_name} = $attr;
+        $rest2attr{$rest_name} = [ $attr, $settings ];
     }
 
     # Now set attributes:
@@ -489,11 +489,12 @@ sub from_form {
             next;
         }
 
-        if ($value =~ m/not set/i) {
+        my ( $method, $settings)  = @{$rest2attr{$key}};
+
+        if ($settings->{is_datetime} and $value eq 'Not set') {
             $value = undef;
         }
 
-        my $method = $rest2attr{$key};
         if (exists($attributes->{$method}{form2value})) {
             $value = $attributes->{$method}{form2value}($value);
         } elsif ($attributes->{$method}{list}) {
