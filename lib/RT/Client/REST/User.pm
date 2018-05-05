@@ -7,12 +7,12 @@ use warnings;
 
 package RT::Client::REST::User;
 
+use base 'RT::Client::REST::Object';
+
 use Params::Validate qw(:types);
 use RT::Client::REST 0.14;
-use RT::Client::REST::Object 0.01;
 use RT::Client::REST::Object::Exception 0.01;
 use RT::Client::REST::SearchResult 0.02;
-use base 'RT::Client::REST::Object';
 
 =head1 SYNOPSIS
 
