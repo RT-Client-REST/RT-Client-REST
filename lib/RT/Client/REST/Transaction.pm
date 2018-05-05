@@ -7,10 +7,10 @@ use warnings;
 
 package RT::Client::REST::Transaction;
 
-use Params::Validate qw(:types);
-use RT::Client::REST::Object 0.01;
-use RT::Client::REST::Object::Exception 0.03;
 use base 'RT::Client::REST::Object';
+
+use Params::Validate qw(:types);
+use RT::Client::REST::Object::Exception 0.03;
 
 sub _attributes {{
     id  => {
