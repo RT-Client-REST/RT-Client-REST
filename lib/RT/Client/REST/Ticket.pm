@@ -7,15 +7,15 @@ use warnings;
 
 package RT::Client::REST::Ticket;
 
+use base 'RT::Client::REST::Object';
+
 use Error qw(:try);
 use Params::Validate qw(:types);
 use RT::Client::REST 0.18;
 use RT::Client::REST::Attachment;
-use RT::Client::REST::Object 0.01;
 use RT::Client::REST::Object::Exception 0.04;
 use RT::Client::REST::SearchResult 0.02;
 use RT::Client::REST::Transaction;
-use base 'RT::Client::REST::Object';
 
 =head1 SYNOPSIS
 
