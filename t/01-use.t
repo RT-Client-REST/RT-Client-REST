@@ -1,3 +1,6 @@
+#!perl
+# vim:ft=perl:
+
 use strict;
 use warnings;
 
@@ -8,4 +11,3 @@ BEGIN {
     use_ok ('RT::Client::REST', 0.06);
 }
 
-# vim:ft=perl:

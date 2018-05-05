@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# vim:ft=perl:
 #
 # This script tests whether submited data looks good
 
@@ -45,4 +46,3 @@ my $res = $rt->_submit("ticket/1", undef, {
     });
 unlike($res->{_content}, qr/this is a fake successful response header/, "Make sure response content doesn't contain headers");
 
-# vim:ft=perl:

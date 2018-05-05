@@ -1,4 +1,6 @@
 package MyObject;
+# vim:ft=perl:
+
 # For testing purposes -- Object with 'id' attribute.
 
 @ISA = qw(RT::Client::REST::Object);
@@ -98,4 +100,3 @@ for my $method (qw(store count search)) {
         "rt object is not correctly initialized";
 }
 
-# vim:ft=perl:

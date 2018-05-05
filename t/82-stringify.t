@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# vim:ft=perl:
 #
 # This script tests whether submited data looks good
 
@@ -61,4 +62,3 @@ SKIP: {
     is($?, 0, "self-test: child process ran successfully");
 };
 
-# vim:ft=perl:

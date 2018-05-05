@@ -1,4 +1,5 @@
 package MyObject;
+# vim:ft=perl:
 # For testing purposes
 
 use base 'RT::Client::REST::Object';
@@ -87,4 +88,3 @@ $stored = $STORED;
 $obj->id(10);
 ok($stored == $STORED, "modifying 'id' did not trigger a store");
 
-# vim:ft=perl:

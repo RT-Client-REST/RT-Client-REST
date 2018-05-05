@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# vim:ft=perl:
 #
 # This script tests whether timeout actually works.
 
@@ -52,4 +53,3 @@ for my $timeout (1, 2, 5, 10) {
     ok($t2 - $t1 >= $timeout, "Timed out after $timeout seconds");
 }
 
-# vim:ft=perl:
