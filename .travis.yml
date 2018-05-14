@@ -3,6 +3,8 @@ sudo: required
 language: perl
 os:
   - linux
+servives:
+  - docker
 perl:
   - 'blead'
   - '5.26'
@@ -16,6 +18,9 @@ perl:
   - '5.10'
   - '5.8'
 env:
+  - RT_VERSION=4.0
+  - RT_VERSION=4.2
+  - RT_VERSION=4.4
   global:
     - AUTHOR_TESTING=1
     - AUTOMATED_TESTING=1
@@ -29,6 +34,7 @@ matrix:
     - perl: '5.26'
       env: COVERAGE=1
 before_install:
+  - docker pull netsandbox/request-tracker:$RT_VERSION
   - git config --global user.name "TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
@@ -38,6 +44,7 @@ before_install:
   - build-dist
   - cd $BUILD_DIR
 install:
+  - docker run -it --rm --name rt -p 8080:80 netsandbox/request-tracker:$RT_VERSION
   - perl -M5.014 -e1 2>/dev/null || cpan-install Dist::Zilla@5.047
   - cpan-install --deps
   #  - cpanm --quiet --notest --skip-satisfied Dist::Zilla
