@@ -30,7 +30,7 @@ die "cannot fork: $!" unless defined $pid;
 
 if (0 == $pid) {                                            # Child
     my $rt = RT::Client::REST->new(
-            server => "http://localhost:$port",
+            server => "http://127.0.0.1:$port",
             # This ensures that we die soon.  When the client dies, the
             # while (<$client>) above stops looping.
             timeout => 2,
