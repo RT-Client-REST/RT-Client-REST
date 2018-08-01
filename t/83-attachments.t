@@ -110,7 +110,7 @@ plan tests => 4;
 }
 
 my $rt = RT::Client::REST->new(
-    server => "http://localhost:$port",
+    server => "http://127.0.0.1:$port",
     timeout => 2,
 );
 

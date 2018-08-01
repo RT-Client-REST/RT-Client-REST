@@ -37,7 +37,7 @@ response text");
 
 plan tests => 1;
 my $rt = RT::Client::REST->new(
-        server => "http://localhost:$port",
+        server => "http://127.0.0.1:$port",
         timeout => 2,
 );
 my $res = $rt->_submit("ticket/1", undef, {
