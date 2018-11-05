@@ -1,3 +1,4 @@
+#!perl
 package MyObject;
 # vim:ft=perl:
 

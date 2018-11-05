@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 #
 # This script tests whether submited data looks good
 

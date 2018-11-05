@@ -1,5 +1,7 @@
-package MyObject;
+#!perl
 # vim:ft=perl:
+
+package MyObject;
 # For testing purposes
 
 use base 'RT::Client::REST::Object';
