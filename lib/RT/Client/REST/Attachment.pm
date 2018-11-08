@@ -261,6 +261,12 @@ Returns 'attachment'.
 
 =back
 
+=head1 CREATING ATTACHMENTS
+
+Currently RT does not allow creating attachments via their API.
+
+See L<https://rt-wiki.bestpractical.com/wiki/REST#Ticket_Attachment>
+
 =head1 SEE ALSO
 
 L<RT::Client::REST::Ticket>,
