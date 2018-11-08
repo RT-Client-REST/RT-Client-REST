@@ -963,6 +963,17 @@ A logger object.  It should be able to debug(), info(), warn() and
 error().  It is not widely used in the code (yet), and so it is
 mostly useful for development.
 
+Something like this will get you started:
+
+  use Log::Dispatch;
+  my $log = Log::Dispatch->new(
+    outputs => [ [ 'Screen', min_level => 'debug' ] ],
+  );
+  my $rt = RT::Client::REST->new(
+    server => ... etc ...
+    logger => $log
+  );
+
 =back
 
 =item login (username => 'root', password => 'password')
