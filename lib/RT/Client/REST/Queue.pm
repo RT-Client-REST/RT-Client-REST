@@ -163,6 +163,23 @@ CC Addresses (comma delimited).
 
 Admin CC Addresses (comma delimited).
 
+=item B<cf>
+
+Access custom fields. Inherited from L<RT::Client::REST::Object>, where
+you can read more details.
+
+Trivial example:
+
+ my $queue = RT::Client::REST::Queue->new(
+   rt => $rt, id => $queue_id
+ )->retrieve();
+ my @customfields = $queue->cf();
+ for my $f (@customfields) {
+   my $v = $queue->cf($f);
+   say "field: $f";
+   say "value: $v";
+ }
+
 =back
 
 =head1 DB METHODS
