@@ -90,7 +90,7 @@ sub login {
     # server-side errors we bubble up and ignore all others.
     try {
         $self->_cookie(undef);  # Start a new session.
-        $self->_submit("ticket/1", undef, \%opts);
+        $self->_submit('ticket/1', undef, \%opts);
     } catch RT::Client::REST::AuthenticationFailureException with {
         shift->rethrow;
     } catch RT::Client::REST::MalformedRTResponseException with {
@@ -529,7 +529,7 @@ sub _submit {
         unless (ref $content) {
             # If it's just a string, make sure LWP handles it properly.
             # (By pretending that it's a file!)
-            $content = [ content => [undef, "", Content => $content] ];
+            $content = [ content => [undef, q(), Content => $content] ];
         }
         elsif (ref $content eq 'HASH') {
             my @data;
@@ -550,7 +550,7 @@ sub _submit {
     unless ($self->_cookie || $self->basic_auth_cb) {
         unless (defined($auth)) {
             RT::Client::REST::RequiredAttributeUnsetException->throw(
-                "You must log in first",
+                'You must log in first',
             );
         }
         push @$data, %$auth;
@@ -585,6 +585,7 @@ sub _submit {
         my ($status) = split /\n/, $head; # my ($status, @headers) = split /\n/, $head;
         $text =~ s/\n*$/\n/ if ($text);
 
+        # Example:
         # "RT/3.0.1 401 Credentials required"
         if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
             RT::Client::REST::MalformedRTResponseException->throw(
@@ -613,7 +614,7 @@ sub _submit {
                 if (exists $d{user}) {
                     RT::Client::REST::AuthenticationFailureException->throw(
                         code    => $res->code,
-                        message => "Incorrect username or password",
+                        message => 'Incorrect username or password',
                     );
                 }
                 elsif ($req->header('Cookie')) {
@@ -622,7 +623,14 @@ sub _submit {
                     #$session->delete;
                     #return submit(@_) unless $uri eq "$REST/logout";
                 }
-            } else {
+                else {
+                    RT::Client::REST::AuthenticationFailureException->throw(
+                        code    => $res->code,
+                        message => 'Server said: '. $res->message,
+                    );
+                }
+            }
+            else {
                 RT::Client::REST::Exception->_rt_content_to_exception(
                     $res->decoded_content)
                 ->throw(
@@ -636,10 +644,10 @@ sub _submit {
         500 == $res->code &&
         # Older versions of HTTP::Response populate 'message', newer
         # versions populate 'content'.  This catches both cases.
-        ($res->decoded_content || $res->message) =~ /read timeout/
+        ($res->decoded_content || $res->message) =~ m/read timeout/
     ) {
         RT::Client::REST::RequestTimedOutException->throw(
-            "Your request to " . $self->server . " timed out",
+            'Your request to ' . $self->server . ' timed out',
         );
     } elsif (302 == $res->code && !$self->{'_redirected'}) {
         $self->{'_redirected'} = 1;     # We only allow one redirection
