@@ -15,8 +15,8 @@ use Encode;
 use HTTP::Response;
 use HTTP::Server::Simple;
 
-# this file, every line is just spaces
-my $testfile = 'spaces.txt';
+# this file, has more than one line but no endline on the last line
+my $testfile = 'nonewline.txt';
 my $testfile_path = catfile('t' => 'data' => $testfile);
 
 my $testfile_content = do {
