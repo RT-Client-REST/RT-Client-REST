@@ -50,4 +50,6 @@ sub basic_auth_cb {
 
 =back
 
+=cut
+
 1;
