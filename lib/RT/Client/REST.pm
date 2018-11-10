@@ -583,7 +583,6 @@ sub _submit {
 
         my ($head, $text) = split /\n\n/, $res->decoded_content(charset => 'none'), 2;
         my ($status) = split /\n/, $head; # my ($status, @headers) = split /\n/, $head;
-        $text =~ s/\n*$/\n/ if ($text);
 
         # Example:
         # "RT/3.0.1 401 Credentials required"
@@ -812,7 +811,7 @@ sub _valid_transaction_type {
     unless (grep { $type eq $_ } $self->_list_of_valid_transaction_types) {
         RT::Client::REST::InvalidParameterValueException->throw(
             "'$type' is not a valid transaction type.  Allowed types: " .
-            join(", ", $self->_list_of_valid_transaction_types)
+            join(', ', $self->_list_of_valid_transaction_types)
         );
     }
 
