@@ -841,7 +841,7 @@ sub _uri { shift->_rest . '/' . shift }
 
 sub _ua_string {
     my $self = shift;
-    return ref($self) . '/' . $self->_version;
+    return ref($self) . '/' . ($self->_version || '???');
 }
 
 sub _version { $RT::Client::REST::VERSION }
