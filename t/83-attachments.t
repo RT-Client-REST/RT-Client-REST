@@ -114,7 +114,7 @@ my $rt = RT::Client::REST->new(
     timeout => 2,
 );
 
-# avoid need ot login
+# avoid need to login
 $rt->basic_auth_cb(sub { return });
 
 {
