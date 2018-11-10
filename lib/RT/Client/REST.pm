@@ -616,7 +616,7 @@ sub _submit {
                         message => "Incorrect username or password",
                     );
                 }
-                elsif ($req->header("Cookie")) {
+                elsif ($req->header('Cookie')) {
                     # We'll retry the request with credentials, unless
                     # we only wanted to logout in the first place.
                     #$session->delete;
@@ -627,7 +627,7 @@ sub _submit {
                     $res->decoded_content)
                 ->throw(
                     code    => $res->code,
-                    message => "RT server returned this error: " .
+                    message => 'RT server returned this error: ' .
                                $res->decoded_content,
                 );
             }
