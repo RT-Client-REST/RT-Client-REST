@@ -79,7 +79,7 @@ sub form_parse {
                 }
                 $c .= "\n";
             }
-            elsif ($state <= 1 && $line =~ m/^($field:\s)(.*)?$/) {
+            elsif ($state <= 1 && $line =~ m/^($field:\s?)(.*)?$/) {
                 # Read a field: value specification.
                 my $f     = $1;
                 my $value = $2;
