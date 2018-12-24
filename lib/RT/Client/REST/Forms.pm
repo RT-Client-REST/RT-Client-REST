@@ -84,7 +84,7 @@ sub form_parse {
                 my $f     = $1;
                 my $value = $2;
                 my $spaces = ' ' x length($f);
-                $f =~ s/:\s$//;
+                $f =~ s/:\s?$//;
 
                 # Read continuation lines, if any.
                 while (@lines && ($lines[0] eq '' || $lines[0] =~ m/^\s+/)) {
