@@ -588,7 +588,8 @@ sub _submit {
         # "RT/3.0.1 401 Credentials required"
         if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
             RT::Client::REST::MalformedRTResponseException->throw(
-                'Malformed RT response received from ' . $self->_uri($uri)
+                'Malformed RT response received from ' . $self->_uri($uri) .
+                " with this response: " . substr($text || '', 0, 200) . '....'
             );
         }
 
