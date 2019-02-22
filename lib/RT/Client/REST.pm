@@ -588,7 +588,7 @@ sub _submit {
         # "RT/3.0.1 401 Credentials required"
         if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
             RT::Client::REST::MalformedRTResponseException->throw(
-                'Malformed RT response received from ' . $self->server,
+                'Malformed RT response received from ' . $self->_uri($uri)
             );
         }
 
@@ -662,7 +662,7 @@ sub _submit {
     } else {
         RT::Client::REST::HTTPException->throw(
             code    => $res->code,
-            message => $res->message,
+            message => $res->message . ' fetching ' . $self->_uri($uri),
         );
     }
 
@@ -676,6 +676,7 @@ sub _ua {
         $self->{_ua} = RT::Client::REST::HTTPClient->new(
             agent => $self->_ua_string,
             env_proxy => 1,
+            max_redirect => 1,
         );
         if ($self->timeout) {
             $self->{_ua}->timeout($self->timeout);
