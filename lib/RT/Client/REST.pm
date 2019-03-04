@@ -33,7 +33,7 @@ use RT::Client::REST::Forms;
 use RT::Client::REST::HTTPClient;
 
 # Generate accessors/mutators
-for my $method (qw(server _cookie timeout)) {
+for my $method (qw(server _cookie timeout verbose_errors user_agent_args)) {
     no strict 'refs'; ## no critic (ProhibitNoStrict)
     *{__PACKAGE__ . '::' . $method} = sub {
         my $self = shift;
@@ -587,10 +587,12 @@ sub _submit {
         # Example:
         # "RT/3.0.1 401 Credentials required"
         if ($status !~ m#^RT/\d+(?:\S+) (\d+) ([\w\s]+)$#) {
-            RT::Client::REST::MalformedRTResponseException->throw(
-                'Malformed RT response received from ' . $self->_uri($uri) .
-                " with this response: " . substr($text || '', 0, 200) . '....'
-            );
+            my $err_msg = 'Malformed RT response received from ' . $self->server;
+            if ($self->verbose_errors) {
+                $err_msg = "Malformed RT response received from " . $self->_uri($uri) .
+                  " with this response: " . substr($text || '', 0, 200) . '....';
+            }
+            RT::Client::REST::MalformedRTResponseException->throw($err_msg);
         }
 
         # Our caller can pretend that the server returned a custom HTTP
@@ -661,9 +663,13 @@ sub _submit {
         $self->server($new_server);
         return $self->_submit($uri, $content, $auth);
     } else {
+        my $err_msg = $res->message;
+        if ($self->verbose_errors) {
+            $err_msg = $res->message . ' fetching ' . $self->_uri($uri);
+        };
         RT::Client::REST::HTTPException->throw(
             code    => $res->code,
-            message => $res->message . ' fetching ' . $self->_uri($uri),
+            message => $err_msg,
         );
     }
 
@@ -674,10 +680,14 @@ sub _ua {
     my $self = shift;
 
     unless (exists($self->{_ua})) {
+
+        my $args = $self->user_agent_args || {};
+        die "user_agent_args must be a hashref" unless ref($args) eq 'HASH';
         $self->{_ua} = RT::Client::REST::HTTPClient->new(
             agent => $self->_ua_string,
             env_proxy => 1,
             max_redirect => 1,
+            %$args,
         );
         if ($self->timeout) {
             $self->{_ua}->timeout($self->timeout);
@@ -966,6 +976,11 @@ returns username and password:
     return ($username, $password);
   }
 
+=item B<user_agent_args>
+
+A hashref which will be passed to the user agent's constructor for
+maximum flexibility.
+
 =item B<logger>
 
 A logger object.  It should be able to debug(), info(), warn() and
@@ -982,6 +997,11 @@ Something like this will get you started:
     server => ... etc ...
     logger => $log
   );
+
+=item B<verbose_errors>
+
+On user-agent errors, report some more information about what is going
+wrong. Defaults are pretty laconic about the "Malformed RT response".
 
 =back
 
