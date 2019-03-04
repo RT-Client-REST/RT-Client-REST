@@ -700,6 +700,11 @@ sub _ua {
     return $self->{_ua};
 }
 
+sub user_agent {
+    shift->_ua;
+}
+
+
 sub basic_auth_cb {
     my $self = shift;
 
@@ -980,6 +985,10 @@ returns username and password:
 
 A hashref which will be passed to the user agent's constructor for
 maximum flexibility.
+
+=item B<user_agent>
+
+Accessor to the user_agent object.
 
 =item B<logger>
 
