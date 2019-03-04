@@ -58,8 +58,8 @@ my $rt = RT::Client::REST->new(
                                                   },
                               );
 
-is $rt->_ua->agent, 'Secret agent', "Ua correctly initialized";
-is $rt->_ua->max_redirect, 0, "Ua correctly initialized with max redirect";
+is $rt->user_agent->agent, 'Secret agent', "Ua correctly initialized";
+is $rt->user_agent->max_redirect, 0, "Ua correctly initialized with max redirect";
 ok $rt->verbose_errors, "Verbose errors set";
 
 eval {
