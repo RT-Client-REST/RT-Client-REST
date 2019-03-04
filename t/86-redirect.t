@@ -8,7 +8,7 @@ use Data::Dumper;
 use Error qw(:try);
 use IO::Socket;
 use RT::Client::REST;
-plan tests => 2;
+plan tests => 5;
 
 my $server = IO::Socket::INET->new(
     Type => SOCK_STREAM,
@@ -49,9 +49,19 @@ response text";
 
 
 my $rt = RT::Client::REST->new(
-        server => "http://127.0.0.1:$port",
-        timeout => 2,
-);
+                               server => "http://127.0.0.1:$port",
+                               timeout => 2,
+                               verbose_errors => 1,
+                               user_agent_args => {
+                                                   agent => 'Secret agent',
+                                                   max_redirect => 0,
+                                                  },
+                              );
+
+is $rt->_ua->agent, 'Secret agent', "Ua correctly initialized";
+is $rt->_ua->max_redirect, 0, "Ua correctly initialized with max redirect";
+ok $rt->verbose_errors, "Verbose errors set";
+
 eval {
     my $res = $rt->_submit("ticket/1", undef, {
                                                user => 'a',
