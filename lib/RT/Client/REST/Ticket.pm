@@ -221,6 +221,13 @@ sub _attributes {{
         rest_name   => 'LastUpdated',
         is_datetime     => 1,
     },
+
+    sla             => {
+        validation  => {
+            type    => SCALAR,
+        },
+    },
+
 }}
 
 =head1 ATTRIBUTES
