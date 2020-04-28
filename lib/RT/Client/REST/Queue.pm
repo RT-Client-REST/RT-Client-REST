@@ -115,6 +115,13 @@ sub _attributes {{
         rest_name => 'CcAddresses',
     },
 
+    sla_disabled => {
+        validation => {
+            type => SCALAR,
+        },
+        rest_name => 'SLADisabled',
+    },
+
 }}
 
 =head1 ATTRIBUTES
