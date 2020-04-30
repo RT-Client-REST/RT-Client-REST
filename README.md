@@ -19,10 +19,9 @@ To install:
     make install
 
 Author:
-    Dmitri Tikhonov <dtikhonov@yahoo.com>
+    See CONTRIBUTORS file
     RT::Client::REST is based on 'rt' command-line utility distributed
-        with RT 3.x written by Abhijit Menon-Sen <ams@wiw.org> and
-        donated to RT project.
+        with RT 3.x
 
 License:
     This module is licensed under the same terms as perl itself.
