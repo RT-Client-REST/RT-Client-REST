@@ -1,5 +1,9 @@
 ﻿Revision history for Perl module RT::Client::REST
 
+0.58 Thu Apr 30 2020 "Dean Hamstead" <dean@fragfest.com.au>
+  - RT118729 correct bug when "not set" is in textA
+  - PR#19 Report UA, URI, and better errors when you opt in. Thanks @melmothx
+
 0.57 Tue Apr 28 2020 "Dean Hamstead" <dean@fragfest.com.au>
   - PR#21 Add SLA and SLADisabled attributes which appeared in RT 4.4.3
 
