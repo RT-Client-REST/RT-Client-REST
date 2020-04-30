@@ -1332,12 +1332,4 @@ Most likely.  Please report.
 B<RT::Client::REST> does not (at the moment, see TODO file) retrieve forms from
 RT server, which is either good or bad, depending how you look at it.
 
-=head1 AUTHORS
-
-Original /usr/bin/rt was written by Abhijit Menon-Sen <ams@wiw.org>.  rt
-was later converted to this module by Dmitri Tikhonov <dtikhonov@yahoo.com>.
-In January of 2008, Damien "dams" Krotkine <dams@cpan.org> joined as the
-project's co-maintainer. JLMARTIN has become co-maintainer as of March 2010.
-SRVSH became a co-maintainer in November 2015.
-
 =cut
