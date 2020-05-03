@@ -1,8 +1,7 @@
-# not actually required, just because Archive::Zip tests fail
-sudo: required
 language: perl
 os:
   - linux
+dist: xenial
 perl:
   - 'blead'
   - '5.26'
@@ -20,7 +19,7 @@ env:
     - AUTHOR_TESTING=1
     - AUTOMATED_TESTING=1
     - RELEASE_TESTING=0
-matrix:
+jobs:
   allow_failures:
     - perl: 'blead'
     - perl: '5.8'
