@@ -724,6 +724,8 @@ sub basic_auth_cb {
 # Sometimes PodCoverageTests think LOGGER_METHODS is a vanilla sub
 =for Pod::Coverage LOGGER_METHODS
 
+=cut
+
 use constant LOGGER_METHODS => (qw(debug warn info error));
 
 sub logger {
