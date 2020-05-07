@@ -174,7 +174,7 @@ sub get_attachments_metadata {
     return map {
       # Matches: '50008989: (Unnamed) (text/plain / 1.9k),'
       my @c = $_ =~ m/^\s*(\d+):\s+(.+)\s+\(([^\s]+)\s+\/\s+([^\s]+)\)\s*,?\s*$/;
-      { id => $c[0], Filename => $c[1] eq '(Unnamed)' ? undef : $c[1], Type => $c[2], Size => $c[3] };
+      { id => $c[0], Filename => ( defined($c[1]) && ( $c[1] eq '(Unnamed)' ) ) ? undef : $c[1], Type => $c[2], Size => $c[3] };
     } split(/\n/, $k->{Attachments});
 }
 
