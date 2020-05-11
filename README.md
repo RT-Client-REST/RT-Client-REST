@@ -46,3 +46,4 @@ This module is licensed under the same terms as perl itself.
 
 [![Build Status](https://travis-ci.org/RT-Client-REST/RT-Client-REST.svg?branch=master)](https://travis-ci.org/RT-Client-REST/RT-Client-REST)
 [![CPAN version](https://badge.fury.io/pl/RT-Client-REST.svg)](https://metacpan.org/pod/RT::Client::REST)
+[![Kritika Analysis Status](https://kritika.io/users/djzort/repos/2034482163273651/heads/master/status.svg)](https://kritika.io/users/djzort/repos/2034482163273651/heads/master/)
