@@ -1,4 +1,5 @@
 #!perl
+# vim: softtabstop=4 tabstop=4 shiftwidth=4 ft=perl expandtab smarttab
 # PODNAME: RT::Client::REST::Object
 # ABSTRACT: base class for RT objects
 
@@ -12,7 +13,7 @@ package RT::Client::REST::Object;
   # Create a new type
   package RT::Client::REST::MyType;
 
-  use base qw(RT::Client::REST::Object);
+  use parent qw(RT::Client::REST::Object);
 
   sub _attributes {{
     myattribute => {
@@ -148,10 +149,10 @@ various DB-related methods and are especially relied upon by:
 
 =cut
 
-use Error qw(:try);
+use Try::Tiny;
 use Params::Validate;
-use RT::Client::REST::Object::Exception 0.04;
-use RT::Client::REST::SearchResult 0.02;
+use RT::Client::REST::Object::Exception;
+use RT::Client::REST::SearchResult;
 use DateTime;
 use DateTime::Format::DateParse;
 
@@ -567,9 +568,17 @@ sub search {
         my $kw;
         try {
             $kw = $self->_attr2keyword($limit->{attribute});
-        } catch RT::Clite::REST::Object::InvalidAttributeException with {
-            RT::Client::REST::Object::InvalidSearchParametersException
-                ->throw(shift->message);
+        }
+        catch {
+            die $_ unless blessed $_ && $_->can('rethrow');
+
+            if ($_->isa('RT::Clite::REST::Object::InvalidAttributeException')) {
+                RT::Client::REST::Object::InvalidSearchParametersException
+                    ->throw(shift->message);
+            }
+            else {
+                $_->rethrow
+            }
         };
         my $op = $limit->{operator};
         my $val = $limit->{value};
@@ -588,10 +597,18 @@ sub search {
         # implementation may change!
         $orderby = (delete($opts{reverseorder}) ? '-' : '+') .
             ($self->_attr2keyword(delete($opts{orderby}) || 'id'));
-    } catch RT::Clite::REST::Object::InvalidAttributeException with {
-        RT::Client::REST::Object::InvalidSearchParametersException->throw(
-            shift->message,
-        );
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+
+        if ($_->isa('RT::Client::REST::Object::InvalidAttributeException')) {
+            RT::Client::REST::Object::InvalidSearchParametersException->throw(
+                shift->message,
+            )
+        }
+        else {
+            $_->rethrow;
+        }
     };
 
     my $rt = $self->rt;
@@ -602,8 +619,16 @@ sub search {
             query => $query,
             orderby => $orderby,
         );
-    } catch RT::Client::REST::InvalidQueryException with {
-        RT::Client::REST::Object::InvalidSearchParametersException->throw;
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+
+        if ($_->isa('RT::Client::REST::InvalidQueryException')) {
+            RT::Client::REST::Object::InvalidSearchParametersException->throw;
+        }
+        else {
+            $_->rethrow;
+        }
     };
 
     return RT::Client::REST::SearchResult->new(

@@ -6,7 +6,7 @@ use warnings;
 
 package RT::Client::REST::Object::Exception;
 
-use base qw(RT::Client::REST::Exception);
+use parent qw(RT::Client::REST::Exception);
 
 use RT::Client::REST::Exception (
     'RT::Client::REST::Object::OddNumberOfArgumentsException'   => {

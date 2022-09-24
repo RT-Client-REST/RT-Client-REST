@@ -7,7 +7,7 @@ use warnings;
 
 package RT::Client::REST::HTTPClient;
 
-use base 'LWP::UserAgent';
+use parent 'LWP::UserAgent';
 
 =head1 METHODS
 

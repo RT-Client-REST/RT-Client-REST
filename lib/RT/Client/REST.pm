@@ -1,4 +1,5 @@
 #!perl
+# vim: softtabstop=4 tabstop=4 shiftwidth=4 ft=perl expandtab smarttab
 # PODNAME: RT::Client::REST
 # ABSTRACT: Client for RT using REST API
 #
@@ -25,10 +26,10 @@ use warnings;
 
 package RT::Client::REST;
 
-use Error qw(:try);
+use Try::Tiny;
 use HTTP::Cookies;
 use HTTP::Request::Common;
-use RT::Client::REST::Exception 0.18;
+use RT::Client::REST::Exception;
 use RT::Client::REST::Forms;
 use RT::Client::REST::HTTPClient;
 
@@ -91,15 +92,22 @@ sub login {
     try {
         $self->_cookie(undef);  # Start a new session.
         $self->_submit('ticket/1', undef, \%opts);
-    } catch RT::Client::REST::AuthenticationFailureException with {
-        shift->rethrow;
-    } catch RT::Client::REST::MalformedRTResponseException with {
-        shift->rethrow;
-    } catch RT::Client::REST::RequestTimedOutException with {
-        shift->rethrow;
-    } catch RT::Client::REST::HTTPException with {
-        shift->rethrow;
-    } catch Exception::Class::Base with {
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+
+        my $err = $_;
+        if (grep { $err->isa($_) } (
+                'RT::Client::REST::AuthenticationFailureException',
+                'RT::Client::REST::MalformedRTResponseException',
+                'RT::Client::REST::RequestTimedOutException',
+                'RT::Client::REST::HTTPException',
+            )) {
+            shift->rethrow
+        }
+        if (! $err->isa('Exception::Class::Base')) {
+            die $err
+        }
         # ignore others.
     };
 }
@@ -228,14 +236,14 @@ sub get_links {
     }
 
     # Turn the links into id lists
-    foreach my $key (keys(%$k)) {
+    for my $key (keys(%$k)) {
         try {
             $self->_valid_link_type($key);
             my @list = split(/\s*,\s*/,$k->{$key});
             #use Data::Dumper;
             #print STDERR Dumper(\@list);
             my @newlist = ();
-            foreach my $val (@list) {
+            for my $val (@list) {
                if ($val =~ /^fsck\.com-\w+\:\/\/(.*?)\/(.*?)\/(\d+)$/) {
                    # We just want the ids, not the URI
                    push(@newlist, {'type' => $2, 'instance' => $1, 'id' => $3 });
@@ -247,7 +255,13 @@ sub get_links {
             # Copy the newly created list
             $k->{$key} = ();
             $k->{$key} = \@newlist;
-        } catch RT::Client::REST::InvalidParameterValueException with {
+        }
+        catch {
+            die $_ unless blessed $_ && $_->can('rethrow');
+
+            if (! $_->isa('RT::Client::REST::InvalidParameterValueException')) {
+                $_->rethrow;
+            }
             # Skip it because the keys are not always valid e.g., 'id'
         }
     }
@@ -533,9 +547,9 @@ sub _submit {
         }
         elsif (ref $content eq 'HASH') {
             my @data;
-            foreach my $k (keys %$content) {
+            for my $k (keys %$content) {
                 if (ref $content->{$k} eq 'ARRAY') {
-                    foreach my $v (@{ $content->{$k} }) {
+                    for my $v (@{ $content->{$k} }) {
                         push @data, $k, $v;
                     }
                 }
@@ -910,7 +924,7 @@ __END__
 
 =head1 SYNOPSIS
 
-  use Error qw(:try);
+  use Try::Tiny;
   use RT::Client::REST;
 
   my $rt = RT::Client::REST->new(
@@ -920,17 +934,24 @@ __END__
 
   try {
     $rt->login(username => $user, password => $pass);
-  } catch Exception::Class::Base with {
-    die "problem logging in: ", shift->message;
+  }
+  catch {
+    if ($_->isa('Exception::Class::Base') {
+      die "problem logging in: ", shift->message;
+    }
   };
 
   try {
     # Get ticket #10
     $ticket = $rt->show(type => 'ticket', id => 10);
-  } catch RT::Client::REST::UnauthorizedActionException with {
-    print "You are not authorized to view ticket #10\n";
-  } catch RT::Client::REST::Exception with {
-    # something went wrong.
+  }
+  catch {
+    if ($_->isa('RT::Client::REST::UnauthorizedActionException')) {
+      print "You are not authorized to view ticket #10\n";
+    }
+    if ($_->isa('RT::Client::REST::Exception')) {
+      # something went wrong.
+    }
   };
 
 =head1 DESCRIPTION
@@ -1278,9 +1299,8 @@ already the ticket owner.
 =head1 EXCEPTIONS
 
 When an error occurs, this module will throw exceptions.  I recommend
-using Error.pm's B<try{}> mechanism to catch them, but you may also use
-simple B<eval{}>.  The former will give you flexibility to catch just the
-exceptions you want.
+using L<Try::Tiny> or L<Syntax::Keyword::Try> B<try{}> mechanism to catch them,
+but you may also use simple B<eval{}>.
 
 Please see L<RT::Client::REST::Exception> for the full listing and
 description of all the exceptions.
@@ -1298,10 +1318,6 @@ use a loop.
 The following modules are required:
 
 =over 2
-
-=item
-
-Error
 
 =item
 

@@ -7,12 +7,10 @@ use warnings;
 
 package RT::Client::REST::Exception;
 
-use base qw(Exception::Class);
+use parent qw(Exception::Class);
 
 use vars qw($VERSION);
 $VERSION = '0.19';
-
-use Error;
 
 use Exception::Class (
     'RT::Client::REST::OddNumberOfArgumentsException'   => {
@@ -194,9 +192,8 @@ sub _rt_content_to_exception {
 {
     no strict 'refs'; ## no critic (ProhibitNoStrict)
     push @{__PACKAGE__ . '::ISA'}, 'Exception::Class::Base';
-    push @Exception::Class::Base::ISA, 'Error'
-        unless Exception::Class::Base->isa('Error');
 }
+
 
 1;
 

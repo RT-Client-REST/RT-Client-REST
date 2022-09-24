@@ -1,4 +1,5 @@
 #!perl
+# vim: softtabstop=4 tabstop=4 shiftwidth=4 ft=perl expandtab smarttab
 # PODNAME: RT::Client::REST::Ticket
 # ABSTRACT: ticket object representation.
 
@@ -7,14 +8,14 @@ use warnings;
 
 package RT::Client::REST::Ticket;
 
-use base 'RT::Client::REST::Object';
+use parent 'RT::Client::REST::Object';
 
-use Error qw(:try);
+use Try::Tiny;
 use Params::Validate qw(:types);
-use RT::Client::REST 0.18;
+use RT::Client::REST;
 use RT::Client::REST::Attachment;
-use RT::Client::REST::Object::Exception 0.04;
-use RT::Client::REST::SearchResult 0.02;
+use RT::Client::REST::Object::Exception;
+use RT::Client::REST::SearchResult;
 use RT::Client::REST::Transaction;
 
 =head1 SYNOPSIS
@@ -518,10 +519,18 @@ for my $method (qw(take untake steal)) {
 
         try {
             $self->rt->$method(id => $self->id);
-        } catch RT::Client::REST::AlreadyTicketOwnerException with {
-            # Rename the exception.
-            RT::Client::REST::Object::NoopOperationException
-                ->throw(shift->message);
+        }
+        catch {
+            die $_ unless blessed $_ && $_->can('rethrow');
+
+            if ($_->isa('RT::Client::REST::AlreadyTicketOwnerException')) {
+                # Rename the exception.
+                RT::Client::REST::Object::NoopOperationException
+                    ->throw(shift->message);
+            }
+            else {
+                $_->rethrow;
+            }
         };
 
         return;

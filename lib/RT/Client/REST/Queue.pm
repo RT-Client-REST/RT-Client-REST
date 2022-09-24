@@ -8,12 +8,12 @@ use warnings;
 package RT::Client::REST::Queue;
 
 use Params::Validate qw(:types);
-use RT::Client::REST 0.20;
-use RT::Client::REST::Object 0.01;
-use RT::Client::REST::Object::Exception 0.01;
-use RT::Client::REST::SearchResult 0.02;
+use RT::Client::REST;
+use RT::Client::REST::Object;
+use RT::Client::REST::Object::Exception;
+use RT::Client::REST::SearchResult;
 use RT::Client::REST::Ticket;
-use base 'RT::Client::REST::Object';
+use parent 'RT::Client::REST::Object';
 
 =head1 SYNOPSIS
 
