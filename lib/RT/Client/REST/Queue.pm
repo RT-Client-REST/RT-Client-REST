@@ -99,6 +99,7 @@ sub _attributes {{
         validation => {
             type   => SCALAR,
         },
+        rest_name => 'Disabled',
     },
 
     admin_cc_addresses => {
@@ -162,13 +163,21 @@ Final priority.
 
 Default due in.
 
-=item B<cc_addresses>
+=item B<disabled>
 
-CC Addresses (comma delimited).
+Queue is disabled
 
 =item B<admin_cc_addresses>
 
 Admin CC Addresses (comma delimited).
+
+=item B<cc_addresses>
+
+CC Addresses (comma delimited).
+
+=item B<sla_disabled>
+
+Queue SLA is disabled
 
 =item B<cf>
 
@@ -178,7 +187,8 @@ you can read more details.
 Trivial example:
 
  my $queue = RT::Client::REST::Queue->new(
-   rt => $rt, id => $queue_id
+   rt => $rt,
+   id => $queue_id
  )->retrieve();
  my @customfields = $queue->cf();
  for my $f (@customfields) {

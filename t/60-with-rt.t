@@ -1,4 +1,5 @@
 #!perl
+# vim: softtabstop=4 tabstop=4 shiftwidth=4 ft=perl expandtab smarttab
 
 # This test is for testing RT::Client::REST with a real instance of RT.
 # This is so that we can verify bug reports and compare functionality
@@ -8,6 +9,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Spec::Functions qw/ splitpath /;
 
 BEGIN {
     unless ( $ENV{RELEASE_TESTING} ) {
@@ -42,7 +44,7 @@ use RT::Client::REST::Queue;
 use RT::Client::REST::User;
 
 my $rt = RT::Client::REST->new( server => $ENV{RTSERVER}, );
-ok( $rt, "RT instance is created" );
+ok( $rt, 'RT instance is created' );
 
 # Log in with wrong credentials and see that we get expected error
 {
@@ -50,7 +52,7 @@ ok( $rt, "RT instance is created" );
     try {
         $rt->login(
             username => $ENV{RTUSER},
-            password => "WRONG" . $ENV{RTPASS}
+            password => 'WRONG' . $ENV{RTPASS}
         );
     }
     catch {
@@ -63,7 +65,7 @@ ok( $rt, "RT instance is created" );
         }
     };
     ok( defined($e),
-        "Logging in with wrong credentials throws expected error" );
+        'Logging in with wrong credentials throws expected error' );
 }
 
 # Now log in successfully
@@ -81,16 +83,16 @@ ok( $rt, "RT instance is created" );
             $_->rethrow;
         }
     };
-    ok( !defined($e), "login is successful" );
+    ok( !defined($e), 'login is successful' );
 }
 
 # Create a user
 my $user_id;
 my %user_props = (
-    name      => random_string,
-    password  => random_string,
-    comments  => random_string,
-    real_name => random_string,
+    name      => random_string(),
+    password  => random_string(),
+    comments  => random_string(),
+    real_name => random_string(),
 );
 {
     my ( $user, $e );
@@ -112,7 +114,7 @@ my %user_props = (
     ok( defined($user),
         "user $user_props{name} created successfully, id: "
           . ( defined $user ? $user->id : 'UNDEF' ) );
-    ok( !defined($e), "...and no exception was thrown" );
+    ok( !defined($e), '...and no exception was thrown' );
     $user_id = $user->id;
 }
 
@@ -133,7 +135,7 @@ my %user_props = (
             $_->rethrow;
         }
     };
-    ok( !defined($e), "fetched user without exception being thrown" );
+    ok( !defined($e), 'fetched user without exception being thrown' );
     while ( my ( $prop, $val ) = each(%user_props) ) {
         next if $prop eq 'password';    # This property comes back obfuscated
         is( $user->$prop, $val, "user property `$prop' matches" );
@@ -141,10 +143,11 @@ my %user_props = (
 }
 
 # Create a queue
-my $queue_name = random_string;
+my $queue_name = 'A queue named ' . random_string();
 my $queue_id;
+my $queue;
 {
-    my ( $queue, $e );
+    my $e;
     try {
         $queue = RT::Client::REST::Queue->new(
             rt   => $rt,
@@ -156,17 +159,17 @@ my $queue_id;
         die $_ unless blessed $_ && $_->can('rethrow');
         if ( $_->isa('Exception::Class::Base') ) {
             $e = $_;
-            diag("queue store: $e");
+            diag("test queue store: $e");
         }
         else {
             $_->rethrow;
         }
     };
-    ok( $queue,       "Create queue $queue_name" );
-    ok( !defined($e), "created queue without exception being thrown" );
+    ok( $queue,       "Create test queue '$queue_name'" );
+    ok( !defined($e), 'created test queue without exception being thrown' );
 }
 {
-    my ( $queue, $e );
+    my $e;
     try {
         $queue = RT::Client::REST::Queue->new(
             rt => $rt,
@@ -183,7 +186,7 @@ my $queue_id;
             $_->rethrow;
         }
     };
-    is( $queue->name, $queue_name, "queue name matches" );
+    is( $queue->name, $queue_name, 'test queue name matches' );
 
     # TODO: with 4.2.3, warning "Unknown key: disabled" is printed
 }
@@ -196,8 +199,8 @@ my $ticket_id;
         $ticket = RT::Client::REST::Ticket->new(
             rt      => $rt,
             queue   => $queue_id,
-            subject => random_string,
-        )->store( text => random_string );
+            subject => 'This is a subject ' . random_string(),
+        )->store( text => 'Some random text ' . random_string() );
     }
     catch {
         die $_ unless blessed $_ && $_->can('rethrow');
@@ -221,13 +224,14 @@ my $ticket_id;
     my ( $fh, $filename ) = tempfile;
     $fh->print($att_contents);
     $fh->close;
+    my $message = 'This is a message ' . random_string(),
     my $e;
     try {
         RT::Client::REST::Ticket->new(
             rt => $rt,
             id => $ticket_id,
         )->comment(
-            message     => random_string,
+            message     => $message,
             attachments => [$filename],
         );
     }
@@ -241,7 +245,7 @@ my $ticket_id;
             $_->rethrow;
         }
     };
-    ok( !defined($e), "create attachment and no exception thrown" );
+    ok( !defined($e), 'create attachment and no exception thrown' );
     unlink $filename;
     $e = undef;
     try {
@@ -251,13 +255,20 @@ my $ticket_id;
         );
         my $atts = $ticket->attachments;
 
-        # XXX With RT 4.2.3, the count is 4.  Is it the same with previous
+        # XXX With RT 4.2.3, the count is 4. Is it the same with previous
         # versions or is this a change in behavior?
-        is( $atts->count, 1, "There is one attachment to ticket $ticket_id" );
+        is( $atts->count, 4, "There are 4 attachment to ticket $ticket_id" );
         my $att_iter = $atts->get_iterator;
-        while ( my $att = &$att_iter ) {
+        my $basename = (splitpath($filename))[2];
+        my ($att) = grep { $_->file_name eq $basename } &$att_iter;
+        if ($att) {
+            ok(1, "Found attachment with filename: $basename");
             is( $att->content, $att_contents, "Attachment content matches" );
         }
+        else {
+            ok(0, "Found attachment with filename: $basename");
+        }
+
     }
     catch {
         die $_ unless blessed $_ && $_->can('rethrow');
@@ -269,7 +280,28 @@ my $ticket_id;
             $_->rethrow;
         }
     };
-    ok( !defined($e), "listed attachments and no exception thrown" );
+    ok( !defined($e), 'listed attachments and no exception thrown' );
 }
 
 # TODO: RT 90112: Attachment retrieval returns wrongly decoded files
+
+# Disable the queue
+{
+    my $e;
+    try {
+        $queue->disabled(1);
+        $queue->store;
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+        if ( $_->isa('Exception::Class::Base') ) {
+            $e = $_;
+            diag("disable test queue: $e");
+        }
+        else {
+            $_->rethrow;
+        }
+    };
+    ok( !defined($e), 'disabled queue without exception being thrown' );
+}
+
