@@ -1,4 +1,5 @@
 #!perl
+# vim: softtabstop=4 tabstop=4 shiftwidth=4 ft=perl expandtab smarttab
 # PODNAME: RT::Client::REST::Attachment
 # ABSTRACT: attachment object representation.
 

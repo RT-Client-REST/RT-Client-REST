@@ -242,7 +242,7 @@ my $ticket;
             $_->rethrow;
         }
     };
-    ok( !defined($e), 'create attachment and no exception thrown' );
+    ok( !defined($e), 'Create attachment and no exception thrown' );
     unlink $filename;
     $e = undef;
     try {
@@ -250,16 +250,62 @@ my $ticket;
 
         # XXX With RT 4.2.3, the count is 4. Is it the same with previous
         # versions or is this a change in behavior?
-        is( $atts->count, 4, "There are 4 attachment to ticket " . $ticket->id );
+        is( $atts->count, 4, 'There are 4 attachment to ticket ' . $ticket->id );
         my $att_iter = $atts->get_iterator;
         my $basename = (splitpath($filename))[2];
         my ($att) = grep { $_->file_name eq $basename } &$att_iter;
         if ($att) {
             ok(1, "Found attachment with filename: $basename");
-            is( $att->content, $att_contents, "Attachment content matches" );
+            is( $att->content, $att_contents, 'Attachment content matches' );
         }
         else {
             ok(0, "Found attachment with filename: $basename");
+        }
+
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+        if ( $_->isa('Exception::Class::Base') ) {
+            $e = $_;
+            diag("attach to ticket: $e");
+        }
+        else {
+            $_->rethrow;
+        }
+    };
+    ok( !defined($e), 'listed attachments and no exception thrown' );
+}
+# Comment with HTML
+{
+    my $message = sprintf('Some <b>html</b> message text <pre>%s</pre>', random_string());
+    my $e;
+    try {
+        $ticket->comment(
+            message => $message,
+            html    => 1
+        );
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+        if ( $_->isa('Exception::Class::Base') ) {
+            $e = $_;
+            diag("attach to ticket: $e");
+        }
+        else {
+            $_->rethrow;
+        }
+    };
+    ok( !defined($e), 'Add html comment and no exception thrown' );
+    try {
+        my $atts = $ticket->attachments;
+        my $att_iter = $atts->get_iterator;
+        my $att = (&$att_iter)[-1];
+        if ($att) {
+            ok(1, 'Retrieved final attachment');
+            is( $att->content_type, 'text/html', 'Content-Type is text/html' );
+        }
+        else {
+            ok(0, 'Retrieved final attachment');
         }
 
     }

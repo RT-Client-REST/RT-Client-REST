@@ -425,6 +425,14 @@ sub comment {
         Text        => $msg,
     );
 
+    if (exists($opts{html})) {
+        if ($opts{html}) {
+            push @objects, 'Content-Type';
+            $values{'Content-Type'} = 'text/html';
+        }
+        delete($opts{html});
+    }
+
     if (exists($opts{cc})) {
         push @objects, 'Cc';
         $values{Cc} = delete($opts{cc});
@@ -1118,14 +1126,35 @@ using C<show()> method:
 =for stopwords bcc
 
 Comment on a ticket with ID B<$id>.
-Optionally takes arguments B<cc> and B<bcc> which are references to lists
-of e-mail addresses and B<attachments> which is a list of filenames to
-be attached to the ticket.
+
+Optionally takes arguments:
+
+=over 2
+
+=item B<cc> and B<bcc>
+
+References to lists of e-mail addresses
+
+=item B<attachments>
+
+A list of filenames to be attached to the ticket
+
+=item B<html>
+
+When true, indicates to RT that the message is html
+
+=back
 
   $rt->comment(
     ticket_id   => 5,
     message     => "Wild thing, you make my heart sing",
     cc          => [qw(dmitri@localhost some@otherdude.com)],
+  );
+
+  $rt->comment(
+    ticket_id   => 5,
+    message     => "<b>Wild thing</b>, you make my <i>heart sing</i>",
+    html        => 1
   );
 
 =item correspond (ticket_id => $id, message => $message, %opts)

@@ -536,7 +536,8 @@ sub store {
             id      => $self->id,
             set     => $self->to_form,
         );
-    } else {
+    }
+    else {
         my $id = $rt->create(
             type    => $self->rt_type,
             set     => $self->to_form,
