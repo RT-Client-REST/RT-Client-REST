@@ -192,14 +192,15 @@ my $queue;
 }
 
 # Create a ticket
-my $ticket_id;
+my $ticket;
 {
-    my ( $ticket, $e );
+    my $e;
+    my $subject = 'This is a subject ' . random_string();
     try {
         $ticket = RT::Client::REST::Ticket->new(
             rt      => $rt,
             queue   => $queue_id,
-            subject => 'This is a subject ' . random_string(),
+            subject => $subject,
         )->store( text => 'Some random text ' . random_string() );
     }
     catch {
@@ -213,9 +214,8 @@ my $ticket_id;
         }
     };
     ok( defined($ticket),
-        "Created ticket " . ( defined $ticket ? $ticket->id : 'UNDEF' ) );
-    ok( !defined($e), "No exception thrown when ticket created" );
-    $ticket_id = $ticket->id;
+        "Created ticket '$subject' ID " . ( defined $ticket ? $ticket->id : 'UNDEF' ) );
+    ok( !defined($e), 'No exception thrown when ticket created' );
 }
 
 # Attach something to the ticket and verify its count and contents
@@ -227,10 +227,7 @@ my $ticket_id;
     my $message = 'This is a message ' . random_string(),
     my $e;
     try {
-        RT::Client::REST::Ticket->new(
-            rt => $rt,
-            id => $ticket_id,
-        )->comment(
+        $ticket->comment(
             message     => $message,
             attachments => [$filename],
         );
@@ -249,15 +246,11 @@ my $ticket_id;
     unlink $filename;
     $e = undef;
     try {
-        my $ticket = RT::Client::REST::Ticket->new(
-            rt => $rt,
-            id => $ticket_id,
-        );
         my $atts = $ticket->attachments;
 
         # XXX With RT 4.2.3, the count is 4. Is it the same with previous
         # versions or is this a change in behavior?
-        is( $atts->count, 4, "There are 4 attachment to ticket $ticket_id" );
+        is( $atts->count, 4, "There are 4 attachment to ticket " . $ticket->id );
         my $att_iter = $atts->get_iterator;
         my $basename = (splitpath($filename))[2];
         my ($att) = grep { $_->file_name eq $basename } &$att_iter;
@@ -281,6 +274,26 @@ my $ticket_id;
         }
     };
     ok( !defined($e), 'listed attachments and no exception thrown' );
+}
+
+# Delete the ticket
+{
+    my $e;
+    try {
+        $ticket->status('deleted');
+        $ticket->store;
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+        if ( $_->isa('Exception::Class::Base') ) {
+            $e = $_;
+            diag("delete ticket: $e");
+        }
+        else {
+            $_->rethrow;
+        }
+    };
+    ok( !defined($e), 'ticket deleted and no exception thrown' );
 }
 
 # TODO: RT 90112: Attachment retrieval returns wrongly decoded files

@@ -101,6 +101,7 @@ sub _attributes {{
             # custom statuses.
             type    => SCALAR,
         },
+        rest_name => 'Status',
     },
 
     priority => {
