@@ -351,12 +351,26 @@ sub search {
     my $type = $self->_valid_type(delete($opts{type}));
     my $query = delete($opts{query});
     my $orderby = delete($opts{orderby});
+    my $format = delete($opts{format});
+    if (defined($format)) {
+        $format = undef if $format ne 's'
+    }
 
     my $r = $self->_submit("search/$type", {
         query => $query,
         (defined($orderby) ? (orderby => $orderby) : ()),
+        (defined($format) ? (format => $format) : ()),
     });
 
+    if (defined($format) and $format eq 's') {
+        my @results;
+        # while() never stops if the method is used in the regex
+        my $text = $r->decoded_content;
+        while ($text =~ m/^(\d+): (.*)/gm) {
+            push @results, [$1, $2]
+        }
+        return @results
+    }
     return $r->decoded_content =~ m/^(\d+):/gm;
 }
 
@@ -1076,7 +1090,7 @@ text of the ticket.
 Returns numeric ID of the new object.  If numeric ID cannot be parsed from
 the response, B<RT::Client::REST::MalformedRTResponseException> is thrown.
 
-=item search (type => $type, query => $query, %opts)
+=item search (type => $type, query => $query, format => $format, %opts)
 
 Search for object of type C<$type> by using query C<$query>.  For
 example:
@@ -1108,7 +1122,7 @@ order (minus).  For example:
 
 =back
 
-C<search> returns the list of numeric IDs of objects that matched
+By default, C<search> returns the list of numeric IDs of objects that matched
 your query.  You can then use these to retrieve object information
 using C<show()> method:
 
@@ -1118,7 +1132,18 @@ using C<show()> method:
   );
   for my $id (@ids) {
     my ($ticket) = $rt->show(type => 'ticket', id => $id);
-    print "Subject: ", $ticket->{Subject}, "\n";
+    say "Subject: ", $ticket->{Subject}
+  }
+
+C<search> can return a list of lists of ID and Subject when asked for format 's'.
+
+  my @results = $rt->search(
+    type => 'ticket',
+    query => "Status = 'stalled'",
+    format => 's',
+  );
+  for my $result (@results) {
+    say "ID: $result[0], Subject: $result[1]"
   }
 
 =item comment (ticket_id => $id, message => $message, %opts)

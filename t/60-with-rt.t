@@ -322,6 +322,31 @@ my $ticket;
     ok( !defined($e), 'listed attachments and no exception thrown' );
 }
 
+# Search for tickets (with format s)
+{
+    my (@results, $e);
+    try {
+        @results = $rt->search(
+            type => 'ticket',
+            query => "Queue='$queue_name'",
+            format => 's'
+        )
+    }
+    catch {
+        die $_ unless blessed $_ && $_->can('rethrow');
+        if ( $_->isa('Exception::Class::Base') ) {
+            $e = $_;
+            diag("searching for tickets (with format s): $e");
+        }
+        else {
+            $_->rethrow;
+        }
+    };
+    ok( scalar @results > 0, 'Found some results (with format s)' );
+    is_deeply( \@results, [[ $ticket->id, $ticket->subject ]], 'Search results as expected (with format s)' );
+    ok( !defined($e), 'No exception thrown when searching tickets (with format s)' );
+}
+
 # Delete the ticket
 {
     my $e;
