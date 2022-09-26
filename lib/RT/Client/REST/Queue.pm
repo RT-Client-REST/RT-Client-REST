@@ -175,6 +175,8 @@ Admin CC Addresses (comma delimited).
 
 CC Addresses (comma delimited).
 
+=for stopwords SLA
+
 =item B<sla_disabled>
 
 Queue SLA is disabled

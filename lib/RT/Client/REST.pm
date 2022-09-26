@@ -1164,6 +1164,8 @@ References to lists of e-mail addresses
 
 A list of filenames to be attached to the ticket
 
+=for stopwords html
+
 =item B<html>
 
 When true, indicates to RT that the message is html
