@@ -85,11 +85,24 @@ sub form_parse {
                 next LINE
             }
 
-            if ($state <= 1 && $line =~ m/^($field: )(.*)?$/s) {
+            if ($state <= 1 && $line =~ m/^($field:) ?$/s) {
+                # Empty field
+                my $f = $1;
+                $f =~ s/:?$//;
+
+                push(@$o, $f) unless exists $k->{$f};
+                vpush($k, $f, undef);
+
+                $state = 1;
+
+                next LINE
+            }
+
+            if ($state <= 1 && $line =~ m/^($field:) (.*)?$/s) {
                 # Read a field: value specification.
                 my $f     = $1;
                 my $value = $2;
-                $f =~ s/: ?$//;
+                $f =~ s/:?$//;
 
                 # Read continuation lines, if any.
                 while (@lines && ($lines[0] eq "\n" || $lines[0] =~ m/^ +/)) {
