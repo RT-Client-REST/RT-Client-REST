@@ -267,7 +267,8 @@ sub _generate_methods {
             if ($settings->{list}) {
                 my $retval = $self->{'_' . $method} || [];
                 return @$retval;
-            } else {
+            }
+            else {
                 return $self->{'_' . $method};
             }
         };
@@ -472,17 +473,18 @@ sub from_form {
 
     # Now set attributes:
     while (my ($key, $value) = each(%$hash)) {
+
         # Handle custom fields, ideally /(?(1)})/ would be appened to RE
         if ( $key =~ m%^(?:cf|customfield)(?:-|\.\{)([#\s\w_:()?/-]+)% ){
              $key = $1;
 
             # XXX very sketchy. Will fail on long form data e.g; wiki CF
-            if ($value =~ /,/) {
+            if (defined $value and $value =~ /,/) {
                 $value = [ split(/\s*,\s*/, $value) ];
             }
 
             $self->cf($key, $value);
-            next;
+            next
         }
 
         unless (exists($rest2attr{$key})) {
@@ -490,17 +492,19 @@ sub from_form {
             next;
         }
 
-        my ( $method, $settings)  = @{$rest2attr{$key}};
+        my ($method, $settings)  = @{$rest2attr{$key}};
 
         if ($settings->{is_datetime} and $value eq 'Not set') {
-            $value = undef;
+            $value = undef
         }
 
         if (exists($attributes->{$method}{form2value})) {
             $value = $attributes->{$method}{form2value}($value);
-        } elsif ($attributes->{$method}{list}) {
-            $value = [split(/\s*,\s*/, $value)],
         }
+        elsif ($attributes->{$method}{list}) {
+            $value = defined $value ? [split(/\s*,\s*/, $value)] : []
+        }
+
         $self->$method($value);
     }
 
