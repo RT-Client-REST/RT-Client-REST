@@ -18,7 +18,7 @@ use Exception::Class (
         description => 'This means that we wanted name/value pairs',
     },
 
-    'RT::Client::REST::InvaildObjectTypeException'   => {
+    'RT::Client::REST::InvalidObjectTypeException'   => {
         isa         => __PACKAGE__,
         description => 'Invalid object type was specified',
     },
@@ -223,7 +223,7 @@ all the exceptions in this category.
 
 This means that the method you called wants key-value pairs.
 
-=item B<RT::Client::REST::InvaildObjectTypeException>
+=item B<RT::Client::REST::InvalidObjectTypeException>
 
 Thrown when you specify an invalid type to C<show()>, C<edit()>, or
 C<search()> methods.

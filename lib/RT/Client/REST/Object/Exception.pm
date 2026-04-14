@@ -29,7 +29,7 @@ use RT::Client::REST::Exception (
         description => 'Invalid search parameters provided',
     },
 
-    'RT::Clite::REST::Object::InvalidAttributeException' => {
+    'RT::Client::REST::Object::InvalidAttributeException' => {
         isa         => __PACKAGE__,
         description => 'Invalid attribute name',
     },

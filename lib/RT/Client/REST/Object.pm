@@ -577,7 +577,7 @@ sub search {
         catch {
             die $_ unless blessed $_ && $_->can('rethrow');
 
-            if ($_->isa('RT::Clite::REST::Object::InvalidAttributeException')) {
+            if ($_->isa('RT::Client::REST::Object::InvalidAttributeException')) {
                 RT::Client::REST::Object::InvalidSearchParametersException
                     ->throw(shift->message);
             }
@@ -654,7 +654,7 @@ sub _attr2keyword {
 
     unless (exists($attributes->{$attr})) {
         no warnings 'uninitialized';
-        RT::Clite::REST::Object::InvalidAttributeException->throw(
+        RT::Client::REST::Object::InvalidAttributeException->throw(
             "Attribute '$attr' does not exist in object type '" .
                 ref($self) . "'"
         );

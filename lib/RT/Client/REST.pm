@@ -793,7 +793,7 @@ sub _valid_type {
     my ($self, $type) = @_;
 
     unless ($type =~ /^[A-Za-z0-9_.-]+$/) {
-        RT::Client::REST::InvaildObjectTypeException->throw(
+        RT::Client::REST::InvalidObjectTypeException->throw(
             "'$type' is not a valid object type",
         );
     }
