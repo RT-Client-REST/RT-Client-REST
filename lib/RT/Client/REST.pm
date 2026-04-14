@@ -227,7 +227,7 @@ sub get_links {
     my $id = $self->_valid_numeric_object_id(delete($opts{id}));
 
     my $form = form_parse(
-        $self->_submit("$type/$id/links/$id")->decoded_content
+        $self->_submit("$type/$id/links")->decoded_content
     );
     my ($c, $o, $k) = @{$$form[0]}; # my ($c, $o, $k, $e)
 
@@ -595,7 +595,7 @@ sub _submit {
     # Now, we construct the request.
     if (@$data) {
         # The request object expects "bytes", not strings
-        map { utf8::encode($_) unless ref($_)} @$data;
+        utf8::encode($_) for grep { !ref($_) } @$data;
 
         $req = POST($self->_uri($uri), $data, Content_Type => 'form-data');
     }
